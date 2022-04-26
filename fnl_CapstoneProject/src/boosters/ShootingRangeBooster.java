@@ -1,5 +1,7 @@
 package boosters;
 
-public class ShootingRangeBooster {
+import main.*;
+
+public class ShootingRangeBooster extends Booster {
 
 }

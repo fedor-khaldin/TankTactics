@@ -1,5 +1,7 @@
 package boosters;
 
-public class MovementRangeBooster {
+import main.*;
+
+public class MovementRangeBooster extends Booster {
 
 }

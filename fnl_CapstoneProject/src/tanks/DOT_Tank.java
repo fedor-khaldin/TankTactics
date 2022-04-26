@@ -1,5 +1,7 @@
 package tanks;
 
-public class DOT_Tank {
+import main.*;
+
+public class DOT_Tank extends Tank {
 
 }

@@ -1,5 +1,7 @@
 package tanks;
 
-public class LightTank {
+import main.*;
+
+public class LightTank extends Tank {
 
 }

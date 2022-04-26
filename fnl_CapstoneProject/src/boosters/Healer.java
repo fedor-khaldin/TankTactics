@@ -1,5 +1,7 @@
 package boosters;
 
-public class Healer {
+import main.*;
+
+public class Healer extends Booster {
 
 }

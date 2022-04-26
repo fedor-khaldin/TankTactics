@@ -1,5 +1,7 @@
 package boosters;
 
-public class MaxLifeBooster {
+import main.*;
+
+public class MaxLifeBooster extends Booster {
 
 }

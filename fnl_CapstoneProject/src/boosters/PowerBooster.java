@@ -1,5 +1,7 @@
 package boosters;
 
-public class PowerBooster {
+import main.*;
+
+public class PowerBooster extends Booster {
 
 }

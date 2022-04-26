@@ -1,5 +1,7 @@
 package tanks;
 
-public class HeavyTank {
+import main.*;
+
+public class HeavyTank extends Tank {
 
 }

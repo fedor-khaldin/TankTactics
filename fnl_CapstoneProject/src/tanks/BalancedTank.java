@@ -1,5 +1,7 @@
 package tanks;
 
-public class BalancedTank {
+import main.*;
+
+public class BalancedTank extends Tank {
 
 }

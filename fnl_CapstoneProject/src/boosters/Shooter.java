@@ -1,5 +1,7 @@
 package boosters;
 
-public class Shooter {
+import main.*;
+
+public class Shooter extends Booster {
 
 }

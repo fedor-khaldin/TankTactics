@@ -1,5 +1,7 @@
 package boosters;
 
-public class HiddenBooster {
+import main.*;
+
+public class HiddenBooster extends Booster {
 
 }

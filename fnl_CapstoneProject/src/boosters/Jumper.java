@@ -1,5 +1,7 @@
 package boosters;
 
-public class Jumper {
+import main.*;
+
+public class Jumper extends Booster {
 
 }
