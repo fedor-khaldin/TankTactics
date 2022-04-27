@@ -312,13 +312,18 @@ public class TankTactics extends JFrame
 				newBooster = new UnknownBooster(newX, newY, strength, buttons[newX][newY]);
 				break;
 		}
-	  	  Booster [] addedBoosters = new Booster [boosters.length + 1];
-	  	  for (i = 0; i < boosters.length; i++)
-	  	  {
-	  		  addedBoosters[i] = boosters[i];
-	  	  }
-	  	  addedBoosters[boosters.length] = newBooster;
-  	  boosters = addedBoosters;
+	  	Booster [] addedBoosters = new Booster [boosters.length + 1];
+	  	for (i = 0; i < boosters.length; i++)
+	  	{
+	  		addedBoosters[i] = boosters[i];
+	  	}
+	  	addedBoosters[boosters.length] = newBooster;
+	  	  
+	  	for (i = 0; i < alive.length; i++)
+	  	{
+	  		alive[i].heal(1);
+	  	}
+	  	boosters = addedBoosters;
 		clock = new Timer((int)(cycleLength*60000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
