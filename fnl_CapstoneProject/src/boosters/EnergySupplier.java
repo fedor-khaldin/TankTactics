@@ -1,6 +1,7 @@
 package boosters;
 
-import javax.swing.JButton;
+import javax.swing.*;
+import java.awt.*;
 import main.*;
 
 public class EnergySupplier extends Booster {
@@ -11,6 +12,11 @@ public class EnergySupplier extends Booster {
 	private Color color;
 	public EnergySupplier(int x, int y, int strength, JButton button) {
 		super(x, y, strength, button);
+		this.color = Color.white;
+	}
+
+	public int getStrength() {
+		return this.strength;
 	}
 
 }
