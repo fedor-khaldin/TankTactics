@@ -1,4 +1,7 @@
 package main;
+
+import javax.swing.JButton;
+
 public class Tank extends FieldElement {
 
 	public static final String AOE = "AOE";
@@ -8,7 +11,7 @@ public class Tank extends FieldElement {
 	public static final String BALANCED = "balanced";
 
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int votes, String password) {
+			int energy, int maxEnergy, int votes, String password, JButton button) {
 		// TODO Auto-generated constructor stub
 	}
     
