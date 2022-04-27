@@ -9,19 +9,17 @@ public class FieldElement implements ActionListener{
 	private int x, y;
 	private String name;
 	private JButton button;
-	public FieldElement(int x, int y, String name, JButton button) {
+	private Color color;
+	public FieldElement(int x, int y, String name, JButton button, Color color) {
 		this.x = x;
 		this.y = y;
 		this.name = name;
 		this.button = button;
+		this.color = color;
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void newGame(JButton[][] buttons, int startingTime, int cycleLength) {
 		// TODO Auto-generated method stub
 		
 	}

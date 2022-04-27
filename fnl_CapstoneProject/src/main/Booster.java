@@ -1,8 +1,8 @@
 package main;
 
-import java.awt.Color;
-
-import javax.swing.JButton;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public abstract class Booster extends FieldElement {
 	private int x, y;
@@ -23,11 +23,20 @@ public abstract class Booster extends FieldElement {
 	public static final String UNKNOWN = "unknown";
 	public static final String HIDDEN = "hidden";
 	
-	public Booster (int x, int y, String name, int strength, JButton button) {
-		super(x, y, name, button);
+	public Booster (int x, int y, String name, int strength, JButton button, Color color) {
+		super(x, y, name, button, color);
 		this.strength = strength;
 	}
 
-	public abstract int getStrength();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+	}
+
+	@Override
+	public void draw(Graphics g) {
+
+	}
+
 
 }

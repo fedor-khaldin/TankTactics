@@ -11,9 +11,8 @@ public class MovementRangeBooster extends Booster {
 	private String name;
 	private JButton button;
 	private Color color;
-	public MovementRangeBooster(int x, int y, int strength, String name, JButton button) {
-		super(x, y,name, strength, button);
-		this.color = Color.white;
+	public MovementRangeBooster(int x, int y, int strength, String name, JButton button, Color color) {
+		super(x, y,name, strength, button, color);
 	}
 
 	public int getStrength() {
