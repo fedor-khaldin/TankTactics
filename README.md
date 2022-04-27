@@ -1,7 +1,7 @@
 ## General Info
-##### Team Name: TankTactics
-##### Team Members: Fedor Khaldin, Itay Volk, Wilson Wu
-##### Revision Date: 4/26/22
+### Team Name: TankTactics
+### Team Members: Fedor Khaldin, Itay Volk, Wilson Wu
+### Revision Date: 4/26/22
 
 ## Project Info
 ##### Program Purpose:
