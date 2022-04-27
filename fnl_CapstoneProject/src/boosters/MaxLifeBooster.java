@@ -15,4 +15,7 @@ public class MaxLifeBooster extends Booster {
 		this.color = Color.white;
 	}
 
+	public int getStrength() {
+		return this.strength;
+	}
 }

@@ -15,4 +15,8 @@ public class EnergySupplier extends Booster {
 		this.color = Color.white;
 	}
 
+	public int getStrength() {
+		return this.strength;
+	}
+
 }

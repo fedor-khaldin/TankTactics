@@ -18,4 +18,7 @@ public class Healer extends Booster {
 		this.color = Color.white;
 	}
 
+	public int getStrength() {
+		return this.strength;
+	}
 }

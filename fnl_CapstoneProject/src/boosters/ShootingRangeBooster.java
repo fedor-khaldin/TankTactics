@@ -15,4 +15,7 @@ public class ShootingRangeBooster extends Booster {
 		this.color = Color.white;
 	}
 
+	public int getStrength() {
+		return this.strength;
+	}
 }

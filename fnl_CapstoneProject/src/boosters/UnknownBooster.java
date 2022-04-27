@@ -15,4 +15,7 @@ public class UnknownBooster extends Booster {
 		this.color = Color.white;
 	}
 
-}
+	public int getStrength() {
+		return this.strength;
+	}
+}	

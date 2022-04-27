@@ -11,7 +11,11 @@ public class Jumper extends Booster {
 	private JButton button;
 	private Color color;
 	public Jumper(int x, int y, int strength, JButton button) {
-		// TODO Auto-generated constructor stub
+		super(x, y, strength, button);
+		this.color = Color.white;
 	}
 
+	public int getStrength() {
+		return this.strength;
+	}
 }
