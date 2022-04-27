@@ -8,10 +8,11 @@ public class EnergySupplier extends Booster {
 	private int x;
 	private int y;
 	private int strength;
+	private String name;
 	private JButton button;
 	private Color color;
-	public EnergySupplier(int x, int y, int strength, JButton button) {
-		super(x, y, strength, button);
+	public EnergySupplier(int x, int y, int strength, String name, JButton button) {
+		super(x, y,name, strength, button);
 		this.color = Color.white;
 	}
 

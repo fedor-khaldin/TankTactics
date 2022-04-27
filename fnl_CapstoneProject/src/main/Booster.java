@@ -5,7 +5,10 @@ import java.awt.Color;
 import javax.swing.JButton;
 
 public abstract class Booster extends FieldElement {
+	private int x, y;
+	private String name;
 	private int strength;
+	private JButton button;
 
 	public static final String POWER = "power";
 	public static final String SHOOTING_RANGE = "shooting range";
@@ -20,7 +23,8 @@ public abstract class Booster extends FieldElement {
 	public static final String UNKNOWN = "unknown";
 	public static final String HIDDEN = "hidden";
 	
-	public Booster (int x, int y, int strength, JButton button) {
+	public Booster (int x, int y, String name, int strength, JButton button) {
+		super(x, y, name, button);
 		this.strength = strength;
 	}
 
