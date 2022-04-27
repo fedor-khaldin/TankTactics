@@ -2,7 +2,7 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.*;
 import javax.swing.JButton;
 
 public class FieldElement implements ActionListener{
@@ -24,6 +24,10 @@ public class FieldElement implements ActionListener{
 	public static void newGame(JButton[][] buttons, int startingTime, int cycleLength) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void Draw(Graphics g) {
+
 	}
 
 }
