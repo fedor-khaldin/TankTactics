@@ -37,6 +37,14 @@ public abstract class Tank extends FieldElement {
 		this.password = password;
 	}
 
+
+	// Action Performed Override Method for Tank Class 
+	@Override
+	public void actionPerformed(java.awt.event.ActionEvent e) {
+		
+		
+	}
+
 	// Tank Upgrades
 	public void upgradePower(int upgradeAmt) {
 		this.power += upgradeAmt;
@@ -58,9 +66,7 @@ public abstract class Tank extends FieldElement {
 		this.maxEnergy += upgradeAmt;
 	}
 
-	public void upgradeSpecial(int upgradeAmt) {
-		System.out.println("not implemented");
-	}
+	abstract void upgradeSpecial(int upgradeAmt);
 
 	// Tank Getters
 	public int getPower() {
@@ -128,6 +134,8 @@ public abstract class Tank extends FieldElement {
 		} else
 			return false;
 	}
+
+
 
 	public void upgradeMenu() {
 
