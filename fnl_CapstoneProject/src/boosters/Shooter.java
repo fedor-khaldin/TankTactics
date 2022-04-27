@@ -15,7 +15,4 @@ public class Shooter extends Booster {
 		super(x, y,name, strength, button, color);
 	}
 
-	public int getStrength() {
-		return this.strength;
-	}
 }

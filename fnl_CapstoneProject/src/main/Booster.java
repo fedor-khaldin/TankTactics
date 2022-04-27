@@ -35,7 +35,11 @@ public abstract class Booster extends FieldElement {
 
 	@Override
 	public void draw(Graphics g) {
-
+		super.Draw(g);
+	}
+	
+	public int getStrength() {
+		return strength;
 	}
 
 
