@@ -1,26 +1,38 @@
 package main;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.Timer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import boosters.*;
 import tanks.*;
 
-public class TankTactics extends JFrame{
+public class TankTactics extends JFrame
+				implements ActionListener{
+	
+	private JButton [] [] buttons;
+	private FieldElement [] [] fieldElements;
+	private Tank currentPlayer;
+	private Tank [] players, alive, jury;
+	private Booster [] boosters;
+	private long startingTime, cycleLength;
+	private Timer clock;
 	
 	public TankTactics ()
 	{
 		super ("Tank Tactics");
 		
-		JButton [] [] buttons = new JButton [0] [0];
-		
 		File currentDirFile = new File(".");
 		String helper = currentDirFile.getAbsolutePath();
-		int startingTime = 0, cycleLength = 0;
-		Tank [] players = new Tank [0];
-		Booster [] boosters = new Booster [0];
+		startingTime = 0;
+		cycleLength = 0;
+		players = new Tank [0];
+		boosters = new Booster [0];
 		try {
 			String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
 			File file = new File (currentDir + "game save.txt");
@@ -37,7 +49,7 @@ public class TankTactics extends JFrame{
 		      String input = buffer.toString();
 		      
 		      int lastLine = 0;
-		      startingTime = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
+		      startingTime = Long.parseLong(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
 		      lastLine = input.indexOf('\n', lastLine + 1);
 		      cycleLength = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
 		      lastLine = input.indexOf('\n', lastLine + 1);
@@ -46,6 +58,10 @@ public class TankTactics extends JFrame{
 	    	  int yField = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
 	    	  lastLine = input.indexOf('\n', lastLine + 1);
 	    	  buttons = new JButton [xField] [yField];
+	    	  fieldElements = new FieldElement [xField] [yField];
+
+	    	  clock = new Timer((int)(cycleLength*60000 + startingTime - System.currentTimeMillis()), this);
+	    	  clock.start();
 		      
 	    	  for (int i = 0; i < xField; i++)
 	    	  {
@@ -100,6 +116,8 @@ public class TankTactics extends JFrame{
 		    		  throw new IOException(
 		    				  "No booster type for " + type);
 		    	  }
+		    	  
+		    	  
 		    	  
 		    	  Tank [] addedPlayers = new Tank [players.length + 1];
 		    	  for (int i = 0; i < boosters.length; i++)
@@ -161,12 +179,46 @@ public class TankTactics extends JFrame{
 		    	  boosters = addedBoosters;
 		      }
 		      
-		      FieldElement.newGame(buttons, startingTime, cycleLength);
+		      
 		      
 		} catch (IOException e) {
 			
 		}
+	    alive = players;
+	    jury = new Tank [0];
+		for (int i = 0; i < fieldElements.length; i++)
+	      {
+	    	  for (int j = 0; j < fieldElements[i].length; i++)
+	    	  {
+	    		  if (fieldElements[i][j] == null)
+	    		  {
+	    			  Color tileColor;
+	    			  if (i+j % 2 == 0)
+	    				  tileColor = new Color(69, 177, 72);
+	    			  else
+	    				  tileColor = new Color(82, 188, 82);
+	    			  
+	    			  fieldElements[i][j] = new FieldElement(i, j, "", buttons[i][j], tileColor);
+	    		  }
+	    	  }
+	      }
+	}
+	
+	public void draw()
+	{
 		
+	}
+	
+	public void newLogin()
+	{
 		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		clock.stop();
+		//TODO new cycle code
+		clock = new Timer((int)(cycleLength*60000 + startingTime - System.currentTimeMillis()), this);
+		clock.start();
 	}
 }
