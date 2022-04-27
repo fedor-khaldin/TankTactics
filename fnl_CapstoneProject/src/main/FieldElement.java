@@ -10,12 +10,14 @@ public class FieldElement implements ActionListener{
 	private String name;
 	private JButton button;
 	private Color color;
-	public FieldElement(int x, int y, String name, JButton button, Color color) {
+	private TankTactics tankTatics;
+	public FieldElement(int x, int y, String name, JButton button, Color color, TankTactics tankTatics) {
 		this.x = x;
 		this.y = y;
 		this.name = name;
 		this.button = button;
 		this.color = color;
+		button.addActionListener(this);
 	}
 	
 	public int getX() {
@@ -24,6 +26,10 @@ public class FieldElement implements ActionListener{
 	
 	public int getY() {
 		return y;
+	}
+	
+	public TankTatics getTankTatics() {
+		return this.tankTatics;
 	}
 	
 	@Override
