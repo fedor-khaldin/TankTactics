@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Color;
+
 import javax.swing.JButton;
 
 public abstract class Tank extends FieldElement {
@@ -21,11 +23,13 @@ public abstract class Tank extends FieldElement {
 	private int maxEnergy;
 	private int votes;
 	private String password;
+	private TankTactics game;
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int votes, String password, JButton button) {
-		super(x, y, name, button);
+			int energy, int maxEnergy, int votes, String password, JButton button, TankTactics game) {
+
+		super(x, y, name, button, new Color(0, 0, 0), game);
 		this.power = power;
 		this.shootingRange = shootingRange;
 		this.movementRange = movementRange;
@@ -35,14 +39,36 @@ public abstract class Tank extends FieldElement {
 		this.maxEnergy = maxEnergy;
 		this.votes = votes;
 		this.password = password;
+		this.game = game;
+
 	}
 
-
-	// Action Performed Override Method for Tank Class 
+	// Action Performed Override Method for Tank Class
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
 		
+		if (this.equals(game.getCurrentPlayer())) {
+			 upgradeMenu();
+		}
+		else {
+			
+			if (e.getActionCommand().equals("Left Click") {
+				// Fire a shot from current player to location.
+			}
+
+			if (e.getActionCommand().equals("Right Click")) {
+				// Heal selected palyer.
+			}
+		}
 		
+		
+		
+	}
+
+	@Override
+	public void draw() {
+		super.Draw();
+
 	}
 
 	// Tank Upgrades
@@ -134,8 +160,6 @@ public abstract class Tank extends FieldElement {
 		} else
 			return false;
 	}
-
-
 
 	public void upgradeMenu() {
 
