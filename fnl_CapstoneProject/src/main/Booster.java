@@ -5,10 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public abstract class Booster extends FieldElement {
-	private int x, y;
-	private String name;
 	private int strength;
-	private JButton button;
 
 	public static final String POWER = "power";
 	public static final String SHOOTING_RANGE = "shooting range";
@@ -23,8 +20,8 @@ public abstract class Booster extends FieldElement {
 	public static final String UNKNOWN = "unknown";
 	public static final String HIDDEN = "hidden";
 	
-	public Booster (int x, int y, String name, int strength, JButton button, Color color) {
-		super(x, y, name, button, color);
+	public Booster (int x, int y, int strength, JButton button, TankTactics tankTactics) {
+		super(x, y, button, tankTactics);
 		this.strength = strength;
 	}
 
@@ -33,9 +30,12 @@ public abstract class Booster extends FieldElement {
 
 	}
 
-	@Override
 	public void draw(Graphics g) {
-
+		super.Draw(g);
+	}
+	
+	public int getStrength() {
+		return strength;
 	}
 
 
