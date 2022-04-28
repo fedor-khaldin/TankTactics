@@ -20,7 +20,7 @@ import tanks.*;
 @SuppressWarnings("serial")
 public class TankTactics extends JFrame
 				implements ActionListener{
-	
+	//Fileds
 	private JButton [] [] buttons;
 	private FieldElement [] [] fieldElements;
 	private Tank currentPlayer;
@@ -29,6 +29,7 @@ public class TankTactics extends JFrame
 	private long startingTime, cycleLength;
 	private Timer clock;
 	
+	//Contructor
 	public TankTactics ()
 	{
 		super ("Tank Tactics");
@@ -226,6 +227,9 @@ public class TankTactics extends JFrame
 		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
 	}
 	
+	//public methods
+	
+	//draws all the field elements
 	public void draw()
 	{
 		for (int i = 0; i < fieldElements[0].length; i++)
@@ -237,11 +241,13 @@ public class TankTactics extends JFrame
 		}
 	}
 	
+	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
 	public void newLogin()
 	{
 		
 	}
 	
+	//Called whenever the timer reaches zero, symbolizes a new cycle.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		clock.stop();
@@ -314,7 +320,7 @@ public class TankTactics extends JFrame
 	  	  
 	  	for (i = 0; i < alive.length; i++)
 	  	{
-	  		alive[i].heal(1);
+	  		alive[i].gainEnergy(1);
 	  	}
 	  	boosters = addedBoosters;
 		clock = new Timer((int)(cycleLength*60000 + startingTime - System.currentTimeMillis()), this);
@@ -389,6 +395,16 @@ public class TankTactics extends JFrame
 			}
 		}
 		
+		System.out.print("Enter the amount of players ");
+		players = new Tank[reader.nextInt()];
+		for(int i = 0; i < players.length; i++)
+		{
+			System.out.print("Enter the name of the player ");
+			String name = reader.nextLine();
+			System.out.print("Enter the password of the player ");
+			String password = reader.nextLine();
+			
+		}
 		//TODO finish asking
 	}
 }
