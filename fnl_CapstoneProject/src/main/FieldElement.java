@@ -7,16 +7,13 @@ import javax.swing.JButton;
 
 public class FieldElement implements ActionListener{
 	private int x, y;
-	private String name;
 	private JButton button;
-	private Color color;
-	private TankTactics tankTatics;
-	public FieldElement(int x, int y, String name, JButton button, Color color, TankTactics tankTatics) {
+	private TankTactics tankTactics;
+	public FieldElement(int x, int y, JButton button, TankTactics tankTactics) {
 		this.x = x;
 		this.y = y;
-		this.name = name;
 		this.button = button;
-		this.color = color;
+		this.tankTactics = tankTactics;
 		button.addActionListener(this);
 	}
 	
@@ -28,8 +25,8 @@ public class FieldElement implements ActionListener{
 		return y;
 	}
 	
-	public TankTatics getTankTatics() {
-		return this.tankTatics;
+	public TankTactics getTankTactics() {
+		return this.tankTactics;
 	}
 	
 	@Override

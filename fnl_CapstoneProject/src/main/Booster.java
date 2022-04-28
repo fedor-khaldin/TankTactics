@@ -20,8 +20,8 @@ public abstract class Booster extends FieldElement {
 	public static final String UNKNOWN = "unknown";
 	public static final String HIDDEN = "hidden";
 	
-	public Booster (int x, int y, int strength, JButton button) {
-		super(x, y, name, button, );
+	public Booster (int x, int y, int strength, JButton button, TankTactics tankTactics) {
+		super(x, y, button, tankTactics);
 		this.strength = strength;
 	}
 
@@ -30,7 +30,6 @@ public abstract class Booster extends FieldElement {
 
 	}
 
-	@Override
 	public void draw(Graphics g) {
 		super.Draw(g);
 	}
