@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import boosters.*;
 import tanks.*;
 
+@SuppressWarnings("serial")
 public class TankTactics extends JFrame
 				implements ActionListener{
 	
@@ -109,15 +110,15 @@ public class TankTactics extends JFrame
 			    	  
 			    	  Tank nextPlayer = null;
 			    	  if (type.equalsIgnoreCase(Tank.AOE))
-			    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y]);
+			    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
-			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y]);
+			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
-			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y]);
+			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
-			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y]);
+			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
-			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y]);
+			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
 			    	  else
 			    	  {
 			    		  throw new IOException(
@@ -148,29 +149,29 @@ public class TankTactics extends JFrame
 			    	  
 			    	  Booster nextBooster = null;
 			    	  if (type.equalsIgnoreCase(Booster.ENERGY))
-			    		  nextBooster = new EnergySupplier (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.HEAL))
-			    		  nextBooster = new Healer (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new Healer (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.HIDDEN))
-			    		  nextBooster = new HiddenBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.JUMPER))
-			    		  nextBooster = new Jumper (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new Jumper (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
-			    		  nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.MAX_LIFE))
-			    		  nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.MOVEMENT_RANGE))
-			    		  nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.POWER))
-			    		  nextBooster = new PowerBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.SHOOT))
-			    		  nextBooster = new Shooter (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new Shooter (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
-			    		  nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.SPECIAL))
-			    		  nextBooster = new SpecialBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.UNKNOWN))
-			    		  nextBooster = new UnknownBooster (x, y, strength, buttons[x][y]);
+			    		  nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this);
 			    	  else
 			    	  {
 			    		  throw new IOException(
@@ -205,7 +206,7 @@ public class TankTactics extends JFrame
 	    			  else
 	    				  tileColor = new Color(82, 188, 82);
 	    			  
-	    			  fieldElements[i][j] = new FieldElement(i, j, "", buttons[i][j], tileColor);
+	    			  fieldElements[i][j] = new FieldElement(i, j, "", buttons[i][j], tileColor, this);
 	    		  }
 	    	  }
 	      }
@@ -221,6 +222,8 @@ public class TankTactics extends JFrame
 		draw();
 		Container c = getContentPane();
 		c.add(panel, BorderLayout.CENTER);
+		
+		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
 	}
 	
 	public void draw()
@@ -237,16 +240,6 @@ public class TankTactics extends JFrame
 	public void newLogin()
 	{
 		
-	}
-	
-	private void newGame()
-	{
-		
-	}
-	
-	public Tank getCurrentPlayer()
-	{
-		return currentPlayer;
 	}
 	
 	@Override
@@ -272,44 +265,44 @@ public class TankTactics extends JFrame
 			strength *= -1;
 		}
 		
-		Booster newBooster;
+		Booster newBooster = null;
 		switch (type)
 		{
 			case 0:
-				newBooster = new EnergySupplier(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new EnergySupplier(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 1:
-				newBooster = new Healer(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new Healer(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 2:
-				newBooster = new HiddenBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new HiddenBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 3:
-				newBooster = new Jumper(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new Jumper(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 4:
-				newBooster = new MaxEnergyBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new MaxEnergyBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 5:
-				newBooster = new MaxLifeBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new MaxLifeBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 6:
-				newBooster = new MovementRangeBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new MovementRangeBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 7:
-				newBooster = new PowerBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new PowerBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 8:
-				newBooster = new Shooter(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new Shooter(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 9:
-				newBooster = new ShootingRangeBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new ShootingRangeBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 10:
-				newBooster = new SpecialBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new SpecialBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 11:
-				newBooster = new UnknownBooster(newX, newY, strength, buttons[newX][newY]);
+				newBooster = new UnknownBooster(newX, newY, strength, buttons[newX][newY], this);
 				break;
 		}
 	  	Booster [] addedBoosters = new Booster [boosters.length + 1];
@@ -326,5 +319,76 @@ public class TankTactics extends JFrame
 	  	boosters = addedBoosters;
 		clock = new Timer((int)(cycleLength*60000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
+	}
+	
+	//Getters
+	public Tank getCurrentPlayer()
+	{
+		return currentPlayer;
+	}
+	
+	public FieldElement[][] getFieldElements()
+	{
+		return fieldElements;
+	}
+	
+	public Tank[] getPlayers()
+	{
+		return players;
+	}
+	
+	public Tank[] getAlive()
+	{
+		return alive;
+	}
+	
+	public Tank[] getJury()
+	{
+		return jury;
+	}
+	
+	//setters
+	public void setFieldElements (FieldElement[][] newField)
+	{
+		fieldElements = newField;
+	}
+	
+	public void setPlayers (Tank[] newPlayers)
+	{
+		players = newPlayers;
+	}
+	
+	public void setAlive (Tank[] newAlive)
+	{
+		alive = newAlive;
+	}
+	
+	public void setJury (Tank[] newJury)
+	{
+		jury = newJury;
+	}
+	
+	//private methods
+	
+	//prompts the user to input the information about the new game
+	private void newGame()
+	{
+		Scanner reader = new Scanner(System.in);
+		
+		System.out.print("Enter the width of the field ");
+		int x = reader.nextInt();
+		System.out.print("Enter the height of the field ");
+		int y = reader.nextInt();
+		buttons = new JButton[x][y];
+		fieldElements = new FieldElement[x][y];
+		for (int i = 0; i < buttons.length; i++)
+		{
+			for (int j = 0; j < buttons[0].length; j++)
+			{
+				buttons [i] [j] = new JButton();
+			}
+		}
+		
+		//TODO finish asking
 	}
 }
