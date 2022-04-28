@@ -1,3 +1,10 @@
+/*
+ * Author: Itay Volk
+ * Date: 4/28/2022
+ * Rev: 01
+ * Notes: this class manages a TankTactics game
+ */
+
 package main;
 
 import java.awt.BorderLayout;
@@ -6,8 +13,12 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import javax.swing.Timer;
 import javax.swing.JButton;
@@ -55,18 +66,14 @@ public class TankTactics extends JFrame
 		      while (fileIn.hasNextLine())
 		        buffer.append(fileIn.nextLine());
 		      String input = buffer.toString();
+		      Scanner reader = new Scanner(input);
 		      
 		      if (!input.isBlank())
 		      {
-			      int lastLine = 0;
-			      startingTime = Long.parseLong(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			      lastLine = input.indexOf('\n', lastLine + 1);
-			      cycleLength = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			      lastLine = input.indexOf('\n', lastLine + 1);
-			      int xField = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-		    	  lastLine = input.indexOf('\n', lastLine + 1);
-		    	  int yField = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-		    	  lastLine = input.indexOf('\n', lastLine + 1);
+			      startingTime = reader.nextLong();
+			      cycleLength = reader.nextInt();
+			      int xField = reader.nextInt();
+		    	  int yField = reader.nextInt();
 		    	  buttons = new JButton [xField] [yField];
 		    	  fieldElements = new FieldElement [xField] [yField];
 			      
@@ -78,36 +85,22 @@ public class TankTactics extends JFrame
 		    		  }
 		    	  }
 		    	  
-			      while (lastLine < input.indexOf("****"))
+			      while (!reader.nextLine().equals("****"))
 			      {
-			    	  int x = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int y = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  String name = input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int power = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int shootingRange = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int movementRange = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int life = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int maxLife = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int energy = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int maxEnergy = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int special = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int votes = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  String password = input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  String type = input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
+			    	  int x = reader.nextInt();
+			    	  int y = reader.nextInt();
+			    	  String name = reader.nextLine();
+			    	  int power = reader.nextInt();
+			    	  int shootingRange = reader.nextInt();
+			    	  int movementRange = reader.nextInt();
+			    	  int life = reader.nextInt();
+			    	  int maxLife = reader.nextInt();
+			    	  int energy = reader.nextInt();
+			    	  int maxEnergy = reader.nextInt();
+			    	  int special = reader.nextInt();
+			    	  int votes = reader.nextInt();
+			    	  String password = reader.nextLine();
+			    	  String type = reader.next();
 			    	  
 			    	  Tank nextPlayer = null;
 			    	  if (type.equalsIgnoreCase(Tank.AOE))
@@ -123,7 +116,7 @@ public class TankTactics extends JFrame
 			    	  else
 			    	  {
 			    		  throw new IOException(
-			    				  "No booster type for " + type);
+			    				  "No tank type for " + type);
 			    	  }
 			    	  
 			    	  
@@ -137,16 +130,12 @@ public class TankTactics extends JFrame
 			    	  players = addedPlayers;
 			      }
 			      
-			      while (lastLine < input.indexOf("****"))
+			      while (reader.hasNextLine())
 			      {
-			    	  int x = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int y = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  int strength = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
-			    	  String type = input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1));
-			    	  lastLine = input.indexOf('\n', lastLine + 1);
+			    	  int x = reader.nextInt();
+			    	  int y = reader.nextInt();
+			    	  int strength = reader.nextInt();
+			    	  String type = reader.next();
 			    	  
 			    	  Booster nextBooster = null;
 			    	  if (type.equalsIgnoreCase(Booster.ENERGY))
@@ -226,6 +215,92 @@ public class TankTactics extends JFrame
 		c.add(panel, BorderLayout.CENTER);
 		
 		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+		    public void windowClosing(WindowEvent windowEvent) {
+				String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
+				File file = new File (currentDir + "game save.txt");
+				PrintWriter fileOut;
+		        try
+		        {
+		          fileOut = new PrintWriter(new FileWriter(file));
+		        }
+		        catch (IOException ex)
+		        {
+		        	throw new IOException (
+		        			"Cannot access game save file.");
+		        }
+		        
+		        String save = startingTime + "\n" + cycleLength + "\n" + fieldElements.length + "\n" + fieldElements[0].length;
+		        for(int i = 0; i < players.length; i++)
+		        {
+		        	save += "\n" + alive[i].getX() + "\n" + alive[i].getY() + "\n" + alive[i].getText() + "\n" + alive[i].getPower() + "\n" + alive[i].getShootingRange() + "\n" + alive[i].getMovementRange()
+		        			 + "\n" + alive[i].getLife() + "\n" + alive[i].getMaxLife() + "\n" + alive[i].getEnergy() + "\n" + alive[i].getMaxEnergy() + "\n" + alive[i].getSpecial()
+		        			 + "\n" + alive[i].getVotes() + "\n" + alive[i].getPassword() + "\n";
+		        	if (alive[i].getType().equalsIgnoreCase(Tank.AOE))
+		        		save +=  Tank.AOE;
+		        	else if (alive[i].getType().equalsIgnoreCase(Tank.BALANCED))
+		        		save +=  Tank.BALANCED;
+		        	else if (alive[i].getType().equalsIgnoreCase(Tank.DOT))
+		        		save +=  Tank.DOT;
+		        	else if (alive[i].getType().equalsIgnoreCase(Tank.HEAVY))
+	        			save +=  Tank.HEAVY;
+		        	else if (alive[i].getType().equalsIgnoreCase(Tank.LIGHT))
+		        		save +=  Tank.LIGHT;
+		        }
+		        
+		        save += "\n****";
+		        for(int i = 0; i < boosters.length; i++)
+		        {
+		        	save += "\n" + boosters[i].getX() + "\n" + boosters[i].getY() + "\n" + boosters[i].getStrength() + "\n";
+			    	  if (boosters[i].getType().equalsIgnoreCase(Booster.ENERGY))
+			    		  save += Booster.ENERGY;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HEAL))
+			    		  save += Booster.HEAL;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HIDDEN))
+			    		  save += Booster.HIDDEN;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.JUMPER))
+			    		  save += Booster.JUMPER;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_ENERGY))
+			    		  save += Booster.MAX_ENERGY;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_LIFE))
+			    		  save += Booster.MAX_LIFE;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MOVEMENT_RANGE))
+			    		  save += Booster.MOVEMENT_RANGE;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.POWER))
+			    		  save += Booster.POWER;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOT))
+			    		  save += Booster.SHOOT;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOTING_RANGE))
+			    		  save += Booster.SHOOTING_ENERGY;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SPECIAL))
+			    		  save += Booster.SPECIAL;
+			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.UNKNOWN))
+			    		  save += Booster.UNKNOWN;
+		        }
+		        
+		        fileOut.print(save);
+		        fileOut.close();
+		        
+		        boolean continueAsking = true;
+		        while (continueAsking)
+		        {
+		        	
+		        	System.out.print("Do you want to play again? (answer yes or no) ");
+		        	String answer = new Scanner(System.in).next();
+		        	if(answer.equalsIgnoreCase("yes"))
+		        	{
+		        		continueAsking = false;
+				        newLogin();
+		        	}
+		        	if(answer.equalsIgnoreCase("no"))
+		        	{
+		        		continueAsking = false;
+		        	}
+		        }
+			}
+		});
 		
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
