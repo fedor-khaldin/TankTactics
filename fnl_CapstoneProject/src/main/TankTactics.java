@@ -26,7 +26,8 @@ public class TankTactics extends JFrame
 	private Tank currentPlayer;
 	private Tank [] players, alive, jury;
 	private Booster [] boosters;
-	private long startingTime, cycleLength;
+	private long startingTime;
+	private int cycleLength;
 	private Timer clock;
 	
 	//Contructor
@@ -68,9 +69,6 @@ public class TankTactics extends JFrame
 		    	  lastLine = input.indexOf('\n', lastLine + 1);
 		    	  buttons = new JButton [xField] [yField];
 		    	  fieldElements = new FieldElement [xField] [yField];
-	
-		    	  clock = new Timer((int)(cycleLength*60000 + startingTime - System.currentTimeMillis()), this);
-		    	  clock.start();
 			      
 		    	  for (int i = 0; i < xField; i++)
 		    	  {
@@ -102,6 +100,8 @@ public class TankTactics extends JFrame
 			    	  lastLine = input.indexOf('\n', lastLine + 1);
 			    	  int maxEnergy = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
 			    	  lastLine = input.indexOf('\n', lastLine + 1);
+			    	  int special = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
+			    	  lastLine = input.indexOf('\n', lastLine + 1);
 			    	  int votes = Integer.parseInt(input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1)));
 			    	  lastLine = input.indexOf('\n', lastLine + 1);
 			    	  String password = input.substring(lastLine + 1, input.indexOf('\n', lastLine + 1));
@@ -111,15 +111,15 @@ public class TankTactics extends JFrame
 			    	  
 			    	  Tank nextPlayer = null;
 			    	  if (type.equalsIgnoreCase(Tank.AOE))
-			    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
-			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
-			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
-			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
-			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else
 			    	  {
 			    		  throw new IOException(
@@ -211,6 +211,7 @@ public class TankTactics extends JFrame
 	    		  }
 	    	  }
 	      }
+		newLogin();
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(fieldElements.length, fieldElements[0].length));
 		for (int i = 0; i < fieldElements[0].length; i++)
@@ -225,6 +226,9 @@ public class TankTactics extends JFrame
 		c.add(panel, BorderLayout.CENTER);
 		
 		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
+		
+		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
+		clock.start();
 	}
 	
 	//public methods
@@ -244,7 +248,34 @@ public class TankTactics extends JFrame
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
 	public void newLogin()
 	{
+		Scanner reader = new Scanner(System.in);
 		
+		boolean continueAsking = true;
+		do
+		{
+			System.out.println("Enter the currect player's name ");
+			String name = reader.nextLine();
+			System.out.println("Enter the currect player's password ");
+			String password = reader.nextLine();
+			
+			currentPlayer = null;
+			for(int i = 0; i < players.length; i++)
+			{
+				if (players[i].checkPassword(name, password))
+				{
+					currentPlayer = players[i];
+				}
+			}
+			if(currentPlayer != null)
+			{
+	    		  throw new IOException(
+	    				  "No player named " + name + " with the inputted password exists in this game.");
+			}
+			else
+			{
+				continueAsking = false;
+			}
+		} while (continueAsking);
 	}
 	
 	//Called whenever the timer reaches zero, symbolizes a new cycle.
@@ -323,7 +354,7 @@ public class TankTactics extends JFrame
 	  		alive[i].gainEnergy(1);
 	  	}
 	  	boosters = addedBoosters;
-		clock = new Timer((int)(cycleLength*60000 + startingTime - System.currentTimeMillis()), this);
+		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
 	
@@ -382,11 +413,11 @@ public class TankTactics extends JFrame
 		Scanner reader = new Scanner(System.in);
 		
 		System.out.print("Enter the width of the field ");
-		int x = reader.nextInt();
+		int xField = reader.nextInt();
 		System.out.print("Enter the height of the field ");
-		int y = reader.nextInt();
-		buttons = new JButton[x][y];
-		fieldElements = new FieldElement[x][y];
+		int yField = reader.nextInt();
+		buttons = new JButton[xField][yField];
+		fieldElements = new FieldElement[xField][yField];
 		for (int i = 0; i < buttons.length; i++)
 		{
 			for (int j = 0; j < buttons[0].length; j++)
@@ -403,8 +434,50 @@ public class TankTactics extends JFrame
 			String name = reader.nextLine();
 			System.out.print("Enter the password of the player ");
 			String password = reader.nextLine();
-			
+			System.out.print("Enter the type of the player (types are: " + Tank.AOE + ", " + Tank.BALANCED + ", " + Tank.DOT + ", " + Tank.HEAVY + ", and " + Tank.LIGHT +".");
+			String type = reader.nextLine();
+			int x = (int)(Math.random() * xField); 
+			int y = (int)(Math.random() * yField);
+			int j = 0;
+			while (players[j] != null && j < players.length)
+			{
+				if (x == players[j].getX() && y == players[j].getY())
+				{
+					x = (int)(Math.random() * xField); 
+					y = (int)(Math.random() * yField);
+					j = 0;
+				}
+				else
+				{
+					j++;
+				}
+			}
+			Tank nextPlayer = null;
+			if (type.equalsIgnoreCase(Tank.AOE))
+				nextPlayer = new AOE_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
+			else 	if (type.equalsIgnoreCase(Tank.BALANCED))
+				nextPlayer = new BalancedTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
+			else 	if (type.equalsIgnoreCase(Tank.DOT))
+				nextPlayer = new DOT_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
+			else 	if (type.equalsIgnoreCase(Tank.HEAVY))
+				nextPlayer = new HeavyTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
+			else 	if (type.equalsIgnoreCase(Tank.LIGHT))
+				nextPlayer = new LightTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
+			else
+			{
+				i--;
+				throw new IOException(
+						"No tank type for " + type);
+			}
+			players[i] = nextPlayer;
 		}
-		//TODO finish asking
+		alive = players;
+		jury = new Tank[0];
+		
+		System.out.print("Enter the length of a cycle in secends ");
+		cycleLength = reader.nextInt();
+		startingTime = System.currentTimeMillis();
+		
+		reader.close();
 	}
 }
