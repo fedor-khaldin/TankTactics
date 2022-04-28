@@ -9,11 +9,15 @@ public class FieldElement implements ActionListener{
 	private int x, y;
 	private JButton button;
 	private TankTactics tankTactics;
-	public FieldElement(int x, int y, JButton button, TankTactics tankTactics) {
+	private Color color;
+	private String name;
+	public FieldElement(int x, int y, JButton button, TankTactics tankTactics, Color color, String name) {
 		this.x = x;
 		this.y = y;
 		this.button = button;
 		this.tankTactics = tankTactics;
+		this.color = color;
+		this.name = name;
 		button.addActionListener(this);
 	}
 	

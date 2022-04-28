@@ -5,8 +5,8 @@ import java.awt.*;
 import main.*;
 
 public class Shooter extends Booster {
-	public Shooter(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics);
+	public Shooter(int x, int y, int strength, JButton button, TankTactics tankTactics, String name, Color color) {
+		super(x, y,strength, button, tankTactics, name, color);
 	}
 
 }

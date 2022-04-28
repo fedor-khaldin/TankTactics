@@ -20,8 +20,8 @@ public abstract class Booster extends FieldElement {
 	public static final String UNKNOWN = "unknown";
 	public static final String HIDDEN = "hidden";
 	
-	public Booster (int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y, button, tankTactics);
+	public Booster (int x, int y, int strength, JButton button, TankTactics tankTactics, String name, Color color) {
+		super(x, y, button, tankTactics, color, name);
 		this.strength = strength;
 	}
 
