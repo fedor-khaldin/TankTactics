@@ -6,11 +6,11 @@ import java.awt.*;
 import javax.swing.JButton;
 
 public class FieldElement implements ActionListener{
-	private int x, y;
-	private JButton button;
-	private TankTactics tankTactics;
-	private Color color;
-	private String name;
+	protected int x, y;
+	protected JButton button;
+	protected TankTactics tankTactics;
+	protected Color color;
+	protected String name;
 	public FieldElement(int x, int y, JButton button, TankTactics tankTactics, Color color, String name) {
 		this.x = x;
 		this.y = y;
@@ -39,11 +39,10 @@ public class FieldElement implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	public void Draw(Graphics g) {
+	public void draw() {
 
 	}
 
