@@ -46,57 +46,80 @@ public abstract class Tank extends FieldElement {
 	// Action Performed Override Method for Tank Clas
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
-		
-		if (this.equals(game.getCurrentPlayer())) {
-			 upgradeMenu();
-		}
-		else {
-			
-			if (e.getActionCommand().equals("Left Click")) {
-				game.getCurrentPlayer().hit(this);
-				this.heal(0);
-			}
+		if (game.getCurrentPlayer().getLife() != 0) {
+			if (this.equals(game.getCurrentPlayer())) {
+				upgradeMenu();
+			} else {
 
-			if (e.getActionCommand().equals("Right Click")) {
-				this.heal(1);
+				if (e.getActionCommand().equals("Left Click")) {
+					game.getCurrentPlayer().hit(this);
+					this.heal(0);
+				}
+
+				if (e.getActionCommand().equals("Right Click")) {
+					this.heal(1);
+				}
+			}
+		} else {
+			if (e.getActionCommand().equals("Left Click")) {
+				this.votes++;
 			}
 		}
-		
-		
-		
+
 	}
 
 	@Override
 	public void draw() {
-		super.Draw();
+		super.draw();
+		game.getButtons()[x][y].setToolTipText("");
 
+	}
+
+	public String toToolTipText() {
+		String toolTipText = "";
+		toolTipText += "Power: " + power + "\n";
+		toolTipText += "Shooting Range: " + shootingRange + "\n";
+		toolTipText += "Movement Range: " + movementRange + "\n";
+		toolTipText += "Life: " + life + "\n";
+		toolTipText += "Max Life: " + maxLife + "\n";
+		toolTipText += "Energy: " + energy + "\n";
+		toolTipText += "Max Energy: " + maxEnergy + "\n";
+		toolTipText += getSpecialText();
+		toolTipText += "Votes: " + votes + "\n";
+
+		return toolTipText;
 	}
 
 	// Tank Upgrades
 	public void upgradePower(int upgradeAmt) {
 		this.power += upgradeAmt;
 
-		if (this.power < 0) this.power = 1;
+		if (this.power < 0)
+			this.power = 1;
 	}
 
 	public void upgradeShootingRange(int upgradeAmt) {
 		this.shootingRange += upgradeAmt;
-		if (this.shootingRange < 0) this.shootingRange = 1;
+		if (this.shootingRange < 0)
+			this.shootingRange = 1;
 	}
 
 	public void upgradeMovementRange(int upgradeAmt) {
 		this.movementRange += upgradeAmt;
-		if (this.movementRange < 0) this.movementRange = 1;
+		if (this.movementRange < 0)
+			this.movementRange = 1;
 	}
 
 	public void upgradeMaxLife(int upgradeAmt) {
 		this.maxLife += upgradeAmt;
-		if (this.maxLife < 0) this.maxLife = 1;
+		if (this.maxLife < 0)
+			this.maxLife = 1;
 	}
 
 	public void upgradeMaxEnergy(int upgradeAmt) {
 		this.maxEnergy += upgradeAmt;
-		if (this.maxEnergy < 0) this.maxEnergy = 1;
+		if (this.maxEnergy < 0)
+			this.maxEnergy = 1;
 	}
 
 	public abstract void upgradeSpecial(int upgradeAmt);
@@ -134,9 +157,15 @@ public abstract class Tank extends FieldElement {
 		return votes;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+	
 	public abstract String getType();
 
 	public abstract int getSpecial();
+
+	public abstract int getSpecialText();
 
 	// Misc Tank Methods
 
@@ -157,13 +186,13 @@ public abstract class Tank extends FieldElement {
 			}
 
 			Tank[] addedPlayers = new Tank[game.getJury().length + 1];
-				for (int i = 0; i < game.getJury().length; i++) {
-					addedPlayers[i] = game.getJury()[i];
-				}
-				addedPlayers[game.getJury().length] = this;
-				game.setJury(addedPlayers);
-				
-				this.life = 0;
+			for (int i = 0; i < game.getJury().length; i++) {
+				addedPlayers[i] = game.getJury()[i];
+			}
+			addedPlayers[game.getJury().length] = this;
+			game.setJury(addedPlayers);
+
+			this.life = 0;
 		}
 	}
 
@@ -176,11 +205,11 @@ public abstract class Tank extends FieldElement {
 
 	public void hit(Tank target) {
 		target.life -= game.getCurrentPlayer().getPower();
-	
+
 	}
 
 	public Boolean checkPassword(String name, String password) {
-		if (super.getName().equals(name)&&this.password.equals(password)) {
+		if (super.getName().equals(name) && this.password.equals(password)) {
 			return true;
 		} else
 			return false;
