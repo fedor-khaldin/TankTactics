@@ -36,6 +36,7 @@ public class TankTactics extends JFrame
 	private FieldElement [] [] fieldElements;
 	private Tank currentPlayer;
 	private Tank [] players, alive, jury;
+	private DOT_Tank [] DOT;
 	private Booster [] boosters;
 	private long startingTime;
 	private int cycleLength;
@@ -52,6 +53,7 @@ public class TankTactics extends JFrame
 		cycleLength = 0;
 		players = new Tank [0];
 		boosters = new Booster [0];
+		DOT = new DOT_Tank [0];
 		try {
 			String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
 			File file = new File (currentDir + "game save.txt");
@@ -108,8 +110,17 @@ public class TankTactics extends JFrame
 			    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
 			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
+			    	  {
 			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
-			    	  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
+			    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
+				    	  for (int i = 0; i < DOT.length; i++)
+				    	  {
+				    		  addedDOT = DOT[i];
+				    	  }
+				    	  addedPlayers[players.length] = nextPlayer; //TODO finish DOT data base
+				    	  players = addedPlayers;
+			    	  }
+		    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
 			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
 			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
@@ -122,7 +133,7 @@ public class TankTactics extends JFrame
 			    	  
 			    	  
 			    	  Tank [] addedPlayers = new Tank [players.length + 1];
-			    	  for (int i = 0; i < boosters.length; i++)
+			    	  for (int i = 0; i < DOT.length; i++)
 			    	  {
 			    		  addedPlayers[i] = players[i];
 			    	  }
