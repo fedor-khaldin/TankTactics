@@ -35,6 +35,8 @@ public class BalancedTank extends Tank {
 	public void upgadeSpecial (int upgradeAmt)
 	{
 		lifeGain += upgradeAmt;
+		if (lifeGain < 1)
+			lifeGain = 1;
 	}
 	
 	public String getType()

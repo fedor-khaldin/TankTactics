@@ -362,6 +362,8 @@ public class TankTactics extends JFrame
 				continueAsking = false;
 			}
 		} while (continueAsking);
+		
+		reader.close();
 	}
 	
 	//Called whenever the timer reaches zero, symbolizes a new cycle.
@@ -509,7 +511,7 @@ public class TankTactics extends JFrame
 	//private methods
 	
 	//prompts the user to input the information about the new game
-	private void newGame()
+	private void newGame() throws IOException
 	{
 		Scanner reader = new Scanner(System.in);
 		
