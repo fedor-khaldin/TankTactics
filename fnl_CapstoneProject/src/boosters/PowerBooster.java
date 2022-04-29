@@ -2,6 +2,8 @@ package boosters;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+
 import main.*;
 
 public class PowerBooster extends Booster {
@@ -11,5 +13,14 @@ public class PowerBooster extends Booster {
 	
 	public String getType() {
 		return Booster.POWER;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);	
+		Tank current = tankTactics.getCurrentPlayer();
+		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
+			current.upgradePower(strength);
+		}
 	}
 }
