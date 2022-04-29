@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public abstract class Booster extends FieldElement {
-	private int strength;
+	protected int strength;
 
 	public static final String POWER = "power";
 	public static final String SHOOTING_RANGE = "shooting range";
@@ -30,8 +30,8 @@ public abstract class Booster extends FieldElement {
 
 	}
 
-	public void draw(Graphics g) {
-		super.Draw(g);
+	public void draw() {
+		super.draw();
 	}
 	
 	public int getStrength() {
