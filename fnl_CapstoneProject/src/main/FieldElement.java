@@ -29,6 +29,10 @@ public class FieldElement implements ActionListener{
 		return y;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+
 	public TankTactics getTankTactics() {
 		return this.tankTactics;
 	}

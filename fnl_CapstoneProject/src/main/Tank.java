@@ -154,8 +154,8 @@ public abstract class Tank extends FieldElement {
 		}
 	}
 
-	public Boolean checkPassword(String password) {
-		if (this.password.equals(password)) {
+	public Boolean checkPassword(String name, String password) {
+		if (super.getName().equals(name)&&this.password.equals(password)) {
 			return true;
 		} else
 			return false;
