@@ -207,7 +207,7 @@ public class TankTactics extends JFrame
 	    			  else
 	    				  tileColor = new Color(82, 188, 82);
 	    			  
-	    			  fieldElements[i][j] = new FieldElement(i, j, "", buttons[i][j], tileColor, this);
+	    			  fieldElements[i][j] = new FieldElement(i, j, buttons[i][j], this, tileColor, "");
 	    		  }
 	    	  }
 	      }
