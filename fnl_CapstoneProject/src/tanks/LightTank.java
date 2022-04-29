@@ -35,6 +35,8 @@ public class LightTank extends Tank {
 	public void upgadeSpecial (int upgradeAmt)
 	{
 		energyGain += upgradeAmt;
+		if (energyGain < 1)
+			energyGain = 1;
 	}
 	
 	public String getType()

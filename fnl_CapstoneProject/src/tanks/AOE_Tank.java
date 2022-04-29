@@ -42,6 +42,8 @@ public class AOE_Tank extends Tank {
 	public void upgadeSpecial (int upgradeAmt)
 	{
 		areaOfEffect += upgradeAmt;
+		if (areaOfEffect < 1)
+			areaOfEffect = 1;
 	}
 	
 	public String getType()
