@@ -27,7 +27,7 @@ public abstract class Booster extends FieldElement {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		super.actionPerformed(e);
 	}
 
 	public void draw() {
@@ -37,6 +37,8 @@ public abstract class Booster extends FieldElement {
 	public int getStrength() {
 		return strength;
 	}
+	
+	public abstract String getType();
 
 
 }

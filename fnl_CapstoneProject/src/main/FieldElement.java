@@ -46,21 +46,26 @@ public class FieldElement implements ActionListener{
 	//replace current player with field element
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//replaces current player with field element
-		FieldElement[][] newField = tankTactics.getFieldElements();
-		Tank currentPlayer = tankTactics.getCurrentPlayer();
-		int x = currentPlayer.getX();
-		int y = currentPlayer.getY();
-		newField[x][y] = this;
-		newField[this.x][this.y] = currentPlayer;
-		tankTactics.setFieldElements(newField);
-		
-		//replaces buttons
-		JButton[][] buttons= tankTactics.getButtons();
-		JButton button = buttons[x][y];
-		buttons[x][y] = this.button;
-		buttons[this.x][this.y] = button;
-		tankTactics.setButtons(buttons);
+		Tank current = tankTactics.getCurrentPlayer();
+		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
+			//replaces current player with field element
+			FieldElement[][] newField = tankTactics.getFieldElements();
+			Tank currentPlayer = tankTactics.getCurrentPlayer();
+			int x = currentPlayer.getX();
+			int y = currentPlayer.getY();
+			newField[x][y] = this;
+			newField[this.x][this.y] = currentPlayer;
+			tankTactics.setFieldElements(newField);
+			
+			//replaces buttons
+			JButton[][] buttons= tankTactics.getButtons();
+			JButton button = buttons[x][y];
+			buttons[x][y] = this.button;
+			buttons[this.x][this.y] = button;
+			
+			this.setButton(buttons[this.x][this.y]);
+			tankTactics.setButtons(buttons);
+		}
 		
 	}
 

@@ -1,6 +1,7 @@
 package boosters;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,5 +14,14 @@ public class Healer extends Booster {
 
 	public String getType() {
 		return Booster.HEAL;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);	
+		Tank current = tankTactics.getCurrentPlayer();
+		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
+			current.heal(strength);
+		}
 	}
 }

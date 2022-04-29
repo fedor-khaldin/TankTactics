@@ -17,14 +17,14 @@ Players of various ages looking for a simple and fun strategy game they can play
  - Various tile types that apply boosts to players who are on them (extra points, extra hp, etc etc)
 
 ##### Class List:
- ## Main
+ #### Main
  - Booster
  - FieldElement
  - Main
  - Tank
  - TankTactics
  
- ## Booster
+ #### Booster
  - EnergySupplier
  - Healer
  - HiddenBooster
@@ -39,14 +39,14 @@ Players of various ages looking for a simple and fun strategy game they can play
  - Special Booster
  - UnknownBooster
  
- ## Tanks
+ #### Tanks
  - AOE_Tank
  - Balanced Tank
  - DOT_Tank
  - HeavyTank
  - LightTank
 
-##### Team Responsibility:
+##### Team Responsibility: 
 ##### Known Bugs/Workarounds:
 ##### Key Learnings:
 ##### Credit List:
