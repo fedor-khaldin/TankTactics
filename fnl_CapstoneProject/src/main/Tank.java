@@ -165,7 +165,7 @@ public abstract class Tank extends FieldElement {
 
 	public abstract int getSpecial();
 
-	public abstract int getSpecialText();
+	public abstract String getSpecialText();
 
 	// Misc Tank Methods
 
