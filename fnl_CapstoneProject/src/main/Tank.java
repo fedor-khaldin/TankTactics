@@ -73,7 +73,6 @@ public abstract class Tank extends FieldElement {
 		super.draw();
 		game.getButtons()[x][y].setToolTipText("");
 
-
 	}
 
 	public String toToolTipText() {
@@ -87,7 +86,7 @@ public abstract class Tank extends FieldElement {
 		toolTipText += "Max Energy: " + maxEnergy + "\n";
 		toolTipText += getSpecialText();
 		toolTipText += "Votes: " + votes + "\n";
-		
+
 		return toolTipText;
 	}
 
@@ -95,27 +94,32 @@ public abstract class Tank extends FieldElement {
 	public void upgradePower(int upgradeAmt) {
 		this.power += upgradeAmt;
 
-		if (this.power < 0) this.power = 1;
+		if (this.power < 0)
+			this.power = 1;
 	}
 
 	public void upgradeShootingRange(int upgradeAmt) {
 		this.shootingRange += upgradeAmt;
-		if (this.shootingRange < 0) this.shootingRange = 1;
+		if (this.shootingRange < 0)
+			this.shootingRange = 1;
 	}
 
 	public void upgradeMovementRange(int upgradeAmt) {
 		this.movementRange += upgradeAmt;
-		if (this.movementRange < 0) this.movementRange = 1;
+		if (this.movementRange < 0)
+			this.movementRange = 1;
 	}
 
 	public void upgradeMaxLife(int upgradeAmt) {
 		this.maxLife += upgradeAmt;
-		if (this.maxLife < 0) this.maxLife = 1;
+		if (this.maxLife < 0)
+			this.maxLife = 1;
 	}
 
 	public void upgradeMaxEnergy(int upgradeAmt) {
 		this.maxEnergy += upgradeAmt;
-		if (this.maxEnergy < 0) this.maxEnergy = 1;
+		if (this.maxEnergy < 0)
+			this.maxEnergy = 1;
 	}
 
 	public abstract void upgradeSpecial(int upgradeAmt);
@@ -153,6 +157,10 @@ public abstract class Tank extends FieldElement {
 		return votes;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+	
 	public abstract String getType();
 
 	public abstract int getSpecial();
@@ -178,13 +186,13 @@ public abstract class Tank extends FieldElement {
 			}
 
 			Tank[] addedPlayers = new Tank[game.getJury().length + 1];
-				for (int i = 0; i < game.getJury().length; i++) {
-					addedPlayers[i] = game.getJury()[i];
-				}
-				addedPlayers[game.getJury().length] = this;
-				game.setJury(addedPlayers);
-				
-				this.life = 0;
+			for (int i = 0; i < game.getJury().length; i++) {
+				addedPlayers[i] = game.getJury()[i];
+			}
+			addedPlayers[game.getJury().length] = this;
+			game.setJury(addedPlayers);
+
+			this.life = 0;
 		}
 	}
 
@@ -197,11 +205,11 @@ public abstract class Tank extends FieldElement {
 
 	public void hit(Tank target) {
 		target.life -= game.getCurrentPlayer().getPower();
-	
+
 	}
 
 	public Boolean checkPassword(String name, String password) {
-		if (super.getName().equals(name)&&this.password.equals(password)) {
+		if (super.getName().equals(name) && this.password.equals(password)) {
 			return true;
 		} else
 			return false;
