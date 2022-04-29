@@ -14,16 +14,16 @@ public abstract class Tank extends FieldElement {
 	public static final String BALANCED = "balanced";
 
 	// Tank Fields
-	private int power;
-	private int shootingRange;
-	private int movementRange;
-	private int life;
-	private int maxLife;
-	private int energy;
-	private int maxEnergy;
-	private int votes;
-	private String password;
-	private TankTactics game;
+	protected int power;
+	protected int shootingRange;
+	protected int movementRange;
+	protected int life;
+	protected int maxLife;
+	protected int energy;
+	protected int maxEnergy;
+	protected int votes;
+	protected String password;
+	protected TankTactics game;
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -43,7 +43,7 @@ public abstract class Tank extends FieldElement {
 
 	}
 
-	// Action Performed Override Method for Tank Class
+	// Action Performed Override Method for Tank Clas
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
 		
@@ -147,10 +147,10 @@ public abstract class Tank extends FieldElement {
 		}
 	}
 
-	public void hit(int damage) {
-		this.life -= damage;
-		if (this.life < 0) {
-			this.life = 0;
+	public void hit(int damage, Tank target) {
+		target.life -= damage;
+		if (target.life < 0) {
+			target.life = 0;
 		}
 	}
 
