@@ -48,4 +48,9 @@ public class HeavyTank extends Tank {
 	{
 		return armor;
 	}
+	
+	@Override
+	public String getSpecialText() {
+		return "Armor: " + armor + "\n";
+	}
 }

@@ -55,4 +55,9 @@ public class AOE_Tank extends Tank {
 	{
 		return areaOfEffect;
 	}
+
+	@Override
+	public String getSpecialText() {
+		return "AOE: " + areaOfEffect + "\n";
+	}
 }

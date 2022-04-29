@@ -48,4 +48,9 @@ public class BalancedTank extends Tank {
 	{
 		return lifeGain;
 	}
+	
+	@Override
+	public String getSpecialText() {
+		return "Life gain: " + lifeGain + "\n";
+	}
 }

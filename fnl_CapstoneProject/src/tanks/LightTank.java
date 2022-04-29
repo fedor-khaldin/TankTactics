@@ -48,4 +48,9 @@ public class LightTank extends Tank {
 	{
 		return energyGain;
 	}
+	
+	@Override
+	public String getSpecialText() {
+		return "Anergy gain: " + energyGain + "\n";
+	}
 }
