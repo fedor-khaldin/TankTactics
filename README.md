@@ -3,7 +3,7 @@
 ### Team Members: Fedor Khaldin, Itay Volk, Wilson Wu
 ### Revision Date: 4/26/22
 
-## Project Info
+# Project Info
 ##### Program Purpose:
 The purpose of this program is to create an enjoyable, but simple, multi-player turn based strategy game that are enjoyable for players with various understanding of the game.
 
