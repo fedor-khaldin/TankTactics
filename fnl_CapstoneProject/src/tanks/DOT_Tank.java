@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 4/28/2022
+ * Date: 4/29/2022
  * Rev: 01
  * Notes: this class repreasents a DOT tank
  */
@@ -14,6 +14,8 @@ public class DOT_Tank extends Tank {
 	
 	//field
 	private int damageOverTime;
+	private Tank [] targets;
+	private int [] times;
 
 	//constructor
 	public DOT_Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -29,7 +31,19 @@ public class DOT_Tank extends Tank {
 	{
 		super.hit(other);
 		
-		//TODO finsih DOT
+		Tank [] addedTargets = new Tank [targets.length + 1];
+		int [] addedTimes = new int [times.length + 1];
+		for (int i = 0; i < targets.length; i++)
+		{
+			addedTargets[i] = targets[i];
+			addedTimes[i] = times[i];
+		}
+		addedTargets[targets.length] = other;
+		targets = addedTargets;
+		addedTimes[times.length] = damageOverTime;
+		times = addedTimes;
+		
+		
 	}
 	
 	public void upgadeSpecial (int upgradeAmt)
@@ -51,5 +65,31 @@ public class DOT_Tank extends Tank {
 	{
 		super.draw();
 		game.getButtons()[x][y].setToolTipText(game.getButtons()[x][y].getToolTipText() + "\nDOT: " + damageOverTime);
+	}
+	
+	public void newCycle()
+	{
+		for(int i = 0; i < targets.length; i++)
+		{
+			super.hit(targets[i]);
+			
+			times[i]--;
+			
+			if (times[i] == 0)
+			{
+				Tank [] removedTargets = new Tank [targets.length - 1];
+				int [] removedTimes = new int [times.length - 1];
+				for (int j = 0; j < targets.length; j++)
+				{
+					if (j != i)
+					{
+						removedTargets[j] = targets[j];
+						removedTimes[j] = times[j];
+					}
+				}
+				targets = removedTargets;
+				times = removedTimes;
+			}
+		}
 	}
 }

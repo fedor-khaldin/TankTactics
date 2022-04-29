@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 4/28/2022
- * Rev: 01
+ * Date: 4/29/2022
+ * Rev: 02
  * Notes: this class repreasents an AOE tank
  */
 
@@ -29,24 +29,12 @@ public class AOE_Tank extends Tank {
 	{
 		super.hit(other);
 		
-		int startX = x - areaOfEffect;
-		if (startX < 0)
+		for (int i = 0; i < game.getPlayers().length; i++)
 		{
-			startX = 0;
-		}
-		int startY = y - areaOfEffect;
-		if (startY < 0)
-		{
-			startY = 0;
-		}
-		
-		for (; startX < x + areaOfEffect && x < game.getFieldElements().length; startX++)
-		{
-			for (; startY < y + areaOfEffect && y < game.getFieldElements()[startX].length; startY++)
+			if(game.getPlayers()[i].getX() <= x + areaOfEffect && game.getPlayers()[i].getX() >= x - areaOfEffect 
+					&& game.getPlayers()[i].getY() <= y + areaOfEffect && game.getPlayers()[i].getY() >= y - areaOfEffect && game.getPlayers()[i] != this)
 			{
-				if (startX != x && startY != y)
-				{//TODO correct to shoot tanks in area
-				}
+				super.hit(game.getPlayers()[i]);
 			}
 		}
 	}

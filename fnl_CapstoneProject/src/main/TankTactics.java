@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 4/28/2022
- * Rev: 01
+ * Date: 4/29/2022
+ * Rev: 03
  * Notes: this class manages a TankTactics game
  */
 
@@ -115,10 +115,10 @@ public class TankTactics extends JFrame
 			    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
 				    	  for (int i = 0; i < DOT.length; i++)
 				    	  {
-				    		  addedDOT = DOT[i];
+				    		  addedDOT[i] = DOT[i];
 				    	  }
-				    	  addedPlayers[players.length] = nextPlayer; //TODO finish DOT data base
-				    	  players = addedPlayers;
+				    	  addedDOT[players.length] = (DOT_Tank) nextPlayer;
+				    	  players = addedDOT;
 			    	  }
 		    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
 			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
@@ -332,7 +332,7 @@ public class TankTactics extends JFrame
 	}
 	
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
-	public void newLogin()
+	public void newLogin() throws IOException
 	{
 		Scanner reader = new Scanner(System.in);
 		
@@ -440,6 +440,11 @@ public class TankTactics extends JFrame
 	  		alive[i].gainEnergy(1);
 	  	}
 	  	boosters = addedBoosters;
+	  	
+	  	for(i = 0; i < DOT.length; i++)
+	  	{
+	  		DOT[i].newCycle();
+	  	}
 		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
