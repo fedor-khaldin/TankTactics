@@ -1,3 +1,17 @@
+/* 
+
+Written By: 
+ ___ ___ __   __  ___   _  ___  _  __  _   __  _ __  _  
+| __| __| _\ /__\| _ \ | |/ / || |/  \| | | _\| |  \| | 
+| _|| _|| v | \/ | v / |   <| >< | /\ | |_| v | | | ' | 
+|_| |___|__/ \__/|_|_\ |_|\_\_||_|_||_|___|__/|_|_|\__| 
+                                                                                                                
+Modified Date: 4/29/2022
+Notes: The tank class is responsible for handling all of the tank specific logic not handled by Fieldelement class. 
+
+*/
+
+
 package main;
 
 import java.awt.Color;
@@ -29,7 +43,7 @@ public abstract class Tank extends FieldElement {
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
 			int energy, int maxEnergy, int votes, String password, JButton button, TankTactics game) {
 
-		super(x, y, name, button, new Color(0, 0, 0), game);
+		super(x, y, button, game, new Color(0,0,0), name);
 		this.power = power;
 		this.shootingRange = shootingRange;
 		this.movementRange = movementRange;
