@@ -31,7 +31,7 @@ import tanks.*;
 @SuppressWarnings("serial")
 public class TankTactics extends JFrame
 				implements ActionListener{
-	//Fileds
+	//Fields
 	private JButton [] [] buttons;
 	private FieldElement [] [] fieldElements;
 	private Tank currentPlayer;
@@ -42,7 +42,7 @@ public class TankTactics extends JFrame
 	private int cycleLength;
 	private Timer clock;
 	
-	//Contructor
+	//Constructor
 	public TankTactics ()
 	{
 		super ("Tank Tactics");
@@ -460,6 +460,11 @@ public class TankTactics extends JFrame
 		return fieldElements;
 	}
 	
+	public JButton[][] getButtons()
+	{
+		return buttons;
+	}
+	
 	public Tank[] getPlayers()
 	{
 		return players;
@@ -479,6 +484,11 @@ public class TankTactics extends JFrame
 	public void setFieldElements (FieldElement[][] newField)
 	{
 		fieldElements = newField;
+	}
+	
+	public void setButtons (JButton[][] newButtons)
+	{
+		buttons = newButtons;
 	}
 	
 	public void setPlayers (Tank[] newPlayers)

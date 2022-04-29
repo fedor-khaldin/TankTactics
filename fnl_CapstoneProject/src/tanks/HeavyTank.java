@@ -35,6 +35,8 @@ public class HeavyTank extends Tank {
 	public void upgadeSpecial (int upgradeAmt)
 	{
 		armor += upgradeAmt;
+		if (armor < 1)
+			armor = 1;
 	}
 	
 	public String getType()

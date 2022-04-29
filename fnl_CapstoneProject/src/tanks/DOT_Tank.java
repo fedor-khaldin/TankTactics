@@ -31,24 +31,38 @@ public class DOT_Tank extends Tank {
 	{
 		super.hit(other);
 		
-		Tank [] addedTargets = new Tank [targets.length + 1];
-		int [] addedTimes = new int [times.length + 1];
+		boolean shot = false;
 		for (int i = 0; i < targets.length; i++)
 		{
-			addedTargets[i] = targets[i];
-			addedTimes[i] = times[i];
+			if (targets[i] == other)
+			{
+				times[i] += damageOverTime;
+				shot = true;
+				break;
+			}
 		}
-		addedTargets[targets.length] = other;
-		targets = addedTargets;
-		addedTimes[times.length] = damageOverTime;
-		times = addedTimes;
 		
-		
+		if (!shot)
+		{
+			Tank [] addedTargets = new Tank [targets.length + 1];
+			int [] addedTimes = new int [times.length + 1];
+			for (int i = 0; i < targets.length; i++)
+			{
+				addedTargets[i] = targets[i];
+				addedTimes[i] = times[i];
+			}
+			addedTargets[targets.length] = other;
+			targets = addedTargets;
+			addedTimes[times.length] = damageOverTime;
+			times = addedTimes;
+		}
 	}
 	
 	public void upgadeSpecial (int upgradeAmt)
 	{
 		damageOverTime += upgradeAmt;
+		if (damageOverTime < 1)
+			damageOverTime = 1;
 	}
 	
 	public String getType()

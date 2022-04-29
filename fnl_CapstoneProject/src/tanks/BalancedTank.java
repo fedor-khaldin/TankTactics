@@ -16,7 +16,7 @@ public class BalancedTank extends Tank {
 	private int lifeGain;
 	
 	//constructor
-	public BalncedTank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
+	public BalancedTank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
 			int energy, int maxEnergy, int lifeGain, int votes, String password, JButton button, TankTactics game) {
 				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, game);
 				this.lifeGain = lifeGain;
