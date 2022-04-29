@@ -246,7 +246,7 @@ public class TankTactics extends JFrame
 		        String save = startingTime + "\n" + cycleLength + "\n" + fieldElements.length + "\n" + fieldElements[0].length;
 		        for(int i = 0; i < players.length; i++)
 		        {
-		        	save += "\n" + alive[i].getX() + "\n" + alive[i].getY() + "\n" + alive[i].getText() + "\n" + alive[i].getPower() + "\n" + alive[i].getShootingRange() + "\n" + alive[i].getMovementRange()
+		        	save += "\n" + alive[i].getX() + "\n" + alive[i].getY() + "\n" + alive[i].getName() + "\n" + alive[i].getPower() + "\n" + alive[i].getShootingRange() + "\n" + alive[i].getMovementRange()
 		        			 + "\n" + alive[i].getLife() + "\n" + alive[i].getMaxLife() + "\n" + alive[i].getEnergy() + "\n" + alive[i].getMaxEnergy() + "\n" + alive[i].getSpecial()
 		        			 + "\n" + alive[i].getVotes() + "\n" + alive[i].getPassword() + "\n";
 		        	if (alive[i].getType().equalsIgnoreCase(Tank.AOE))

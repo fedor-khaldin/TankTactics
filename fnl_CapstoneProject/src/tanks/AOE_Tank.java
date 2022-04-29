@@ -39,7 +39,7 @@ public class AOE_Tank extends Tank {
 		}
 	}
 	
-	public void upgadeSpecial (int upgradeAmt)
+	public void upgradeSpecial (int upgradeAmt)
 	{
 		areaOfEffect += upgradeAmt;
 		if (areaOfEffect < 1)
@@ -54,11 +54,5 @@ public class AOE_Tank extends Tank {
 	public int getSpecial()
 	{
 		return areaOfEffect;
-	}
-	
-	public void draw()
-	{
-		super.draw();
-		game.getButtons()[x][y].setToolTipText(game.getButtons()[x][y].getToolTipText() + "\nAOE: " + areaOfEffect);
 	}
 }
