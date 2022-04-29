@@ -9,4 +9,8 @@ public class Shooter extends Booster {
 		super(x, y,strength, button, tankTactics, name, color);
 	}
 
+	public String getType() {
+		return Booster.SHOOT;
+	}
+
 }
