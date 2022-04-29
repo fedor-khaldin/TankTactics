@@ -100,4 +100,9 @@ public class DOT_Tank extends Tank {
 			}
 		}
 	}
+	
+	@Override
+	public String getSpecialText() {
+		return "DOT: " + damageOverTime + "\n";
+	}
 }
