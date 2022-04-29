@@ -53,11 +53,11 @@ public abstract class Tank extends FieldElement {
 		else {
 			
 			if (e.getActionCommand().equals("Left Click") {
-				// Fire a shot from current player to location.
+				game.getCurrentPlayer().hit(this);
 			}
 
 			if (e.getActionCommand().equals("Right Click")) {
-				// Heal selected palyer.
+				
 			}
 		}
 		
@@ -92,7 +92,7 @@ public abstract class Tank extends FieldElement {
 		this.maxEnergy += upgradeAmt;
 	}
 
-	abstract void upgradeSpecial(int upgradeAmt);
+	public abstract void upgradeSpecial(int upgradeAmt);
 
 	// Tank Getters
 	public int getPower() {
@@ -127,9 +127,9 @@ public abstract class Tank extends FieldElement {
 		return votes;
 	}
 
-	abstract String getType();
+	public abstract String getType();
 
-	abstract int getSpecial();
+	public abstract int getSpecial();
 
 	// Misc Tank Methods
 
@@ -137,6 +137,26 @@ public abstract class Tank extends FieldElement {
 		this.life += healAmt;
 		if (this.life > this.maxLife) {
 			this.life = this.maxLife;
+		}
+
+		else if (this.life < 0) {
+
+			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
+
+			for (int i = 0, j = 0; i < game.getAlive().length; i++) {
+				if (copyTankArray[i] != this) {
+					copyTankArray[i] = game.getAlive()[i];
+				}
+			}
+
+			Tank[] addedPlayers = new Tank[game.getJury().length + 1];
+				for (int i = 0; i < game.getJury().length; i++) {
+					addedPlayers[i] = game.getJury()[i];
+				}
+				addedPlayers[game.getJury().length] = this;
+				game.setJury(addedPlayers);
+				
+				this.life = 0;
 		}
 	}
 
@@ -147,11 +167,9 @@ public abstract class Tank extends FieldElement {
 		}
 	}
 
-	public void hit(int damage, Tank target) {
-		target.life -= damage;
-		if (target.life < 0) {
-			target.life = 0;
-		}
+	public void hit(Tank target) {
+		target.life -= game.getCurrentPlayer().getPower();
+	
 	}
 
 	public Boolean checkPassword(String name, String password) {
