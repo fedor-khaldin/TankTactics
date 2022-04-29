@@ -37,8 +37,30 @@ public class FieldElement implements ActionListener{
 		return this.tankTactics;
 	}
 	
+	public void setButton(JButton button) {
+		this.button.removeActionListener(this);
+		button.addActionListener(this);
+		this.button = button;
+	}
+	
+	//replace current player with field element
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//replaces current player with field element
+		FieldElement[][] newField = tankTactics.getFieldElements();
+		Tank currentPlayer = tankTactics.getCurrentPlayer();
+		int x = currentPlayer.getX();
+		int y = currentPlayer.getY();
+		newField[x][y] = this;
+		newField[this.x][this.y] = currentPlayer;
+		tankTactics.setFieldElements(newField);
+		
+		//replaces buttons
+		JButton[][] buttons= tankTactics.getButtons();
+		JButton button = buttons[x][y];
+		buttons[x][y] = this.button;
+		buttons[this.x][this.y] = button;
+		tankTactics.setButtons(buttons);
 		
 	}
 

@@ -27,7 +27,7 @@ public abstract class Booster extends FieldElement {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
 	}
 
 	public void draw() {
