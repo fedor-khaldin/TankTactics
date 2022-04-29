@@ -52,12 +52,13 @@ public abstract class Tank extends FieldElement {
 		}
 		else {
 			
-			if (e.getActionCommand().equals("Left Click") {
+			if (e.getActionCommand().equals("Left Click")) {
 				game.getCurrentPlayer().hit(this);
+				this.heal(0);
 			}
 
 			if (e.getActionCommand().equals("Right Click")) {
-				
+				this.heal(1);
 			}
 		}
 		
@@ -74,22 +75,28 @@ public abstract class Tank extends FieldElement {
 	// Tank Upgrades
 	public void upgradePower(int upgradeAmt) {
 		this.power += upgradeAmt;
+
+		if (this.power < 0) this.power = 1;
 	}
 
 	public void upgradeShootingRange(int upgradeAmt) {
 		this.shootingRange += upgradeAmt;
+		if (this.shootingRange < 0) this.shootingRange = 1;
 	}
 
 	public void upgradeMovementRange(int upgradeAmt) {
 		this.movementRange += upgradeAmt;
+		if (this.movementRange < 0) this.movementRange = 1;
 	}
 
 	public void upgradeMaxLife(int upgradeAmt) {
 		this.maxLife += upgradeAmt;
+		if (this.maxLife < 0) this.maxLife = 1;
 	}
 
 	public void upgradeMaxEnergy(int upgradeAmt) {
 		this.maxEnergy += upgradeAmt;
+		if (this.maxEnergy < 0) this.maxEnergy = 1;
 	}
 
 	public abstract void upgradeSpecial(int upgradeAmt);
