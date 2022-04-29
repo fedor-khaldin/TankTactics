@@ -30,8 +30,8 @@ public abstract class Booster extends FieldElement {
 
 	}
 
-	public void draw(Graphics g) {
-		super.Draw(g);
+	public void draw() {
+		super.draw();
 	}
 	
 	public int getStrength() {
