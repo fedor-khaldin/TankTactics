@@ -73,6 +73,7 @@ public abstract class Tank extends FieldElement {
 		super.draw();
 		game.getButtons()[x][y].setToolTipText("");
 
+
 	}
 
 	public String toToolTipText() {
@@ -84,7 +85,9 @@ public abstract class Tank extends FieldElement {
 		toolTipText += "Max Life: " + maxLife + "\n";
 		toolTipText += "Energy: " + energy + "\n";
 		toolTipText += "Max Energy: " + maxEnergy + "\n";
+		toolTipText += getSpecialText();
 		toolTipText += "Votes: " + votes + "\n";
+		
 		return toolTipText;
 	}
 
@@ -153,6 +156,8 @@ public abstract class Tank extends FieldElement {
 	public abstract String getType();
 
 	public abstract int getSpecial();
+
+	public abstract int getSpecialText();
 
 	// Misc Tank Methods
 
