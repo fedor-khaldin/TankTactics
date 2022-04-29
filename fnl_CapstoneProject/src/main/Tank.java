@@ -82,7 +82,7 @@ public abstract class Tank extends FieldElement {
 
 	}
 
-	// Action Performed Override Method for Tank Clas
+	// Custom ActionPerformed method that is called whenever a tank is clicked.
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
 		if (game.getCurrentPlayer().getLife() != 0) {
@@ -106,14 +106,15 @@ public abstract class Tank extends FieldElement {
 		}
 
 	}
-
+	// Custom draw method that draws super field element and sets custom tooltip
 	@Override
 	public void draw() {
 		super.draw();
-		game.getButtons()[x][y].setToolTipText("");
+		game.getButtons()[x][y].setToolTipText(toToolTipText());
 
 	}
-
+	
+	// Custom toToolTipText method that returns a string of the tank's stats
 	public String toToolTipText() {
 		String toolTipText = "";
 		toolTipText += "Power: " + power + "\n";
@@ -130,6 +131,9 @@ public abstract class Tank extends FieldElement {
 	}
 
 	// Tank Upgrades
+
+
+	// Upgrades Tank Power
 	public void upgradePower(int upgradeAmt) {
 		this.power += upgradeAmt;
 
@@ -137,77 +141,96 @@ public abstract class Tank extends FieldElement {
 			this.power = 1;
 	}
 
+	// Upgrades Tank Shooting Range
 	public void upgradeShootingRange(int upgradeAmt) {
 		this.shootingRange += upgradeAmt;
 		if (this.shootingRange < 0)
 			this.shootingRange = 1;
 	}
 
+	// Upgrades Tank Movement Range
 	public void upgradeMovementRange(int upgradeAmt) {
 		this.movementRange += upgradeAmt;
 		if (this.movementRange < 0)
 			this.movementRange = 1;
 	}
 
+	// Upgrades Tank Max Life
 	public void upgradeMaxLife(int upgradeAmt) {
 		this.maxLife += upgradeAmt;
 		if (this.maxLife < 0)
 			this.maxLife = 1;
 	}
 
+	// Upgrades Tank Max Energy
 	public void upgradeMaxEnergy(int upgradeAmt) {
 		this.maxEnergy += upgradeAmt;
 		if (this.maxEnergy < 0)
 			this.maxEnergy = 1;
 	}
-
+	
+	// Abstract method that upgrades tank's special ability
 	public abstract void upgradeSpecial(int upgradeAmt);
 
 	// Tank Getters
+
+	// Returns Tank Power
 	public int getPower() {
 		return power;
 	}
 
+	// Returns Tank Shooting Range
 	public int getShootingRange() {
 		return shootingRange;
 	}
 
+	// Returns Tank Movement Range
 	public int getMovementRange() {
 		return movementRange;
 	}
 
+	// Returns Tank Life
 	public int getLife() {
 		return life;
 	}
 
+	// Returns Tank Max Life
 	public int getMaxLife() {
 		return maxLife;
 	}
 
+	// Returns Tank Energy
 	public int getEnergy() {
 		return energy;
 	}
 
+	// Returns Tank Max Energy
 	public int getMaxEnergy() {
 		return maxEnergy;
 	}
 
+	// Returns Tank Votes
 	public int getVotes() {
 		return votes;
 	}
 
+	// Returns Tank Password
 	public String getPassword() {
 		return password;
 	}
 	
+	// Abstract method that returns tank's type
 	public abstract String getType();
 
+	// Abstract method that returns tank's special ability
 	public abstract int getSpecial();
 
+	// Abstract method that returns tank's special ability and type in string form
 	public abstract String getSpecialText();
 
 	// Misc Tank Methods
 
+	// Heals a tank by a specified amount, including handling the tanks lives.
 	public void heal(int healAmt) {
 		this.life += healAmt;
 		if (this.life > this.maxLife) {
@@ -235,6 +258,7 @@ public abstract class Tank extends FieldElement {
 		}
 	}
 
+	// Recharges tanks energy
 	public void gainEnergy(int rechargeAmt) {
 		this.energy += rechargeAmt;
 		if (this.energy > this.maxEnergy) {
@@ -242,11 +266,13 @@ public abstract class Tank extends FieldElement {
 		}
 	}
 
+	// Makes a tank take damage
 	public void hit(Tank target) {
 		target.life -= game.getCurrentPlayer().getPower();
 
 	}
 
+	// Checks if inputted string matches password
 	public Boolean checkPassword(String name, String password) {
 		if (super.getName().equals(name) && this.password.equals(password)) {
 			return true;
@@ -254,6 +280,7 @@ public abstract class Tank extends FieldElement {
 			return false;
 	}
 
+	// Outputs an upgrade menu giving the user the ability to adjust tank stats using energy
 	public void upgradeMenu() {
 
 		System.out.println("\nUpgrade Menu");
