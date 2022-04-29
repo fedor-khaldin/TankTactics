@@ -32,7 +32,7 @@ public class HeavyTank extends Tank {
 		}
 	}
 	
-	public void upgadeSpecial (int upgradeAmt)
+	public void upgradeSpecial (int upgradeAmt)
 	{
 		armor += upgradeAmt;
 		if (armor < 1)
@@ -48,11 +48,4 @@ public class HeavyTank extends Tank {
 	{
 		return armor;
 	}
-	
-	public void draw()
-	{
-		super.draw();
-		game.getButtons()[x][y].setToolTipText(game.getButtons()[x][y].getToolTipText() + "\narmor: " + armor);
-	}
-
 }

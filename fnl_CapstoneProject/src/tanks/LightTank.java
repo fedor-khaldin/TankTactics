@@ -32,7 +32,7 @@ public class LightTank extends Tank {
 		}
 	}
 	
-	public void upgadeSpecial (int upgradeAmt)
+	public void upgradeSpecial (int upgradeAmt)
 	{
 		energyGain += upgradeAmt;
 		if (energyGain < 1)
@@ -48,11 +48,4 @@ public class LightTank extends Tank {
 	{
 		return energyGain;
 	}
-	
-	public void draw()
-	{
-		super.draw();
-		game.getButtons()[x][y].setToolTipText(game.getButtons()[x][y].getToolTipText() + "\nenergy gain: " + energyGain);
-	}
-
 }

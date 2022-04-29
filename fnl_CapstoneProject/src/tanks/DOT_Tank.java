@@ -58,7 +58,7 @@ public class DOT_Tank extends Tank {
 		}
 	}
 	
-	public void upgadeSpecial (int upgradeAmt)
+	public void upgradeSpecial (int upgradeAmt)
 	{
 		damageOverTime += upgradeAmt;
 		if (damageOverTime < 1)
@@ -73,12 +73,6 @@ public class DOT_Tank extends Tank {
 	public int getSpecial()
 	{
 		return damageOverTime;
-	}
-	
-	public void draw()
-	{
-		super.draw();
-		game.getButtons()[x][y].setToolTipText(game.getButtons()[x][y].getToolTipText() + "\nDOT: " + damageOverTime);
 	}
 	
 	public void newCycle()

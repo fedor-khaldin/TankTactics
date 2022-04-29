@@ -32,7 +32,7 @@ public class BalancedTank extends Tank {
 		}
 	}
 	
-	public void upgadeSpecial (int upgradeAmt)
+	public void upgradeSpecial (int upgradeAmt)
 	{
 		lifeGain += upgradeAmt;
 		if (lifeGain < 1)
@@ -48,11 +48,4 @@ public class BalancedTank extends Tank {
 	{
 		return lifeGain;
 	}
-	
-	public void draw()
-	{
-		super.draw();
-		game.getButtons()[x][y].setToolTipText(game.getButtons()[x][y].getToolTipText() + "\nlife gain: " + lifeGain);
-	}
-
 }
