@@ -2,6 +2,7 @@ package boosters;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import main.*;
 
 public class Jumper extends Booster {
@@ -11,5 +12,14 @@ public class Jumper extends Booster {
 
 	public String getType() {
 		return Booster.JUMPER;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);	
+		Tank current = tankTactics.getCurrentPlayer();
+		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
+			
+		}
 	}
 }

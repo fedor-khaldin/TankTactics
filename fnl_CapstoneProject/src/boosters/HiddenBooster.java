@@ -2,6 +2,7 @@ package boosters;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import main.*;
 
 public class HiddenBooster extends Booster {

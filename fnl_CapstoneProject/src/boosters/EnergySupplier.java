@@ -2,8 +2,7 @@ package boosters;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-
+import java.awt.event.ActionEvent;
 import main.*;
 
 public class EnergySupplier extends Booster {

@@ -1,10 +1,8 @@
 package boosters;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import main.*;
 
 public class Healer extends Booster {

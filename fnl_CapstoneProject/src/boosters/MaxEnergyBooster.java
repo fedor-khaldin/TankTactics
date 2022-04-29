@@ -2,6 +2,7 @@ package boosters;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import main.*;
 
 public class MaxEnergyBooster extends Booster {
@@ -11,5 +12,14 @@ public class MaxEnergyBooster extends Booster {
 
 	public String getType() {
 		return Booster.MAX_ENERGY;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);	
+		Tank current = tankTactics.getCurrentPlayer();
+		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
+			current.upgradeMaxEnergy(strength);
+		}
 	}
 }

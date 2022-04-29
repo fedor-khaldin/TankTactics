@@ -3,7 +3,6 @@ package boosters;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import main.*;
 
 public class PowerBooster extends Booster {

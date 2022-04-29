@@ -29,10 +29,6 @@ public abstract class Booster extends FieldElement {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 	}
-
-	public void draw() {
-		super.draw();
-	}
 	
 	public int getStrength() {
 		return strength;
