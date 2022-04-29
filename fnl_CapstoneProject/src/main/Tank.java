@@ -46,30 +46,46 @@ public abstract class Tank extends FieldElement {
 	// Action Performed Override Method for Tank Clas
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
-		
-		if (this.equals(game.getCurrentPlayer())) {
-			 upgradeMenu();
-		}
-		else {
-			
-			if (e.getActionCommand().equals("Left Click")) {
-				game.getCurrentPlayer().hit(this);
-				this.heal(0);
-			}
+		if (game.getCurrentPlayer().getLife() != 0) {
+			if (this.equals(game.getCurrentPlayer())) {
+				upgradeMenu();
+			} else {
 
-			if (e.getActionCommand().equals("Right Click")) {
-				this.heal(1);
+				if (e.getActionCommand().equals("Left Click")) {
+					game.getCurrentPlayer().hit(this);
+					this.heal(0);
+				}
+
+				if (e.getActionCommand().equals("Right Click")) {
+					this.heal(1);
+				}
+			}
+		} else {
+			if (e.getActionCommand().equals("Left Click")) {
+				this.votes++;
 			}
 		}
-		
-		
-		
+
 	}
 
 	@Override
 	public void draw() {
-		super.Draw();
+		super.draw();
+		game.getButtons()[x][y].setToolTipText("");
 
+	}
+
+	public String toToolTipText() {
+		String toolTipText = "";
+		toolTipText += "Power: " + power + "\n";
+		toolTipText += "Shooting Range: " + shootingRange + "\n";
+		toolTipText += "Movement Range: " + movementRange + "\n";
+		toolTipText += "Life: " + life + "\n";
+		toolTipText += "Max Life: " + maxLife + "\n";
+		toolTipText += "Energy: " + energy + "\n";
+		toolTipText += "Max Energy: " + maxEnergy + "\n";
+		toolTipText += "Votes: " + votes + "\n";
+		return toolTipText;
 	}
 
 	// Tank Upgrades
