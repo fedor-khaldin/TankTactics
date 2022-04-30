@@ -19,10 +19,7 @@ public class Jumper extends Booster {
 		super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-			if(current.getEnergy()>0) {
-				current.gainEnergy(-1);
-				current.setOnJumper(true);
-			}
+			current.setOnJumper(true);
 		}
 	}
 }
