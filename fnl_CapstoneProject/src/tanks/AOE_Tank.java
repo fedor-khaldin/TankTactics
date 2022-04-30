@@ -17,9 +17,9 @@ public class AOE_Tank extends Tank {
 
 	//constructor
 	public AOE_Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int areaOfEffect, int votes, String password, JButton button, TankTactics game) {
+			int energy, int maxEnergy, int areaOfEffect, int votes, String password, JButton button, TankTactics tankTactics) {
 		
-				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, game);
+				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, tankTactics);
 				this.areaOfEffect = areaOfEffect;
 	}
 
@@ -29,12 +29,12 @@ public class AOE_Tank extends Tank {
 	{
 		super.hit(other);
 		
-		for (int i = 0; i < game.getPlayers().length; i++)
+		for (int i = 0; i < tankTactics.getPlayers().length; i++)
 		{
-			if(game.getPlayers()[i].getX() <= x + areaOfEffect && game.getPlayers()[i].getX() >= x - areaOfEffect 
-					&& game.getPlayers()[i].getY() <= y + areaOfEffect && game.getPlayers()[i].getY() >= y - areaOfEffect && game.getPlayers()[i] != this)
+			if(tankTactics.getPlayers()[i].getX() <= x + areaOfEffect && tankTactics.getPlayers()[i].getX() >= x - areaOfEffect 
+					&& tankTactics.getPlayers()[i].getY() <= y + areaOfEffect && tankTactics.getPlayers()[i].getY() >= y - areaOfEffect && tankTactics.getPlayers()[i] != this)
 			{
-				super.hit(game.getPlayers()[i]);
+				super.hit(tankTactics.getPlayers()[i]);
 			}
 		}
 	}

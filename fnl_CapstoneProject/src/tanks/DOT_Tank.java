@@ -19,9 +19,9 @@ public class DOT_Tank extends Tank {
 
 	//constructor
 	public DOT_Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int damageOverTime, int votes, String password, JButton button, TankTactics game) {
+			int energy, int maxEnergy, int damageOverTime, int votes, String password, JButton button, TankTactics tankTactics) {
 		
-				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, game);
+				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, tankTactics);
 				this.damageOverTime = damageOverTime;
 	}
 
