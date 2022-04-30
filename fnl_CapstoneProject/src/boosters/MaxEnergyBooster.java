@@ -6,8 +6,8 @@ import java.awt.event.*;
 import main.*;
 
 public class MaxEnergyBooster extends Booster {
-	public MaxEnergyBooster(int x, int y, int strength, JButton button, TankTactics tankTactics, String name, Color color) {
-		super(x, y,strength, button, tankTactics, name, color);
+	public MaxEnergyBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
+		super(x, y,strength, button, tankTactics, "Max Energy Booster "+strength, new Color(145, 255, 0));
 	}
 
 	public String getType() {

@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import main.*;
 
 public class Healer extends Booster {
-	public Healer(int x, int y, int strength, JButton button, TankTactics tankTactics, String name, Color color) {
-		super(x, y,strength, button, tankTactics, name, color);
+	public Healer(int x, int y, int strength, JButton button, TankTactics tankTactics) {
+		super(x, y,strength, button, tankTactics, "Healer "+strength, new Color(255, 0, 0));
 	}
 
 	public String getType() {

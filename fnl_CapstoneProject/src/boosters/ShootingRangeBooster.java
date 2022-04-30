@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import main.*;
 
 public class ShootingRangeBooster extends Booster {
-	public ShootingRangeBooster(int x, int y, int strength, JButton button, TankTactics tankTactics, String name, Color color) {
-		super(x, y,strength, button, tankTactics, name, color);
+	public ShootingRangeBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
+		super(x, y,strength, button, tankTactics, "Shooting Range Booster "+strength, new Color(0, 188, 255));
 	}
 
 	public String getType() {
