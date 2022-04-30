@@ -19,7 +19,9 @@ public class EnergySupplier extends Booster {
 		super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-			current.gainEnergy(strength);
+			if(current.getEnergy()>0) {
+				current.gainEnergy(strength-1);
+			}
 		}
 	}
 }

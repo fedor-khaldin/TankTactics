@@ -19,7 +19,10 @@ public class PowerBooster extends Booster {
 		super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-			current.upgradePower(strength);
+			if(current.getEnergy()>0) {
+				current.upgradePower(strength);
+				current.gainEnergy(-1);
+			}
 		}
 	}
 }

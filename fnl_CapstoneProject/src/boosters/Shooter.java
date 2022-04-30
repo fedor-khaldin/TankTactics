@@ -14,4 +14,14 @@ public class Shooter extends Booster {
 		return Booster.SHOOT;
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);	
+		Tank current = tankTactics.getCurrentPlayer();
+		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
+			if(current.getEnergy()>0) {
+				current.gainEnergy(-1);
+			}
+		}
+	}
 }

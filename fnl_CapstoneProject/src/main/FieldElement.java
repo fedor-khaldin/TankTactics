@@ -67,7 +67,7 @@ public class FieldElement implements ActionListener{
 				this.setButton(buttons[this.x][this.y]);
 				tankTactics.setButtons(buttons);
 
-				current.energy-=1;
+				current.gainEnergy(-1);
 			}
 		}
 		
