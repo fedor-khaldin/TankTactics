@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 4/29/2022
- * Rev: 03
+ * Date: 4/30/2022
+ * Rev: 04
  * Notes: this class manages a TankTactics game
  */
 
@@ -54,7 +54,7 @@ public class TankTactics extends JFrame
 		players = new Tank [0];
 		boosters = new Booster [0];
 		DOT = new DOT_Tank [0];
-		try {//TODO write comment
+		try {//Reads the game save file and sets up the game.
 			String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
 			File file = new File (currentDir + "game save.txt");
 			Scanner fileIn = null;
@@ -228,81 +228,16 @@ public class TankTactics extends JFrame
 				panel.add(buttons[j][i]);
 			}
 		}
-		draw();
 		Container c = getContentPane();
 		c.add(panel, BorderLayout.CENTER);
 		
 		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
 		
-		//TODO write comment
-		addWindowListener(new WindowAdapter() {//TODO save only if not rplaying and deal with time
+		//Saves the data to the game save file when the window is closed, after asking the user if they want to log in again.
+		addWindowListener(new WindowAdapter() {
 			@Override
 		    public void windowClosing(WindowEvent windowEvent) {
-				String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
-				File file = new File (currentDir + "game save.txt");
-				PrintWriter fileOut;
-		        try
-		        {
-		          fileOut = new PrintWriter(new FileWriter(file));
-		        }
-		        catch (IOException ex)
-		        {
-		        	throw new IOException (
-		        			"Cannot access game save file.");
-		        }
-		        
-		        String save = startingTime + "\n" + cycleLength + "\n" + fieldElements.length + "\n" + fieldElements[0].length;
-		        for(int i = 0; i < players.length; i++)
-		        {
-		        	save += "\n" + alive[i].getX() + "\n" + alive[i].getY() + "\n" + alive[i].getName() + "\n" + alive[i].getPower() + "\n" + alive[i].getShootingRange() + "\n" + alive[i].getMovementRange()
-		        			 + "\n" + alive[i].getLife() + "\n" + alive[i].getMaxLife() + "\n" + alive[i].getEnergy() + "\n" + alive[i].getMaxEnergy() + "\n" + alive[i].getSpecial()
-		        			 + "\n" + alive[i].getVotes() + "\n" + alive[i].getPassword() + "\n";
-		        	if (alive[i].getType().equalsIgnoreCase(Tank.AOE))
-		        		save +=  Tank.AOE;
-		        	else if (alive[i].getType().equalsIgnoreCase(Tank.BALANCED))
-		        		save +=  Tank.BALANCED;
-		        	else if (alive[i].getType().equalsIgnoreCase(Tank.DOT))
-		        		save +=  Tank.DOT;
-		        	else if (alive[i].getType().equalsIgnoreCase(Tank.HEAVY))
-	        			save +=  Tank.HEAVY;
-		        	else if (alive[i].getType().equalsIgnoreCase(Tank.LIGHT))
-		        		save +=  Tank.LIGHT;
-		        }
-		        
-		        save += "\n****";
-		        for(int i = 0; i < boosters.length; i++)
-		        {
-		        	save += "\n" + boosters[i].getX() + "\n" + boosters[i].getY() + "\n" + boosters[i].getStrength() + "\n";
-			    	  if (boosters[i].getType().equalsIgnoreCase(Booster.ENERGY))
-			    		  save += Booster.ENERGY;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HEAL))
-			    		  save += Booster.HEAL;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HIDDEN))
-			    		  save += Booster.HIDDEN;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.JUMPER))
-			    		  save += Booster.JUMPER;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_ENERGY))
-			    		  save += Booster.MAX_ENERGY;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_LIFE))
-			    		  save += Booster.MAX_LIFE;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MOVEMENT_RANGE))
-			    		  save += Booster.MOVEMENT_RANGE;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.POWER))
-			    		  save += Booster.POWER;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOT))
-			    		  save += Booster.SHOOT;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOTING_RANGE))
-			    		  save += Booster.SHOOTING_RANGE;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SPECIAL))
-			    		  save += Booster.SPECIAL;
-			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.UNKNOWN))
-			    		  save += Booster.UNKNOWN;
-		        }
-		        
-		        fileOut.print(save);
-		        fileOut.close();
-		        
-		        boolean continueAsking = true;
+		        boolean continueAsking = true, saveToFile = false;
 		        while (continueAsking)
 		        {
 		        	
@@ -316,18 +251,93 @@ public class TankTactics extends JFrame
 		        	if(answer.equalsIgnoreCase("no"))
 		        	{
 		        		continueAsking = false;
+		        		saveToFile = true;
 		        	}
+		        }
+		        
+		        if(saveToFile)
+		        {
+		        	clock.stop();
+		        	startingTime = System.currentTimeMillis();
+		        	Runnable saver = new Runnable() {
+		        		public void run() {
+							String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
+							File file = new File (currentDir + "game save.txt");
+							PrintWriter fileOut;
+					        try
+					        {
+					          fileOut = new PrintWriter(new FileWriter(file));
+					        }
+					        catch (IOException ex)
+					        {
+					        	throw new IOException (
+					        			"Cannot access game save file.");
+					        }
+					        
+					        String save = startingTime + "\n" + cycleLength + "\n" + fieldElements.length + "\n" + fieldElements[0].length;
+					        for(int i = 0; i < players.length; i++)
+					        {
+					        	save += "\n" + alive[i].getX() + "\n" + alive[i].getY() + "\n" + alive[i].getName() + "\n" + alive[i].getPower() + "\n" + alive[i].getShootingRange() + "\n" + alive[i].getMovementRange()
+					        			 + "\n" + alive[i].getLife() + "\n" + alive[i].getMaxLife() + "\n" + alive[i].getEnergy() + "\n" + alive[i].getMaxEnergy() + "\n" + alive[i].getSpecial()
+					        			 + "\n" + alive[i].getVotes() + "\n" + alive[i].getPassword() + "\n";
+					        	if (alive[i].getType().equalsIgnoreCase(Tank.AOE))
+					        		save +=  Tank.AOE;
+					        	else if (alive[i].getType().equalsIgnoreCase(Tank.BALANCED))
+					        		save +=  Tank.BALANCED;
+					        	else if (alive[i].getType().equalsIgnoreCase(Tank.DOT))
+					        		save +=  Tank.DOT;
+					        	else if (alive[i].getType().equalsIgnoreCase(Tank.HEAVY))
+				        			save +=  Tank.HEAVY;
+					        	else if (alive[i].getType().equalsIgnoreCase(Tank.LIGHT))
+					        		save +=  Tank.LIGHT;
+					        }
+					        
+					        save += "\n****";
+					        for(int i = 0; i < boosters.length; i++)
+					        {
+					        	save += "\n" + boosters[i].getX() + "\n" + boosters[i].getY() + "\n" + boosters[i].getStrength() + "\n";
+						    	  if (boosters[i].getType().equalsIgnoreCase(Booster.ENERGY))
+						    		  save += Booster.ENERGY;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HEAL))
+						    		  save += Booster.HEAL;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HIDDEN))
+						    		  save += Booster.HIDDEN;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.JUMPER))
+						    		  save += Booster.JUMPER;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_ENERGY))
+						    		  save += Booster.MAX_ENERGY;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_LIFE))
+						    		  save += Booster.MAX_LIFE;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MOVEMENT_RANGE))
+						    		  save += Booster.MOVEMENT_RANGE;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.POWER))
+						    		  save += Booster.POWER;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOT))
+						    		  save += Booster.SHOOT;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOTING_RANGE))
+						    		  save += Booster.SHOOTING_RANGE;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SPECIAL))
+						    		  save += Booster.SPECIAL;
+						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.UNKNOWN))
+						    		  save += Booster.UNKNOWN;
+					        }
+					        
+					        fileOut.print(save);
+					        fileOut.close();
+		        		}
+			        };
 		        }
 			}
 		});
 		
+		draw();
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
 	
-	//public methods
+	//Public methods
 	
-	//draws all the field elements
+	//Draws all the field elements
 	public void draw()
 	{
 		for (int i = 0; i < fieldElements[0].length; i++)
@@ -460,17 +470,19 @@ public class TankTactics extends JFrame
 	  	{
 	  		DOT[i].newCycle();
 	  	}
+	  	draw();
 		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
 	
 	//Getters
-	//TODO write comments for each one
+	//Returns currentPlayer
 	public Tank getCurrentPlayer()
 	{
 		return currentPlayer;
 	}
 	
+	//Returns fieldElements
 	public FieldElement[][] getFieldElements()
 	{
 		return fieldElements;
@@ -481,50 +493,58 @@ public class TankTactics extends JFrame
 		return buttons;
 	}
 	
+	//Returns buttons
 	public Tank[] getPlayers()
 	{
 		return players;
 	}
 	
+	//Returns alive
 	public Tank[] getAlive()
 	{
 		return alive;
 	}
 	
+	//Returns juty
 	public Tank[] getJury()
 	{
 		return jury;
 	}
 	
-	//setters
+	//Setters
+	//Sets fieldElements to the inputted value
 	public void setFieldElements (FieldElement[][] newField)
 	{
 		fieldElements = newField;
 	}
 	
+	//Sets buttons to the inputted value
 	public void setButtons (JButton[][] newButtons)
 	{
 		buttons = newButtons;
 	}
 	
+	//Sets players to the inputted value
 	public void setPlayers (Tank[] newPlayers)
 	{
 		players = newPlayers;
 	}
 	
+	//Sets alive to the inputted value
 	public void setAlive (Tank[] newAlive)
 	{
 		alive = newAlive;
 	}
 	
+	//Sets jury to the inputted value
 	public void setJury (Tank[] newJury)
 	{
 		jury = newJury;
 	}
 	
-	//private methods
+	//Private methods
 	
-	//prompts the user to input the information about the new game
+	//Prompts the user to input the information about the new game
 	private void newGame() throws IOException
 	{
 		Scanner reader = new Scanner(System.in);
