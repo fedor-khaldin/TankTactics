@@ -154,7 +154,14 @@ public class TankTactics extends JFrame
 			    	  else 	if (type.equalsIgnoreCase(Booster.HEAL))
 			    		  nextBooster = new Healer (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.HIDDEN))
-			    		  nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this);
+			    	  {
+			    		  Color tileColor;
+		    			  if (x + y % 2 == 0)
+		    				  tileColor = new Color(69, 177, 72);
+		    			  else
+		    				  tileColor = new Color(82, 188, 82);
+			    		  nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, tileColor);
+			    	  }
 			    	  else 	if (type.equalsIgnoreCase(Booster.JUMPER))
 			    		  nextBooster = new Jumper (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
@@ -284,7 +291,7 @@ public class TankTactics extends JFrame
 			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOT))
 			    		  save += Booster.SHOOT;
 			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOTING_RANGE))
-			    		  save += Booster.SHOOTING_ENERGY;
+			    		  save += Booster.SHOOTING_RANGE;
 			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SPECIAL))
 			    		  save += Booster.SPECIAL;
 			    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.UNKNOWN))
@@ -400,7 +407,12 @@ public class TankTactics extends JFrame
 				newBooster = new Healer(newX, newY, strength, buttons[newX][newY], this);
 				break;
 			case 2:
-				newBooster = new HiddenBooster(newX, newY, strength, buttons[newX][newY], this);
+				Color tileColor;
+				if (newX+newY % 2 == 0)
+					tileColor = new Color(69, 177, 72);
+				else
+					tileColor = new Color(82, 188, 82);
+				newBooster = new HiddenBooster(newX, newY, strength, buttons[newX][newY], this, tileColor);
 				break;
 			case 3:
 				newBooster = new Jumper(newX, newY, strength, buttons[newX][newY], this);
