@@ -54,7 +54,7 @@ public class TankTactics extends JFrame
 		players = new Tank [0];
 		boosters = new Booster [0];
 		DOT = new DOT_Tank [0];
-		try {
+		try {//TODO write comment
 			String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
 			File file = new File (currentDir + "game save.txt");
 			Scanner fileIn = null;
@@ -234,7 +234,8 @@ public class TankTactics extends JFrame
 		
 		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
 		
-		addWindowListener(new WindowAdapter() {
+		//TODO write comment
+		addWindowListener(new WindowAdapter() {//TODO save only if not rplaying and deal with time
 			@Override
 		    public void windowClosing(WindowEvent windowEvent) {
 				String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
@@ -464,6 +465,7 @@ public class TankTactics extends JFrame
 	}
 	
 	//Getters
+	//TODO write comments for each one
 	public Tank getCurrentPlayer()
 	{
 		return currentPlayer;
