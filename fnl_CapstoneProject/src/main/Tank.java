@@ -53,16 +53,17 @@ public abstract class Tank extends FieldElement {
 	public static final String BALANCED = "balanced";
 
 	// Tank Fields
-	protected int power;
-	protected int shootingRange;
-	protected int movementRange;
-	protected int life;
-	protected int maxLife;
-	protected int energy;
-	protected int maxEnergy;
-	protected int votes;
-	protected String password;
-	protected TankTactics game;
+	private int power;
+	private int shootingRange;
+	private int movementRange;
+	private int life;
+	private int maxLife;
+	private int energy;
+	private int maxEnergy;
+	private int votes;
+	private String password;
+	private TankTactics game;
+	private Boolean onJumper;
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -217,6 +218,16 @@ public abstract class Tank extends FieldElement {
 	// Returns Tank Password
 	public String getPassword() {
 		return password;
+	}
+
+	// Setter for On Jumper boolean
+	public void setOnJumper(Boolean onJumper) {
+		this.onJumper = onJumper;
+	}
+
+	// Getter for On Jumper boolean
+	public Boolean getOnJumper() {
+		return onJumper;
 	}
 	
 	// Abstract method that returns tank's type
