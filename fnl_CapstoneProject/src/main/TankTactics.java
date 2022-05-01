@@ -227,11 +227,13 @@ public class TankTactics extends JFrame
 				panel.add(buttons[j][i]);
 			}
 		}
-		Container c = getContentPane();
-		c.add(panel, BorderLayout.CENTER);
-		c.repaint();
 		
 		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
+		
+		Container c = getContentPane();
+		c.add(panel, BorderLayout.CENTER);
+		draw();
+		c.repaint();
 		
 		//Saves the data to the game save file when the window is closed, after asking the user if they want to log in again.
 		addWindowListener(new WindowAdapter() {
@@ -259,11 +261,12 @@ public class TankTactics extends JFrame
 		        }
 		        
 		        if(saveToFile)
-		        {//TODO
+		        {
 		        	clock.stop();
 		        	startingTime = System.currentTimeMillis();
 		        	Runnable saver = new Runnable() {
 		        		public void run() {
+		        			String helper = currentDirFile.getAbsolutePath();
 							String currentDir = "";
 							try {
 								currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
@@ -331,6 +334,7 @@ public class TankTactics extends JFrame
 					        }
 					        
 					        fileOut.print(save);
+					        fileOut.close();
 					        System.exit(0);
 		        		}
 			        };
@@ -339,7 +343,6 @@ public class TankTactics extends JFrame
 			}
 		});
 		
-		draw();
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
@@ -349,6 +352,7 @@ public class TankTactics extends JFrame
 	//Draws all the field elements
 	public void draw()
 	{
+		setVisible(false);
 		for (int i = 0; i < fieldElements[0].length; i++)
 		{
 			for (int j = 0; j < fieldElements.length; j++)
@@ -356,6 +360,8 @@ public class TankTactics extends JFrame
 				fieldElements[j][i].draw();
 			}
 		}
+		setVisible(true);
+		System.out.println("drew");
 	}
 	
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
@@ -391,12 +397,23 @@ public class TankTactics extends JFrame
 	//Called whenever the timer reaches zero, symbolizes a new cycle.
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("cycle");
 		clock.stop();
 		int newX = (int)(Math.random() * fieldElements.length);
 		int newY = (int)(Math.random() * fieldElements[0].length);
 		int i = 0;
 		while (i < boosters.length)
 		{
+			int j = 0;
+			while (j < alive.length)
+			{
+				if(alive[i].getX() == newX && alive[i].getY() == newY)
+				{
+					newX = (int)(Math.random() * fieldElements.length);
+					newY = (int)(Math.random() * fieldElements[0].length);
+					j = 0;
+				}
+			}
 			if (boosters[i].getX() == newX && boosters[i].getY() == newY)
 			{
 				newX = (int)(Math.random() * fieldElements.length);
