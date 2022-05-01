@@ -242,7 +242,6 @@ public class TankTactics extends JFrame
 		        boolean continueAsking = true, saveToFile = false;
 		        while (continueAsking)
 		        {
-		        	
 		        	System.out.print("Do you want to play again? (answer yes or no) ");
 		        	String answer = new Scanner(System.in).next();
 		        	if(answer.equalsIgnoreCase("yes"))
