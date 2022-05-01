@@ -259,7 +259,7 @@ public class TankTactics extends JFrame
 		        }
 		        
 		        if(saveToFile)
-		        {
+		        {//TODO
 		        	clock.stop();
 		        	startingTime = System.currentTimeMillis();
 		        	Runnable saver = new Runnable() {
