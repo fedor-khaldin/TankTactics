@@ -124,12 +124,11 @@ public class TankTactics extends JFrame
 			    	  else
 			    	  {
 			    		  System.out.println("No tank type for " + type);
-			    	  }
-			    	  
-			    	  
+			    		  System.exit(ERROR);
+			    	  } 	  
 			    	  
 			    	  Tank [] addedPlayers = new Tank [players.length + 1];
-			    	  for (int i = 0; i < DOT.length; i++)
+			    	  for (int i = 0; i < players.length; i++)
 			    	  {
 			    		  addedPlayers[i] = players[i];
 			    	  }
@@ -217,6 +216,7 @@ public class TankTactics extends JFrame
 	    		  }
 	    	  }
 	      }
+
 		newLogin();
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(fieldElements.length, fieldElements[0].length));
@@ -331,11 +331,11 @@ public class TankTactics extends JFrame
 					        }
 					        
 					        fileOut.print(save);
+					        System.exit(0);
 		        		}
 			        };
 			        saver.run();
 		        }
-		        System.exit(0);
 			}
 		});
 		
@@ -368,15 +368,11 @@ public class TankTactics extends JFrame
 			String name = reader.nextLine();
 			System.out.print("Enter the current player's password ");
 			String password = reader.nextLine();
-			for(int i = 0; i < players.length; i++)
-			{
-				System.out.println(i+""+players[i]);
-			}
+
 			currentPlayer = null;
 			for(int i = 0; i < players.length; i++)
 			{
-				System.out.println(i);
-				if (players[i].checkPassword(name, password))//TODO
+				if (players[i].checkPassword(name, password))
 				{
 					currentPlayer = players[i];
 				}
