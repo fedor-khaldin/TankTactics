@@ -41,11 +41,13 @@ public class TankTactics extends JFrame
 	private long startingTime;
 	private int cycleLength;
 	private Timer clock;
+	private Scanner reader;
 	
 	//Constructor
 	public TankTactics ()
 	{
 		super ("Tank Tactics");
+		reader = new Scanner(System.in);
 		
 		File currentDirFile = new File(".");
 		String helper = currentDirFile.getAbsolutePath();
@@ -362,15 +364,13 @@ public class TankTactics extends JFrame
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
 	public void newLogin()
 	{
-		Scanner reader = new Scanner(System.in);
-		
 		boolean continueAsking = true;
+		reader.nextLine();
 		do
 		{
-			reader.nextLine();
-			System.out.println("Enter the currect player's name ");
+			System.out.print("Enter the current player's name ");
 			String name = reader.nextLine();
-			System.out.println("Enter the currect player's password ");
+			System.out.print("Enter the current player's password ");
 			String password = reader.nextLine();
 			
 			currentPlayer = null;
@@ -381,7 +381,7 @@ public class TankTactics extends JFrame
 					currentPlayer = players[i];
 				}
 			}
-			if(currentPlayer != null)
+			if(currentPlayer == null)
 			{
 	    		  System.out.println("No player named " + name + " with the inputted password exists in this game.");
 			}
@@ -555,8 +555,6 @@ public class TankTactics extends JFrame
 	//Prompts the user to input the information about the new game
 	private void newGame()
 	{
-		Scanner reader = new Scanner(System.in);
-		
 		System.out.print("Enter the width of the field ");
 		int xField = reader.nextInt();
 		System.out.print("Enter the height of the field ");
@@ -576,12 +574,31 @@ public class TankTactics extends JFrame
 		for(int i = 0; i < players.length; i++)
 		{
 			reader.nextLine();
-			System.out.print("Enter the name of the player ");
+			System.out.print("Enter the name of the number " + (i+1) +" player ");
 			String name = reader.nextLine();
-			System.out.print("Enter the password of the player ");
+			System.out.print("Enter the password of that player ");
 			String password = reader.nextLine();
-			System.out.print("Enter the type of the player (the types are: " + Tank.AOE + ", " + Tank.BALANCED + ", " + Tank.DOT + ", " + Tank.HEAVY + ", and " + Tank.LIGHT +"). ");
-			String type = reader.next();
+			boolean keepAsking = true;
+			String type = "";
+			while (keepAsking)
+			{
+				System.out.print("Enter the type of that player (the types are: " + Tank.AOE + ", " + Tank.BALANCED + ", " + Tank.DOT + ", " + Tank.HEAVY + ", and " + Tank.LIGHT +") ");
+				type = reader.next();
+				if (type.equalsIgnoreCase(Tank.AOE))
+					keepAsking = false;
+				else if (type.equalsIgnoreCase(Tank.BALANCED))
+					keepAsking = false;
+				else if (type.equalsIgnoreCase(Tank.DOT))
+					keepAsking = false;
+				else if (type.equalsIgnoreCase(Tank.HEAVY))
+					keepAsking = false;
+				else if (type.equalsIgnoreCase(Tank.LIGHT))
+					keepAsking = false;
+				else
+				{
+					System.out.println("No tank type for " + type + ", please input a valid type.");
+				}
+			}
 			int x = (int)(Math.random() * xField); 
 			int y = (int)(Math.random() * yField);
 			int j = 0;
@@ -609,12 +626,6 @@ public class TankTactics extends JFrame
 				nextPlayer = new HeavyTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
 			else 	if (type.equalsIgnoreCase(Tank.LIGHT))
 				nextPlayer = new LightTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
-			else
-			{
-				i--;
-				System.out.println("No tank type for " + type);
-				System.exit(ERROR);
-			}
 			players[i] = nextPlayer;
 		}
 		alive = players;
