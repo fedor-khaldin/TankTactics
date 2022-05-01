@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import boosters.*;
 import tanks.*;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "resource"})
 public class TankTactics extends JFrame
 				implements ActionListener{
 	//Fields
@@ -204,7 +204,7 @@ public class TankTactics extends JFrame
 	    jury = new Tank [0];
 		for (int i = 0; i < fieldElements.length; i++)
 	      {
-	    	  for (int j = 0; j < fieldElements[i].length; i++)
+	    	  for (int j = 0; j < fieldElements[i].length; j++)
 	    	  {
 	    		  if (fieldElements[i][j] == null)
 	    		  {
@@ -246,12 +246,16 @@ public class TankTactics extends JFrame
 		        	if(answer.equalsIgnoreCase("yes"))
 		        	{
 		        		continueAsking = false;
-				        newLogin();
+						newLogin();
 		        	}
-		        	if(answer.equalsIgnoreCase("no"))
+		        	else if(answer.equalsIgnoreCase("no"))
 		        	{
 		        		continueAsking = false;
 		        		saveToFile = true;
+		        	}
+		        	else 
+		        	{
+		        		System.out.println("There isn't an uption for " + answer + ", please input a valid answer.");
 		        	}
 		        }
 		        
@@ -261,17 +265,22 @@ public class TankTactics extends JFrame
 		        	startingTime = System.currentTimeMillis();
 		        	Runnable saver = new Runnable() {
 		        		public void run() {
-							String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
+							String currentDir = "";
+							try {
+								currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
+							} catch (IOException e) {
+								System.exit(ABORT);
+							}
 							File file = new File (currentDir + "game save.txt");
-							PrintWriter fileOut;
+							PrintWriter fileOut = null;
 					        try
 					        {
 					          fileOut = new PrintWriter(new FileWriter(file));
 					        }
 					        catch (IOException ex)
 					        {
-					        	throw new IOException (
-					        			"Cannot access game save file.");
+					        	System.out.println("Cannot access game save file.");
+					        	System.exit(ERROR);
 					        }
 					        
 					        String save = startingTime + "\n" + cycleLength + "\n" + fieldElements.length + "\n" + fieldElements[0].length;
@@ -326,6 +335,7 @@ public class TankTactics extends JFrame
 					        fileOut.close();
 		        		}
 			        };
+			        saver.run();
 		        }
 			}
 		});
@@ -350,13 +360,14 @@ public class TankTactics extends JFrame
 	}
 	
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
-	public void newLogin() throws IOException
+	public void newLogin()
 	{
 		Scanner reader = new Scanner(System.in);
 		
 		boolean continueAsking = true;
 		do
 		{
+			reader.nextLine();
 			System.out.println("Enter the currect player's name ");
 			String name = reader.nextLine();
 			System.out.println("Enter the currect player's password ");
@@ -372,16 +383,13 @@ public class TankTactics extends JFrame
 			}
 			if(currentPlayer != null)
 			{
-	    		  throw new IOException(
-	    				  "No player named " + name + " with the inputted password exists in this game.");
+	    		  System.out.println("No player named " + name + " with the inputted password exists in this game.");
 			}
 			else
 			{
 				continueAsking = false;
 			}
 		} while (continueAsking);
-		
-		reader.close();
 	}
 	
 	//Called whenever the timer reaches zero, symbolizes a new cycle.
@@ -545,7 +553,7 @@ public class TankTactics extends JFrame
 	//Private methods
 	
 	//Prompts the user to input the information about the new game
-	private void newGame() throws IOException
+	private void newGame()
 	{
 		Scanner reader = new Scanner(System.in);
 		
@@ -567,12 +575,13 @@ public class TankTactics extends JFrame
 		players = new Tank[reader.nextInt()];
 		for(int i = 0; i < players.length; i++)
 		{
+			reader.nextLine();
 			System.out.print("Enter the name of the player ");
 			String name = reader.nextLine();
 			System.out.print("Enter the password of the player ");
 			String password = reader.nextLine();
-			System.out.print("Enter the type of the player (types are: " + Tank.AOE + ", " + Tank.BALANCED + ", " + Tank.DOT + ", " + Tank.HEAVY + ", and " + Tank.LIGHT +".");
-			String type = reader.nextLine();
+			System.out.print("Enter the type of the player (the types are: " + Tank.AOE + ", " + Tank.BALANCED + ", " + Tank.DOT + ", " + Tank.HEAVY + ", and " + Tank.LIGHT +"). ");
+			String type = reader.next();
 			int x = (int)(Math.random() * xField); 
 			int y = (int)(Math.random() * yField);
 			int j = 0;
@@ -603,8 +612,8 @@ public class TankTactics extends JFrame
 			else
 			{
 				i--;
-				throw new IOException(
-						"No tank type for " + type);
+				System.out.println("No tank type for " + type);
+				System.exit(ERROR);
 			}
 			players[i] = nextPlayer;
 		}
@@ -614,7 +623,5 @@ public class TankTactics extends JFrame
 		System.out.print("Enter the length of a cycle in secends ");
 		cycleLength = reader.nextInt();
 		startingTime = System.currentTimeMillis();
-		
-		reader.close();
 	}
 }
