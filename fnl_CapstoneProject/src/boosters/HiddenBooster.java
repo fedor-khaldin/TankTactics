@@ -8,7 +8,7 @@ import main.*;
 
 public class HiddenBooster extends Booster {
 	public HiddenBooster(int x, int y, int strength, JButton button, TankTactics tankTactics, Color color) {
-		super(x, y,strength, button, tankTactics, "Hidden\nBooster\n"+strength, color);
+		super(x, y,strength, button, tankTactics, "", color);
 	}
 
 	public String getType() {
