@@ -304,6 +304,7 @@ public abstract class Tank extends FieldElement {
 		System.out.println("7. Back");
 
 		java.util.Scanner input = new java.util.Scanner(System.in);
+		System.out.println("You have " + this.energy + " energy points");
 		System.out.print("Input the number of the upgrade you would like to purchase: ");
 		int upgradeChoice = input.nextInt();
 
