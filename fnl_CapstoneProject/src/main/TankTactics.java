@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import boosters.*;
 import tanks.*;
 
-@SuppressWarnings({"serial", "resource"})
+@SuppressWarnings({"serial", "resource", "unused"})
 public class TankTactics extends JFrame
 				implements ActionListener{
 	//Fields
@@ -61,71 +61,82 @@ public class TankTactics extends JFrame
 			Scanner fileIn = null;
 		    fileIn = new Scanner(file);
 		      
-	      startingTime = fileIn.nextLong();
-	      cycleLength = fileIn.nextInt();
-	      int xField = fileIn.nextInt();
-    	  int yField = fileIn.nextInt();
-    	  buttons = new JButton [xField] [yField];
-    	  fieldElements = new FieldElement [xField] [yField];
-	      
-    	  for (int i = 0; i < xField; i++)
-    	  {
-    		  for (int j = 0; j < yField; j++)
-    		  {
-    			  buttons [i] [j] = new JButton();
-    		  }
-    	  }
-    	  
-	      while (fileIn.hasNextInt())
-	      {
-	    	  int x = fileIn.nextInt();
-	    	  int y = fileIn.nextInt();
-	    	  fileIn.nextLine();
-	    	  String name = fileIn.nextLine();
-	    	  int power = fileIn.nextInt();
-	    	  int shootingRange = fileIn.nextInt();
-	    	  int movementRange = fileIn.nextInt();
-	    	  int life = fileIn.nextInt();
-	    	  int maxLife = fileIn.nextInt();
-	    	  int energy = fileIn.nextInt();
-	    	  int maxEnergy = fileIn.nextInt();
-	    	  int special = fileIn.nextInt();
-	    	  int votes = fileIn.nextInt();
-	    	  fileIn.nextLine();
-	    	  String password = fileIn.nextLine();
-	    	  String type = fileIn.nextLine();
-	    	  
-	    	  Tank nextPlayer = null;
-	    	  if (type.equalsIgnoreCase(Tank.AOE))
-	    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
-	    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
-	    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
-	    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
-	    	  {
-	    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
-	    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
-		    	  for (int i = 0; i < DOT.length; i++)
+		    if (file.exists() && fileIn.hasNext())
+		    {
+			      startingTime = fileIn.nextLong();
+			      cycleLength = fileIn.nextInt();
+			      int xField = fileIn.nextInt();
+		    	  int yField = fileIn.nextInt();
+		    	  buttons = new JButton [xField] [yField];
+		    	  fieldElements = new FieldElement [xField] [yField];
+			      
+		    	  for (int i = 0; i < xField; i++)
 		    	  {
-		    		  addedDOT[i] = DOT[i];
+		    		  for (int j = 0; j < yField; j++)
+		    		  {
+		    			  buttons [i] [j] = new JButton();
+		    		  }
 		    	  }
-		    	  addedDOT[players.length] = (DOT_Tank) nextPlayer;
-		    	  players = addedDOT;
-	    	  }
-    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
-	    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
-	    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
-	    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);	  
-	    	  
-	    	  Tank [] addedPlayers = new Tank [players.length + 1];
-	    	  for (int i = 0; i < players.length; i++)
-	    	  {
-	    		  addedPlayers[i] = players[i];
-	    	  }
-	    	  addedPlayers[players.length] = nextPlayer;
-	    	  players = addedPlayers;
-	    	  fieldElements[x][y] = nextPlayer;
-	      }
-	      fileIn.nextLine();
+		    	  
+			      while (fileIn.hasNextInt())
+			      {
+			    	  int x = fileIn.nextInt();
+			    	  int y = fileIn.nextInt();
+			    	  fileIn.nextLine();
+			    	  String name = fileIn.nextLine();
+			    	  int power = fileIn.nextInt();
+			    	  int shootingRange = fileIn.nextInt();
+			    	  int movementRange = fileIn.nextInt();
+			    	  int life = fileIn.nextInt();
+			    	  int maxLife = fileIn.nextInt();
+			    	  int energy = fileIn.nextInt();
+			    	  int maxEnergy = fileIn.nextInt();
+			    	  int special = fileIn.nextInt();
+			    	  int votes = fileIn.nextInt();
+			    	  fileIn.nextLine();
+			    	  String password = fileIn.nextLine();
+			    	  String type = fileIn.nextLine();
+			    	  
+			    	  Tank nextPlayer = null;
+			    	  if (type.equalsIgnoreCase(Tank.AOE))
+			    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
+			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
+			    	  {
+			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
+				    	  for (int i = 0; i < DOT.length; i++)
+				    	  {
+				    		  addedDOT[i] = DOT[i];
+				    	  }
+				    	  addedDOT[players.length] = (DOT_Tank) nextPlayer;
+				    	  players = addedDOT;
+			    	  }
+		    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
+			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
+			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);	  
+			    	  
+			    	  Tank [] addedPlayers = new Tank [players.length + 1];
+			    	  for (int i = 0; i < players.length; i++)
+			    	  {
+			    		  addedPlayers[i] = players[i];
+			    	  }
+			    	  addedPlayers[players.length] = nextPlayer;
+			    	  players = addedPlayers;
+			    	  fieldElements[x][y] = nextPlayer;
+			      }
+			      fileIn.nextLine();
+		    }
+		    else
+		    {
+		    	if(!file.exists())
+		    	{
+		    		File save = new File("game save.txt");
+		    	}
+		    	newGame();
+		    }
 	      
 	      while (fileIn.hasNextLine())
 	      {
@@ -224,7 +235,7 @@ public class TankTactics extends JFrame
 		        boolean continueAsking = true, saveToFile = false;
 		        while (continueAsking)
 		        {
-		        	System.out.print("Do you want to play again? (answer yes or no) ");
+		        	System.out.print("\nDo you want to play again? (answer yes or no) ");
 		        	String answer = reader.next();
 		        	if(answer.equalsIgnoreCase("yes"))
 		        	{
@@ -379,7 +390,6 @@ public class TankTactics extends JFrame
 	//Called whenever the timer reaches zero, symbolizes a new cycle.
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("cycle");
 		clock.stop();
 		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/4)
 		{//TODO
@@ -477,17 +487,23 @@ public class TankTactics extends JFrame
 		  	boosters = addedBoosters;
 		  	fieldElements[newX][newY] = newBooster;
 		}
-	  	  
-	  	for (int i = 0; i < alive.length; i++)
-	  	{
-	  		alive[i].gainEnergy(1);
-	  	}
-	  	
-	  	for(int i = 0; i < DOT.length; i++)
-	  	{
-	  		DOT[i].newCycle();
-	  	}
-	  	draw();
+		else
+		{
+			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
+			{
+			  	for (int i = 0; i < alive.length; i++)
+			  	{
+			  		alive[i].gainEnergy(1);
+			  	}
+			  	
+			  	for(int i = 0; i < DOT.length; i++)
+			  	{
+			  		DOT[i].newCycle();
+			  	}
+			}
+		}
+		
+	  	draw();  
 		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		startingTime += cycleLength*1000;
 		clock.start();
@@ -585,20 +601,21 @@ public class TankTactics extends JFrame
 		{
 			reader.nextLine();
 			String name = "";
-			boolean nameExists = false;
+			boolean nameExists;
 			do
 			{
+				nameExists = false;
 				System.out.print("Enter the name of the number " + (i+1) +" player ");
 				name = reader.nextLine();
-				for (int j = 0; j < players.length; j++)
+				for (int j = 0; players[j] != null; j++)
 				{
 					nameExists = nameExists || name.equals(players[j].getName());
 				}
 				if(nameExists)
 				{
-					System.out.println("There already a player named " + name + ", please input a new name.");
+					System.out.println("There already is a player named " + name + ", please input a new name.");
 				}
-			} while(!nameExists);
+			} while(nameExists);
 			System.out.print("Enter the password of that player ");
 			String password = reader.nextLine();
 			boolean keepAsking = true;
