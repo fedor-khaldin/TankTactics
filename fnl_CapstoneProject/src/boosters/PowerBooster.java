@@ -7,7 +7,7 @@ import main.*;
 
 public class PowerBooster extends Booster {
 	public PowerBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Power Booster "+strength, new Color(255, 85, 0));
+		super(x, y,strength, button, tankTactics, "Power\nBooster\n"+strength, new Color(255, 85, 0));
 	}
 	
 	public String getType() {
