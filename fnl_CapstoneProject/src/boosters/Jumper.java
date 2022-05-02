@@ -7,7 +7,7 @@ import main.*;
 
 public class Jumper extends Booster {
 	public Jumper(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Jumper "+strength, new Color(43, 0, 255));
+		super(x, y,strength, button, tankTactics, "Jumper\n"+strength, new Color(43, 0, 255));
 	}
 
 	public String getType() {

@@ -7,7 +7,7 @@ import main.*;
 
 public class MaxLifeBooster extends Booster {
 	public MaxLifeBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Max Life Booster "+strength, new Color(0, 255, 0));
+		super(x, y,strength, button, tankTactics, "Max\nLife\nBooster\n"+strength, new Color(0, 255, 0));
 	}
 
 	public String getType() {

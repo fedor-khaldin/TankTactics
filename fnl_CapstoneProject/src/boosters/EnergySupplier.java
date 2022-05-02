@@ -7,7 +7,7 @@ import main.*;
 
 public class EnergySupplier extends Booster {
 	public EnergySupplier(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Energy Supplier "+strength, new Color(255, 255, 224));
+		super(x, y,strength, button, tankTactics, "Energy\nSupplier\n "+strength, new Color(255, 255, 224));
 	}
 
 	public String getType() {
