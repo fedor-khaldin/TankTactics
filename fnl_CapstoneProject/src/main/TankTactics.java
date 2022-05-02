@@ -379,29 +379,16 @@ public class TankTactics extends JFrame
 	//Called whenever the timer reaches zero, symbolizes a new cycle.
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("cycle");
 		clock.stop();
-		if (boosters.length < fieldElements.length * fieldElements[0].length / 2)
-		{
+		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/4)
+		{//TODO
 			int newX = (int)(Math.random() * fieldElements.length);
 			int newY = (int)(Math.random() * fieldElements[0].length);
 			int i = 0;
 			while (i < boosters.length)
 			{
-				int j = 0;
-				while (j < alive.length)
-				{
-					if(alive[j].getX() == newX && alive[j].getY() == newY)
-					{
-						newX = (int)(Math.random() * fieldElements.length);
-						newY = (int)(Math.random() * fieldElements[0].length);
-						j = 0;
-					}
-					else
-					{
-						j++;
-					}
-				}
-				if (boosters[i].getX() == newX && boosters[i].getY() == newY)
+				if ((Math.abs(boosters[i].getX() - newX) <= 1 && Math.abs(boosters[i].getY() - newY) <= 1) && !(Math.abs(boosters[i].getX() - newX) <= 1 || Math.abs(boosters[i].getY() - newY) <= 1))
 				{
 					newX = (int)(Math.random() * fieldElements.length);
 					newY = (int)(Math.random() * fieldElements[0].length);
@@ -410,6 +397,22 @@ public class TankTactics extends JFrame
 				else
 				{
 					i++;
+					int j = 0;
+					while (j < alive.length)
+					{
+						if(alive[j].getX() == newX && alive[j].getY() == newY)
+						{
+							newX = (int)(Math.random() * fieldElements.length);
+							newY = (int)(Math.random() * fieldElements[0].length);
+							j = 0;
+							i = 0;
+							break;
+						}
+						else
+						{
+							j++;
+						}
+					}
 				}
 			}
 			
@@ -472,6 +475,7 @@ public class TankTactics extends JFrame
 		  	}
 		  	addedBoosters[boosters.length] = newBooster;
 		  	boosters = addedBoosters;
+		  	fieldElements[newX][newY] = newBooster;
 		}
 	  	  
 	  	for (int i = 0; i < alive.length; i++)

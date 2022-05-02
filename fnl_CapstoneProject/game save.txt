@@ -1,5 +1,5 @@
-1651461830288
-60
+1651467132440
+15
 5
 5
 0
@@ -24,58 +24,30 @@ Itay
 1
 3
 3
-3
+5
 5
 1
 0
 Volk
 AOE
 *
-0
-3
-3
-movement range
 2
 0
-3
-shoot
-1
-3
--1
-shoot
+-2
+max energy
+4
+4
+-3
+shooting range
 2
 1
 -4
 special
-0
-1
-1
-jumper
-1
-1
--2
-energy
+4
+3
+-4
+max energy
+3
 2
-3
 1
-special
-3
-4
-3
 shooting range
-4
-1
-2
-shooting range
-4
-0
--3
-power
-3
-1
-4
-movement range
-1
-4
-5
-shoot
