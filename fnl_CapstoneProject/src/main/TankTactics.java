@@ -41,13 +41,12 @@ public class TankTactics extends JFrame
 	private long startingTime;
 	private int cycleLength;
 	private Timer clock;
-	private Scanner reader;
+	private Scanner reader = new Scanner(System.in);
 	
 	//Constructor
 	public TankTactics ()
 	{
 		super ("Tank Tactics");
-		reader = new Scanner(System.in);
 		
 		File currentDirFile = new File(".");
 		String helper = currentDirFile.getAbsolutePath();
@@ -66,18 +65,12 @@ public class TankTactics extends JFrame
 		      }
 		      catch (IOException ex) {}
 		      
-		      StringBuffer buffer = new StringBuffer((int)file.length());
-		      while (fileIn.hasNextLine())
-		        buffer.append(fileIn.nextLine());
-		      String input = buffer.toString();
-		      Scanner reader = new Scanner(input);
-		      
-		      if (!input.isBlank())
+		      if (file.length() != 0)
 		      {
-			      startingTime = reader.nextLong();
-			      cycleLength = reader.nextInt();
-			      int xField = reader.nextInt();
-		    	  int yField = reader.nextInt();
+			      startingTime = fileIn.nextLong();
+			      cycleLength = fileIn.nextInt();
+			      int xField = fileIn.nextInt();
+		    	  int yField = fileIn.nextInt();
 		    	  buttons = new JButton [xField] [yField];
 		    	  fieldElements = new FieldElement [xField] [yField];
 			      
@@ -89,22 +82,24 @@ public class TankTactics extends JFrame
 		    		  }
 		    	  }
 		    	  
-			      while (!reader.nextLine().equals("****"))
+			      while (fileIn.hasNextInt())
 			      {
-			    	  int x = reader.nextInt();
-			    	  int y = reader.nextInt();
-			    	  String name = reader.nextLine();
-			    	  int power = reader.nextInt();
-			    	  int shootingRange = reader.nextInt();
-			    	  int movementRange = reader.nextInt();
-			    	  int life = reader.nextInt();
-			    	  int maxLife = reader.nextInt();
-			    	  int energy = reader.nextInt();
-			    	  int maxEnergy = reader.nextInt();
-			    	  int special = reader.nextInt();
-			    	  int votes = reader.nextInt();
-			    	  String password = reader.nextLine();
-			    	  String type = reader.next();
+			    	  int x = fileIn.nextInt();
+			    	  int y = fileIn.nextInt();
+			    	  fileIn.nextLine();
+			    	  String name = fileIn.nextLine();
+			    	  int power = fileIn.nextInt();
+			    	  int shootingRange = fileIn.nextInt();
+			    	  int movementRange = fileIn.nextInt();
+			    	  int life = fileIn.nextInt();
+			    	  int maxLife = fileIn.nextInt();
+			    	  int energy = fileIn.nextInt();
+			    	  int maxEnergy = fileIn.nextInt();
+			    	  int special = fileIn.nextInt();
+			    	  int votes = fileIn.nextInt();
+			    	  fileIn.nextLine();
+			    	  String password = fileIn.nextLine();
+			    	  String type = fileIn.nextLine();
 			    	  
 			    	  Tank nextPlayer = null;
 			    	  if (type.equalsIgnoreCase(Tank.AOE))
@@ -128,27 +123,26 @@ public class TankTactics extends JFrame
 			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
 			    	  else
 			    	  {
-			    		  throw new IOException(
-			    				  "No tank type for " + type);
-			    	  }
-			    	  
-			    	  
+			    		  System.out.println("No tank type for " + type);
+			    		  System.exit(ERROR);
+			    	  } 	  
 			    	  
 			    	  Tank [] addedPlayers = new Tank [players.length + 1];
-			    	  for (int i = 0; i < DOT.length; i++)
+			    	  for (int i = 0; i < players.length; i++)
 			    	  {
 			    		  addedPlayers[i] = players[i];
 			    	  }
 			    	  addedPlayers[players.length] = nextPlayer;
 			    	  players = addedPlayers;
 			      }
+			      fileIn.nextLine();
 			      
-			      while (reader.hasNextLine())
+			      while (fileIn.hasNextLine())
 			      {
-			    	  int x = reader.nextInt();
-			    	  int y = reader.nextInt();
-			    	  int strength = reader.nextInt();
-			    	  String type = reader.next();
+			    	  int x = fileIn.nextInt();
+			    	  int y = fileIn.nextInt();
+			    	  int strength = fileIn.nextInt();
+			    	  String type = fileIn.next();
 			    	  
 			    	  Booster nextBooster = null;
 			    	  if (type.equalsIgnoreCase(Booster.ENERGY))
@@ -198,7 +192,9 @@ public class TankTactics extends JFrame
 			      }
 		      }
 		      else
+		      {
 		    	  newGame();
+		      }
 		} catch (IOException e) {
 			newGame();
 		}
@@ -220,6 +216,7 @@ public class TankTactics extends JFrame
 	    		  }
 	    	  }
 	      }
+
 		newLogin();
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(fieldElements.length, fieldElements[0].length));
@@ -230,10 +227,13 @@ public class TankTactics extends JFrame
 				panel.add(buttons[j][i]);
 			}
 		}
-		Container c = getContentPane();
-		c.add(panel, BorderLayout.CENTER);
 		
 		setSize(fieldElements.length * 50, fieldElements[0].length * 50);
+		
+		Container c = getContentPane();
+		c.add(panel, BorderLayout.CENTER);
+		draw();
+		c.repaint();
 		
 		//Saves the data to the game save file when the window is closed, after asking the user if they want to log in again.
 		addWindowListener(new WindowAdapter() {
@@ -266,6 +266,7 @@ public class TankTactics extends JFrame
 		        	startingTime = System.currentTimeMillis();
 		        	Runnable saver = new Runnable() {
 		        		public void run() {
+		        			String helper = currentDirFile.getAbsolutePath();
 							String currentDir = "";
 							try {
 								currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
@@ -302,7 +303,7 @@ public class TankTactics extends JFrame
 					        		save +=  Tank.LIGHT;
 					        }
 					        
-					        save += "\n****";
+					        save += "\n*";
 					        for(int i = 0; i < boosters.length; i++)
 					        {
 					        	save += "\n" + boosters[i].getX() + "\n" + boosters[i].getY() + "\n" + boosters[i].getStrength() + "\n";
@@ -334,6 +335,7 @@ public class TankTactics extends JFrame
 					        
 					        fileOut.print(save);
 					        fileOut.close();
+					        System.exit(0);
 		        		}
 			        };
 			        saver.run();
@@ -341,7 +343,6 @@ public class TankTactics extends JFrame
 			}
 		});
 		
-		draw();
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
@@ -351,6 +352,7 @@ public class TankTactics extends JFrame
 	//Draws all the field elements
 	public void draw()
 	{
+		setVisible(false);
 		for (int i = 0; i < fieldElements[0].length; i++)
 		{
 			for (int j = 0; j < fieldElements.length; j++)
@@ -358,20 +360,21 @@ public class TankTactics extends JFrame
 				fieldElements[j][i].draw();
 			}
 		}
+		setVisible(true);
+		System.out.println("drew");
 	}
 	
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
 	public void newLogin()
 	{
 		boolean continueAsking = true;
-		reader.nextLine();
 		do
 		{
 			System.out.print("Enter the current player's name ");
 			String name = reader.nextLine();
 			System.out.print("Enter the current player's password ");
 			String password = reader.nextLine();
-			
+
 			currentPlayer = null;
 			for(int i = 0; i < players.length; i++)
 			{
@@ -394,12 +397,23 @@ public class TankTactics extends JFrame
 	//Called whenever the timer reaches zero, symbolizes a new cycle.
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("cycle");
 		clock.stop();
 		int newX = (int)(Math.random() * fieldElements.length);
 		int newY = (int)(Math.random() * fieldElements[0].length);
 		int i = 0;
 		while (i < boosters.length)
 		{
+			int j = 0;
+			while (j < alive.length)
+			{
+				if(alive[i].getX() == newX && alive[i].getY() == newY)
+				{
+					newX = (int)(Math.random() * fieldElements.length);
+					newY = (int)(Math.random() * fieldElements[0].length);
+					j = 0;
+				}
+			}
 			if (boosters[i].getX() == newX && boosters[i].getY() == newY)
 			{
 				newX = (int)(Math.random() * fieldElements.length);
@@ -633,5 +647,6 @@ public class TankTactics extends JFrame
 		System.out.print("Enter the length of a cycle in secends ");
 		cycleLength = reader.nextInt();
 		startingTime = System.currentTimeMillis();
+		reader.nextLine();
 	}
 }
