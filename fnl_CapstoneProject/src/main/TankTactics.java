@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 5/1/2022
+ * Date: 5/2/2022
  * Rev: 05
  * Notes: this class manages a TankTactics game
  */
@@ -392,7 +392,7 @@ public class TankTactics extends JFrame
 	public void actionPerformed(ActionEvent e) {
 		clock.stop();
 		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/2)
-		{//TODO
+		{
 			int newX = (int)(Math.random() * fieldElements.length);
 			int newY = (int)(Math.random() * fieldElements[0].length);
 			int i = 0;
