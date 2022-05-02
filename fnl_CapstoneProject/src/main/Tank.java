@@ -310,7 +310,7 @@ public abstract class Tank extends FieldElement {
 
 		System.out.print("Input the amount of the upgrade you would like to purchase: ");
 		int upgradeAmt = input.nextInt();
-		input.close();
+		
 
 		if (upgradeAmt > this.energy) {
 			System.out.println("You do not have enough energy to purchase this upgrade.");
