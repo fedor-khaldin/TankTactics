@@ -391,14 +391,16 @@ public class TankTactics extends JFrame
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		clock.stop();
-		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/4)
+		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/2)
 		{//TODO
 			int newX = (int)(Math.random() * fieldElements.length);
 			int newY = (int)(Math.random() * fieldElements[0].length);
 			int i = 0;
 			while (i < boosters.length)
 			{
-				if ((Math.abs(boosters[i].getX() - newX) <= 1 && Math.abs(boosters[i].getY() - newY) <= 1) && !(Math.abs(boosters[i].getX() - newX) <= 1 || Math.abs(boosters[i].getY() - newY) <= 1))
+				int xDistance = Math.abs(newX - boosters[i].getX());
+				int yDistance = Math.abs(newY - boosters[i].getY());
+				if (xDistance + yDistance <= 1)
 				{
 					newX = (int)(Math.random() * fieldElements.length);
 					newY = (int)(Math.random() * fieldElements[0].length);
@@ -667,6 +669,8 @@ public class TankTactics extends JFrame
 			else 	if (type.equalsIgnoreCase(Tank.LIGHT))
 				nextPlayer = new LightTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
 			players[i] = nextPlayer;
+			
+			fieldElements[x][y] = nextPlayer;
 		}
 		alive = players;
 		jury = new Tank[0];
