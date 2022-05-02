@@ -592,7 +592,7 @@ public class TankTactics extends JFrame
 				name = reader.nextLine();
 				for (int j = 0; j < players.length; j++)
 				{
-					nameExists = nameExists || name.equals(players[i].getName());
+					nameExists = nameExists || name.equals(players[j].getName());
 				}
 				if(nameExists)
 				{
