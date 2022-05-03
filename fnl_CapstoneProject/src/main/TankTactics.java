@@ -150,20 +150,22 @@ public class TankTactics extends JFrame
 				    	  addedJury[jury.length] = nextPlayer;
 				    	  jury = addedJury;
 			    	  }
+			    	  
+			    	  nextPlayer.upgradeMaxEnergy(0);
+			    	  nextPlayer.gainEnergy(0);
 			      }
 			      fileIn.nextLine();
 			      setAlive(alive);
 			      
 			      for (int i = 0; i < alive.length; i++)
 			      {
-			    	  alive[i].upgradeMaxEnergy(0);
 			    	  alive[i].upgradeMaxLife(0);
 			    	  alive[i].upgradeMovementRange(0);
 			    	  alive[i].upgradePower(0);
 			    	  alive[i].upgradeShootingRange(0);
 			    	  alive[i].upgradeSpecial(0);
 			    	  alive[i].heal(0);
-			    	  alive[i].gainEnergy(0);
+			    	  alive[i].gainVotes(0);
 			      }
 			      
 			      while (fileIn.hasNextLine())
@@ -527,14 +529,19 @@ public class TankTactics extends JFrame
 		  	addedBoosters[boosters.length] = newBooster;
 		  	boosters = addedBoosters;
 		  	fieldElements[newX][newY] = newBooster;
+		  	
+		  	for (int j = 0; j < players.length; j++)
+		  	{
+		  		players[j].gainEnergy(1);
+		  	}
 		}
 		else
 		{
 			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
 			{
-			  	for (int i = 0; i < alive.length; i++)
+			  	for (int i = 0; i < players.length; i++)
 			  	{
-			  		alive[i].gainEnergy(1);
+			  		players[i].gainEnergy(1);
 			  	}
 			  	
 			  	for(int i = 0; i < DOT.length; i++)
@@ -544,6 +551,12 @@ public class TankTactics extends JFrame
 			}
 		}
 		
+	  	
+	  	for (int i = 0; i < jury.length; i++)
+	  	{
+	  		jury[i].resetVotes();
+	  	}
+	  	
 	  	draw();  
 		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		startingTime += cycleLength*1000;
