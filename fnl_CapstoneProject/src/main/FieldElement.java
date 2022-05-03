@@ -1,3 +1,9 @@
+/*
+ * Written By: Wilson Wu
+ * Date:5/3/2022
+ * Rev: 01
+ * Notes: This represents a field element.
+ */
 package main;
 
 import java.awt.event.ActionEvent;
@@ -54,20 +60,28 @@ public class FieldElement implements ActionListener{
 				Tank currentPlayer = tankTactics.getCurrentPlayer();
 				int x = currentPlayer.getX();
 				int y = currentPlayer.getY();
+				int thisX= this.getX();
+				int thisY = this.getY();
+				
 				newField[x][y] = this;
-				newField[this.x][this.y] = currentPlayer;
+				newField[thisX][thisY] = currentPlayer;
+				
+				currentPlayer.x = thisX;
+				currentPlayer.y = thisY;
+				this.x = x;
+				this.y = y;
 				tankTactics.setFieldElements(newField);
 			
 				//replaces buttons
 				JButton[][] buttons= tankTactics.getButtons();
 				JButton button = buttons[x][y];
 				buttons[x][y] = this.button;
-				buttons[this.x][this.y] = button;
-			
-				this.setButton(buttons[this.x][this.y]);
+				buttons[thisX][thisY] = button;
+				this.setButton(buttons[thisX][thisY]);
 				tankTactics.setButtons(buttons);
-
+				
 				current.gainEnergy(-1);
+				tankTactics.draw();
 			}
 		}
 		
