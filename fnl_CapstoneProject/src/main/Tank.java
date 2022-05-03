@@ -41,6 +41,8 @@ package main;
 import java.awt.Color;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
 
 public abstract class Tank extends FieldElement {
 
@@ -81,6 +83,38 @@ public abstract class Tank extends FieldElement {
 		this.password = password;
 		this.game = game;
 
+		button.addMouseListener(new MouseInputAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent e) {
+
+				if (this.equals(game.getCurrentPlayer())) {
+					upgradeMenu();
+				} else {
+					// Hits Selected Player
+					if (SwingUtilities.isLeftMouseButton(e)) {
+						if (game.getCurrentPlayer().getEnergy() >= 1) {
+							game.getCurrentPlayer().hit(this);
+							this.heal(0);
+						}
+
+						// Transfers energy to selected player
+						if (SwingUtilities.isRightMouseButton(e)) {
+							if (game.getCurrentPlayer().getEnergy() >= 1) {
+								this.upgradeEnergy(1);
+								game.getCurrentPlayer().upgradeEnergy(-1);
+							}
+						}
+
+					} else {
+						// Votes for selected player
+						if (e.getActionCommand().equals("Left Click")) {
+							this.votes++;
+							game.getCurrentPlayer().upgradeEnergy(-1);
+						}
+					}
+				}
+			}
+		});
 	}
 
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
@@ -194,7 +228,8 @@ public abstract class Tank extends FieldElement {
 			this.energy = maxEnergy;
 		}
 
-		else this.atMax = false;
+		else
+			this.atMax = false;
 	}
 
 	// Abstract method that upgrades tank's special ability
