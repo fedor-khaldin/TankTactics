@@ -7,7 +7,7 @@ import main.*;
 
 public class Healer extends Booster {
 	public Healer(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Healer\n"+strength, new Color(255, 0, 0));
+		super(x, y,strength, button, tankTactics, "<html>Healer<br><html>"+strength, new Color(255, 0, 0));
 	}
 
 	public String getType() {
@@ -20,6 +20,7 @@ public class Healer extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.heal(strength);
+			tankTactics.draw();
 		}
 	}
 }

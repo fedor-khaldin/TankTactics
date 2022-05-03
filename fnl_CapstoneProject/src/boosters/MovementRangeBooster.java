@@ -7,7 +7,7 @@ import main.*;
 
 public class MovementRangeBooster extends Booster {
 	public MovementRangeBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Movement\nRange\nBooster\n"+strength, new Color(255, 154, 0));
+		super(x, y,strength, button, tankTactics, "<html>Movement<br>Range<br>Booster<br><html>"+strength, new Color(255, 154, 0));
 	}
 
 	public String getType() {
@@ -20,6 +20,7 @@ public class MovementRangeBooster extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.upgradeMovementRange(strength);
+			tankTactics.draw();
 		}
 	}
 }

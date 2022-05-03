@@ -7,7 +7,7 @@ import main.*;
 
 public class Jumper extends Booster {
 	public Jumper(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Jumper\n"+strength, new Color(43, 0, 255));
+		super(x, y,strength, button, tankTactics, "<html>Jumper<br><html>"+strength, new Color(43, 0, 255));
 	}
 
 	public String getType() {
@@ -20,6 +20,7 @@ public class Jumper extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.setOnJumper(true);
+			tankTactics.draw();
 		}
 	}
 }

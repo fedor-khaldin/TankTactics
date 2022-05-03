@@ -8,7 +8,7 @@ import main.*;
 
 public class UnknownBooster extends Booster {
 	public UnknownBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Unknown\n"+strength, new Color(167, 192, 218));
+		super(x, y,strength, button, tankTactics, "<html>Unknown<br><html>"+strength, new Color(167, 192, 218));
 	}
 
 	public String getType() {
@@ -51,6 +51,7 @@ public class UnknownBooster extends Booster {
 						current.upgradeShootingRange(strength);
 						break;
 			}
+			tankTactics.draw();
 		}
 	}
 }	

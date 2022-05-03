@@ -7,7 +7,7 @@ import main.*;
 
 public class PowerBooster extends Booster {
 	public PowerBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Power\nBooster\n"+strength, new Color(255, 85, 0));
+		super(x, y,strength, button, tankTactics, "<html>Power<br>Booster<br><html>"+strength, new Color(255, 85, 0));
 	}
 	
 	public String getType() {
@@ -20,6 +20,7 @@ public class PowerBooster extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.upgradePower(strength);
+			tankTactics.draw();
 		}
 	}
 }

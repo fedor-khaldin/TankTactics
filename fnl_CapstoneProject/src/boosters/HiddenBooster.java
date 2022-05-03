@@ -51,6 +51,7 @@ public class HiddenBooster extends Booster {
 						current.upgradeShootingRange(strength);
 						break;
 			}
+			tankTactics.draw();
 		}
 	}
 }

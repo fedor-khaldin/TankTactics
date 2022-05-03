@@ -7,7 +7,7 @@ import main.*;
 
 public class SpecialBooster extends Booster {
 	public SpecialBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y, strength, button, tankTactics, "Special\nBooster\n"+strength, new Color(0, 128, 255));
+		super(x, y, strength, button, tankTactics, "<html>Special<br>Booster<br><html>"+strength, new Color(0, 128, 255));
 	}
 
 	public String getType() {
@@ -20,6 +20,7 @@ public class SpecialBooster extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.upgradeSpecial(strength);
+			tankTactics.draw();
 		}
 	}
 }
