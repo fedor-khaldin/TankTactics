@@ -7,7 +7,7 @@ import main.*;
 
 public class MaxEnergyBooster extends Booster {
 	public MaxEnergyBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "Max\nEnergy\nBooster\n"+strength, new Color(145, 255, 0));
+		super(x, y,strength, button, tankTactics, "<html>Max<br>Energy<br>Booster<br><html>"+strength, new Color(145, 255, 0));
 	}
 
 	public String getType() {
@@ -20,6 +20,7 @@ public class MaxEnergyBooster extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.upgradeMaxEnergy(strength);
+			tankTactics.draw();
 		}
 	}
 }
