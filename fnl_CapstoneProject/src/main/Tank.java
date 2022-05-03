@@ -36,7 +36,6 @@ Notes: The tank class is responsible for handling all of the tank specific logic
                                              """---'""""""
 */
 
-
 package main;
 
 import java.awt.Color;
@@ -64,12 +63,13 @@ public abstract class Tank extends FieldElement {
 	private String password;
 	private TankTactics game;
 	private Boolean onJumper;
+	private Boolean atMax;
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
 			int energy, int maxEnergy, int votes, String password, JButton button, TankTactics game) {
 
-		super(x, y, button, game, new Color(0,0,0), name);
+		super(x, y, button, game, new Color(0, 0, 0), name);
 		this.power = power;
 		this.shootingRange = shootingRange;
 		this.movementRange = movementRange;
@@ -90,23 +90,33 @@ public abstract class Tank extends FieldElement {
 			if (this.equals(game.getCurrentPlayer())) {
 				upgradeMenu();
 			} else {
-
+				// Hits Selected Player
 				if (e.getActionCommand().equals("Left Click")) {
-					game.getCurrentPlayer().hit(this);
-					this.heal(0);
-				}
+					if (game.getCurrentPlayer().getEnergy() >= 1) {
+						game.getCurrentPlayer().hit(this);
+						this.heal(0);
+					}
 
-				if (e.getActionCommand().equals("Right Click")) {
-					this.heal(1);
+					// Transfers energy to selected player
+					if (e.getActionCommand().equals("Right Click")) {
+						if (game.getCurrentPlayer().getEnergy() >= 1) {
+							this.upgradeEnergy(1);
+							game.getCurrentPlayer().upgradeEnergy(-1);
+						}
+					}
+
+				} else {
+					// Votes for selected player
+					if (e.getActionCommand().equals("Left Click")) {
+						this.votes++;
+						game.getCurrentPlayer().upgradeEnergy(-1);
+					}
 				}
-			}
-		} else {
-			if (e.getActionCommand().equals("Left Click")) {
-				this.votes++;
 			}
 		}
 
 	}
+
 	// Custom draw method that draws super field element and sets custom tooltip
 	@Override
 	public void draw() {
@@ -114,11 +124,10 @@ public abstract class Tank extends FieldElement {
 		game.getButtons()[x][y].setToolTipText(toToolTipText());
 
 	}
-	
+
 	// Custom toToolTipText method that returns a string of the tank's stats
 	public String toToolTipText() {
 		String toolTipText = "";
-
 
 		toolTipText += "<html>";
 		toolTipText += "<b> Name: " + name + "</b><br>";
@@ -128,7 +137,6 @@ public abstract class Tank extends FieldElement {
 		toolTipText += "Life: " + life + "/" + maxLife + "<br>";
 		toolTipText += "Energy: " + energy + "/" + maxEnergy + "<br>";
 		toolTipText += "Votes: " + votes + "<br>";
-		
 
 		toolTipText += getSpecialText();
 		toolTipText += "</html>";
@@ -137,13 +145,13 @@ public abstract class Tank extends FieldElement {
 
 	// Tank Upgrades
 
-
 	// Upgrades Tank Power
 	public void upgradePower(int upgradeAmt) {
 		this.power += upgradeAmt;
 
 		if (this.power < 0)
 			this.power = 1;
+
 	}
 
 	// Upgrades Tank Shooting Range
@@ -173,7 +181,22 @@ public abstract class Tank extends FieldElement {
 		if (this.maxEnergy < 0)
 			this.maxEnergy = 1;
 	}
-	
+
+	// Adjust Tank Energy
+	public void upgradeEnergy(int upgradeAmt) {
+		this.energy += upgradeAmt;
+
+		if (this.energy < 0)
+			this.energy = 1;
+
+		if (this.energy >= this.maxEnergy) {
+			this.atMax = true;
+			this.energy = maxEnergy;
+		}
+
+		else this.atMax = false;
+	}
+
 	// Abstract method that upgrades tank's special ability
 	public abstract void upgradeSpecial(int upgradeAmt);
 
@@ -233,7 +256,7 @@ public abstract class Tank extends FieldElement {
 	public Boolean getOnJumper() {
 		return onJumper;
 	}
-	
+
 	// Abstract method that returns tank's type
 	public abstract String getType();
 
@@ -284,6 +307,7 @@ public abstract class Tank extends FieldElement {
 	// Makes a tank take damage
 	public void hit(Tank target) {
 		target.life -= game.getCurrentPlayer().getPower();
+		this.upgradeEnergy(-1);
 
 	}
 
@@ -295,7 +319,8 @@ public abstract class Tank extends FieldElement {
 			return false;
 	}
 
-	// Outputs an upgrade menu giving the user the ability to adjust tank stats using energy
+	// Outputs an upgrade menu giving the user the ability to adjust tank stats
+	// using energy
 	public void upgradeMenu() {
 
 		System.out.println("\nUpgrade Menu");
@@ -314,7 +339,6 @@ public abstract class Tank extends FieldElement {
 
 		System.out.print("Input the amount of the upgrade you would like to purchase: ");
 		int upgradeAmt = input.nextInt();
-		
 
 		if (upgradeAmt > this.energy) {
 			System.out.println("You do not have enough energy to purchase this upgrade.");
