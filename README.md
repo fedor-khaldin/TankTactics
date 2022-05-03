@@ -2,10 +2,14 @@
 ### Team Name: TankTactics
 ### Team Members: Fedor Khaldin, Itay Volk, Wilson Wu
 ### Revision Date: 4/26/22
+### Discord Server: [Join Now](https://discord.gg/tKKjS9Puav "Discord server")
 
 # Project Info
 ##### Program Purpose:
 The purpose of this program is to create an enjoyable, but simple, multi-player turn based strategy game that are enjoyable for players with various understanding of the game.
+
+
+
 
 ##### Target User Profile: 
 Players of various ages looking for a simple and fun strategy game they can play with their friends.
