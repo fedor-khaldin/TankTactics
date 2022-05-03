@@ -118,16 +118,20 @@ public abstract class Tank extends FieldElement {
 	// Custom toToolTipText method that returns a string of the tank's stats
 	public String toToolTipText() {
 		String toolTipText = "";
-		toolTipText += "Power: " + power + "\n";
-		toolTipText += "Shooting Range: " + shootingRange + "\n";
-		toolTipText += "Movement Range: " + movementRange + "\n";
-		toolTipText += "Life: " + life + "\n";
-		toolTipText += "Max Life: " + maxLife + "\n";
-		toolTipText += "Energy: " + energy + "\n";
-		toolTipText += "Max Energy: " + maxEnergy + "\n";
-		toolTipText += getSpecialText();
-		toolTipText += "Votes: " + votes + "\n";
 
+
+		toolTipText += "<html>";
+		toolTipText += "<b> Name: " + name + "</b><br>";
+		toolTipText += "Power: " + power + "<br>";
+		toolTipText += "Shooting Range: " + shootingRange + "<br>";
+		toolTipText += "Movement Range: " + movementRange + "<br>";
+		toolTipText += "Life: " + life + "/" + maxLife + "<br>";
+		toolTipText += "Energy: " + energy + "/" + maxEnergy + "<br>";
+		toolTipText += "Votes: " + votes + "<br>";
+		
+
+		toolTipText += getSpecialText();
+		toolTipText += "</html>";
 		return toolTipText;
 	}
 

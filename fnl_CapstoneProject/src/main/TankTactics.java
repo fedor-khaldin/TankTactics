@@ -588,7 +588,7 @@ public class TankTactics extends JFrame
 			boolean nameExists = false;
 			do
 			{
-				System.out.print("Enter the name of the number " + (i+1) +" player ");
+				System.out.print("Enter the name of the number " + (i+1) +" player "); 
 				name = reader.nextLine();
 				for (int j = 0; j < players.length; j++)
 				{
