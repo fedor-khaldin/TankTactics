@@ -66,6 +66,7 @@ public abstract class Tank extends FieldElement {
 	private TankTactics game;
 	private Boolean onJumper;
 	private Boolean atMax;
+	private Tank thisTank;
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -82,6 +83,7 @@ public abstract class Tank extends FieldElement {
 		this.votes = votes;
 		this.password = password;
 		this.game = game;
+		this.thisTank = this;
 
 		button.addMouseListener(new MouseInputAdapter() {
 			@Override
@@ -93,22 +95,22 @@ public abstract class Tank extends FieldElement {
 					// Hits Selected Player
 					if (SwingUtilities.isLeftMouseButton(e)) {
 						if (game.getCurrentPlayer().getEnergy() >= 1) {
-							game.getCurrentPlayer().hit(this);
-							this.heal(0);
+							game.getCurrentPlayer().hit(thisTank);
+							thisTank.heal(0);
 						}
 
 						// Transfers energy to selected player
 						if (SwingUtilities.isRightMouseButton(e)) {
 							if (game.getCurrentPlayer().getEnergy() >= 1) {
-								this.upgradeEnergy(1);
+								thisTank.upgradeEnergy(1);
 								game.getCurrentPlayer().upgradeEnergy(-1);
 							}
 						}
 
 					} else {
 						// Votes for selected player
-						if (e.getActionCommand().equals("Left Click")) {
-							this.votes++;
+						if (SwingUtilities.isRightMouseButton(e)) {
+							thisTank.votes++;
 							game.getCurrentPlayer().upgradeEnergy(-1);
 						}
 					}
