@@ -8,7 +8,7 @@
 The purpose of this program is to create an enjoyable, but simple, multi-player turn based strategy game that are enjoyable for players with various understanding of the game.
 
 ##### Discord Server 
-<img src="https://discordapp.com/api/guilds/959594619195228170/widget.png?style=banner2" alt="Discord Banner 2"/>
+![Discord Banner 2](https://discordapp.com/api/guilds/959594619195228170/widget.png?style=banner2)
 
 ##### Target User Profile: 
 Players of various ages looking for a simple and fun strategy game they can play with their friends.
