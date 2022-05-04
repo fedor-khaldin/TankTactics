@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 4/29/2022
+ * Date: 5/4/2022
  * Rev: 01
  * Notes: this class repreasents a DOT tank
  */
@@ -14,8 +14,8 @@ public class DOT_Tank extends Tank {
 	
 	//Fields
 	private int damageOverTime;
-	private Tank [] targets;
-	private int [] times;
+	private Tank [] targets = new Tank[0];
+	private int [] times = new int[0];
 
 	//Constructor
 	public DOT_Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
