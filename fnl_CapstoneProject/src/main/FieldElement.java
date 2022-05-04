@@ -90,6 +90,7 @@ public class FieldElement implements ActionListener{
 	public void draw() {
 		button.setText(name);
 		button.setBackground(color);
+		button.setOpaque(true);
 	}
 
 }
