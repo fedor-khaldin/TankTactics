@@ -56,8 +56,10 @@ public class TankTactics extends JFrame
 		boosters = new Booster [0];
 		DOT = new DOT_Tank [0];
 		try {//Reads the game save file and sets up the game.
-			System.out.print("Enter the directory of the save file ");
+			System.out.print("Enter the full location or name of the save file (enter \"nothing\" to create a new game) ");
 			String dir = reader.nextLine();
+			if (!dir.endsWith(".txt"))
+				dir += ".txt";
 			File file = new File (dir);
 			Scanner fileIn = null;
 		    fileIn = new Scanner(file);
@@ -111,7 +113,7 @@ public class TankTactics extends JFrame
 				    	  {
 				    		  addedDOT[i] = DOT[i];
 				    	  }
-				    	  addedDOT[players.length] = (DOT_Tank) nextPlayer;
+				    	  addedDOT[DOT.length] = (DOT_Tank) nextPlayer;
 				    	  players = addedDOT;
 			    	  }
 		    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
@@ -183,7 +185,7 @@ public class TankTactics extends JFrame
 			    	  else 	if (type.equalsIgnoreCase(Booster.HIDDEN))
 			    	  {
 			    		  Color tileColor;
-		    			  if (x + y % 2 == 0)
+		    			  if ((x+y) % 2 == 0)
 		    				  tileColor = new Color(69, 177, 72);
 		    			  else
 		    				  tileColor = new Color(82, 188, 82);
@@ -268,7 +270,6 @@ public class TankTactics extends JFrame
 		        boolean continueAsking = true, saveToFile = false;
 		        while (continueAsking)
 		        {
-		        	reader.nextLine();
 		        	System.out.print("\nDo you want to play again? (answer yes or no) ");
 		        	String answer = reader.nextLine();
 		        	if(answer.equalsIgnoreCase("yes"))
@@ -280,7 +281,7 @@ public class TankTactics extends JFrame
 		        	{
 				        while (continueAsking)
 				        {
-				        	System.out.print("\nDo you want to play again? (answer yes or no) ");
+				        	System.out.print("Do you want to save the game? (answer yes or no) ");
 				        	answer = reader.nextLine();
 				        	if(answer.equalsIgnoreCase("yes"))
 				        	{
@@ -318,20 +319,28 @@ public class TankTactics extends JFrame
 							}
 							else
 							{
+								System.out.println(new File(".").getAbsolutePath());
 								if (!dir.endsWith("\\"));
 									dir += "\\";
-								file = new File (dir + "game save.txt");
+								if (new File(".").getAbsolutePath().endsWith(dir + "."))
+								{
+									dir = "";
+								}
+								String name = reader.nextLine();
+								if (name.endsWith(".txt"))
+									name = name.substring(0, name.length() - 4);
+								file = new File (dir + name + ".txt");
 								int i = 1;
 								while (file.exists())
 								{
-									file = new File (dir + "/game save " + i + ".txt");
+									file = new File (dir + name + "("+i+")" + ".txt");
 								}
+								System.out.println(file.getName());
+								try {
+									file.createNewFile();
+								} catch (IOException e) {}
 							}
 							PrintWriter fileOut = null;
-					    	if(!file.exists())
-					    	{
-					    		File save = new File("game save.txt");
-					    	}
 					        try
 					        {
 					          fileOut = new PrintWriter(new FileWriter(file));
@@ -509,7 +518,7 @@ public class TankTactics extends JFrame
 					break;
 				case 2:
 					Color tileColor;
-					if (newX+newY % 2 == 0)
+					if ((newX+newY) % 2 == 0)
 						tileColor = new Color(69, 177, 72);
 					else
 						tileColor = new Color(82, 188, 82);
