@@ -339,10 +339,7 @@ public abstract class Tank extends FieldElement {
 
 	// Checks if inputted string matches password
 	public Boolean checkPassword(String name, String password) {
-		if (super.getName().equals(name) && this.password.equals(password)) {
-			return true;
-		} else
-			return false;
+		return super.getName().equals(name) && this.password.equals(password);
 	}
 
 	// Outputs an upgrade menu giving the user the ability to adjust tank stats
