@@ -56,7 +56,6 @@ public class TankTactics extends JFrame
 		boosters = new Booster [0];
 		DOT = new DOT_Tank [0];
 		try {//Reads the game save file and sets up the game.
-			Scanner reader = new Scanner(System.in);
 			System.out.print("Enter the directory of the save file ");
 			String dir = reader.nextLine();
 			File file = new File (dir);
@@ -269,6 +268,7 @@ public class TankTactics extends JFrame
 		        boolean continueAsking = true, saveToFile = false;
 		        while (continueAsking)
 		        {
+		        	reader.nextLine();
 		        	System.out.print("\nDo you want to play again? (answer yes or no) ");
 		        	String answer = reader.nextLine();
 		        	if(answer.equalsIgnoreCase("yes"))
