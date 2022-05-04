@@ -15,7 +15,7 @@ public class FieldElement implements ActionListener{
 	protected int x, y;
 	protected JButton button;
 	protected TankTactics tankTactics;
-	protected Color color;
+	private Color color;
 	protected String name;
 	public FieldElement(int x, int y, JButton button, TankTactics tankTactics, Color color, String name) {
 		this.x = x;
@@ -72,15 +72,17 @@ public class FieldElement implements ActionListener{
 				this.y = y;
 				tankTactics.setFieldElements(newField);
 			
-				//replaces buttons
+				
 				JButton[][] buttons = tankTactics.getButtons();
 				JButton button = buttons[x][y];
 				buttons[x][y] = this.button;
 				buttons[thisX][thisY] = button;
-				Color color = button.getBackground();
-				button.setBackground(this.button.getBackground());
-				this.button.setBackground(color);
+				
+//				Color color = button.getBackground();
+//				button.setBackground(this.button.getBackground());
+//				this.button.setBackground(color);
 				this.setButton(buttons[thisX][thisY]);
+				
 				tankTactics.setButtons(buttons);
 				
 				current.gainEnergy(-1);
