@@ -73,10 +73,13 @@ public class FieldElement implements ActionListener{
 				tankTactics.setFieldElements(newField);
 			
 				//replaces buttons
-				JButton[][] buttons= tankTactics.getButtons();
+				JButton[][] buttons = tankTactics.getButtons();
 				JButton button = buttons[x][y];
 				buttons[x][y] = this.button;
 				buttons[thisX][thisY] = button;
+				Color color = button.getBackground();
+				button.setBackground(this.button.getBackground());
+				this.button.setBackground(color);
 				this.setButton(buttons[thisX][thisY]);
 				tankTactics.setButtons(buttons);
 				
