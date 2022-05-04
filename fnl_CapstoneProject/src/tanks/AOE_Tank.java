@@ -12,10 +12,10 @@ import main.*;
 
 public class AOE_Tank extends Tank {
 	
-	//field
+	//Fields
 	private int areaOfEffect;
 
-	//constructor
+	//Constructor
 	public AOE_Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
 			int energy, int maxEnergy, int areaOfEffect, int votes, String password, JButton button, TankTactics tankTactics) {
 		
@@ -23,8 +23,8 @@ public class AOE_Tank extends Tank {
 				this.areaOfEffect = areaOfEffect;
 	}
 
-	//methods
-	
+	//Methods
+	//Overriden to shoot multiple places
 	public void hit(Tank other)
 	{
 		super.hit(other);
@@ -39,6 +39,8 @@ public class AOE_Tank extends Tank {
 		}
 	}
 	
+	//Implemented methods
+	//Updrages areaOfEffect
 	public void upgradeSpecial (int upgradeAmt)
 	{
 		areaOfEffect += upgradeAmt;
@@ -46,16 +48,19 @@ public class AOE_Tank extends Tank {
 			areaOfEffect = 1;
 	}
 	
+	//Returns the type of this tank
 	public String getType()
 	{
 		return Tank.AOE;
 	}
 	
+	//Returns areaOfEffect
 	public int getSpecial()
 	{
 		return areaOfEffect;
 	}
 
+	//Returns a String representation of areaOfEffect
 	@Override
 	public String getSpecialText() {
 		return "AOE: " + areaOfEffect + "\n";

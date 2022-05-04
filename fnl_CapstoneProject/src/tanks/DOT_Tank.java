@@ -12,12 +12,12 @@ import main.*;
 
 public class DOT_Tank extends Tank {
 	
-	//field
+	//Fields
 	private int damageOverTime;
 	private Tank [] targets;
 	private int [] times;
 
-	//constructor
+	//Constructor
 	public DOT_Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
 			int energy, int maxEnergy, int damageOverTime, int votes, String password, JButton button, TankTactics tankTactics) {
 		
@@ -25,8 +25,8 @@ public class DOT_Tank extends Tank {
 				this.damageOverTime = damageOverTime;
 	}
 
-	//methods
-	
+	//Methods
+	//Overriden to implement damagaOverTime
 	public void hit(Tank other)
 	{
 		super.hit(other);
@@ -58,6 +58,8 @@ public class DOT_Tank extends Tank {
 		}
 	}
 	
+	//Implemented methods
+	//Upgrades damageOverTime
 	public void upgradeSpecial (int upgradeAmt)
 	{
 		damageOverTime += upgradeAmt;
@@ -65,16 +67,26 @@ public class DOT_Tank extends Tank {
 			damageOverTime = 1;
 	}
 	
+	//Returns the type of this tank
 	public String getType()
 	{
-		return Tank.AOE;
+		return Tank.DOT;
 	}
 	
+	//Returns damageOverTime
 	public int getSpecial()
 	{
 		return damageOverTime;
 	}
 	
+	//Returns a String representation of damageOverTime
+	@Override
+	public String getSpecialText() {
+		return "DOT: " + damageOverTime + "\n";
+	}
+	
+	//New methods
+	//Called whenever a cycle starts
 	public void newCycle()
 	{
 		for(int i = 0; i < targets.length; i++)
@@ -99,10 +111,5 @@ public class DOT_Tank extends Tank {
 				times = removedTimes;
 			}
 		}
-	}
-	
-	@Override
-	public String getSpecialText() {
-		return "DOT: " + damageOverTime + "\n";
 	}
 }

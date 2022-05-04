@@ -534,6 +534,10 @@ public class TankTactics extends JFrame
 		  	{
 		  		players[j].gainEnergy(1);
 		  	}
+		  	for(int j = 0; j < DOT.length; j++)
+		  	{
+		  		DOT[j].newCycle();
+		  	}
 		}
 		else
 		{

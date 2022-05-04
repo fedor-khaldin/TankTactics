@@ -12,18 +12,18 @@ import main.*;
 
 public class HeavyTank extends Tank {
 
-	//fields
+	//Fields
 	private int armor;
 	
-	//constructor
+	//Constructor
 	public HeavyTank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
 			int energy, int maxEnergy, int armor, int votes, String password, JButton button, TankTactics tankTactics) {
 				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, tankTactics);
 				this.armor = armor;
 	}
 	
-	//methods
-	
+	//Methods
+	//Overriden to implement armor
 	public void heal(int healAmt)
 	{
 		if (healAmt < 0)
@@ -32,6 +32,8 @@ public class HeavyTank extends Tank {
 		}
 	}
 	
+	//Implemented methods
+	//Upgrades armor
 	public void upgradeSpecial (int upgradeAmt)
 	{
 		armor += upgradeAmt;
@@ -39,16 +41,19 @@ public class HeavyTank extends Tank {
 			armor = 1;
 	}
 	
+	//Returns the type of this tank
 	public String getType()
 	{
 		return Tank.HEAVY;
 	}
 	
+	//Returns armor
 	public int getSpecial()
 	{
 		return armor;
 	}
 	
+	//Returns a String representation of armor
 	@Override
 	public String getSpecialText() {
 		return "Armor: " + armor + "\n";
