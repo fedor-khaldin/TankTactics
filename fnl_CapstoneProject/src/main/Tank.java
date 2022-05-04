@@ -94,6 +94,7 @@ public abstract class Tank extends FieldElement {
 				} 
 				
 				else {
+					
 					if (game.getCurrentPlayer().life > 0) {
 						
 						// Hits Selected Player
@@ -120,7 +121,7 @@ public abstract class Tank extends FieldElement {
 							System.out.println("You don't have enough energy.");
 						}
 
-						} 
+					} 
 						
 					else {
 						// Votes for selected player
@@ -129,8 +130,8 @@ public abstract class Tank extends FieldElement {
 							game.getCurrentPlayer().upgradeEnergy(-1);
 						}
 					}
-					}
 				}
+			}
 		});
 
 	}
@@ -445,28 +446,26 @@ public abstract class Tank extends FieldElement {
 }
 
 /*
- * 
- * .----------------. .----------------. .----------------. .----------------.
- * .-----------------. .----------------.
- * | .--------------. || .--------------. || .--------------. | |
- * .--------------. || .--------------. || .--------------. |
- * | | _________ | || | ____ ____ | || | _________ | | | | _________ | || | ____
- * _____ | || | ________ | |
- * | | | _ _ | | || | |_ || _| | || | |_ ___ | | | | | |_ ___ | | || ||_ \|_ _|
- * | || | |_ ___ `. | |
- * | | |_/ | | \_| | || | | |__| | | || | | |_ \_| | | | | | |_ \_| | || | | \ |
- * | | || | | | `. \ | |
- * | | | | | || | | __ | | || | | _| _ | | | | | _| _ | || | | |\ \| | | || | |
- * | | | | |
- * | | _| |_ | || | _| | | |_ | || | _| |___/ | | | | | _| |___/ | | || | _| |_\
- * |_ | || | _| |___.' / | |
- * | | |_____| | || | |____||____| | || | |_________| | | | | |_________| | ||
- * ||_____|\____| | || | |________.' | |
- * | | | || | | || | | | | | | || | | || | | |
- * | '--------------' || '--------------' || '--------------' | |
- * '--------------' || '--------------' || '--------------' |
- * '----------------' '----------------' '----------------' '----------------'
- * '----------------' '----------------'
- * 
- * 
+ 
+                                                                                                                             
+                                                                                                                     dddddddd
+         tttt         hhhhhhh                                                                                        d::::::d
+      ttt:::t         h:::::h                                                                                        d::::::d
+      t:::::t         h:::::h                                                                                        d::::::d
+      t:::::t         h:::::h                                                                                        d:::::d 
+ttttttt:::::ttttttt    h::::h hhhhh           eeeeeeeeeeee             eeeeeeeeeeee    nnnn  nnnnnnnn        ddddddddd:::::d 
+t:::::::::::::::::t    h::::hh:::::hhh      ee::::::::::::ee         ee::::::::::::ee  n:::nn::::::::nn    dd::::::::::::::d 
+t:::::::::::::::::t    h::::::::::::::hh   e::::::eeeee:::::ee      e::::::eeeee:::::een::::::::::::::nn  d::::::::::::::::d 
+tttttt:::::::tttttt    h:::::::hhh::::::h e::::::e     e:::::e     e::::::e     e:::::enn:::::::::::::::nd:::::::ddddd:::::d 
+      t:::::t          h::::::h   h::::::he:::::::eeeee::::::e     e:::::::eeeee::::::e  n:::::nnnn:::::nd::::::d    d:::::d 
+      t:::::t          h:::::h     h:::::he:::::::::::::::::e      e:::::::::::::::::e   n::::n    n::::nd:::::d     d:::::d 
+      t:::::t          h:::::h     h:::::he::::::eeeeeeeeeee       e::::::eeeeeeeeeee    n::::n    n::::nd:::::d     d:::::d 
+      t:::::t    tttttth:::::h     h:::::he:::::::e                e:::::::e             n::::n    n::::nd:::::d     d:::::d 
+      t::::::tttt:::::th:::::h     h:::::he::::::::e               e::::::::e            n::::n    n::::nd::::::ddddd::::::dd
+      tt::::::::::::::th:::::h     h:::::h e::::::::eeeeeeee        e::::::::eeeeeeee    n::::n    n::::n d:::::::::::::::::d
+        tt:::::::::::tth:::::h     h:::::h  ee:::::::::::::e         ee:::::::::::::e    n::::n    n::::n  d:::::::::ddd::::d
+          ttttttttttt  hhhhhhh     hhhhhhh    eeeeeeeeeeeeee           eeeeeeeeeeeeee    nnnnnn    nnnnnn   ddddddddd   ddddd
+                                                                                                                             
+                                                                                                                                                                                                                          
+                                                                                                                    
  */
