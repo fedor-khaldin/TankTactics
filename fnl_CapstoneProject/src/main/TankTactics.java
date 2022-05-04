@@ -190,7 +190,7 @@ public class TankTactics extends JFrame
 			    		  nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, tileColor);
 			    	  }
 			    	  else 	if (type.equalsIgnoreCase(Booster.JUMPER))
-			    		  nextBooster = new Jumper (x, y, strength, buttons[x][y], this);
+			    		  nextBooster = new Jumper (x, y, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
 			    		  nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.MAX_LIFE))
@@ -516,7 +516,7 @@ public class TankTactics extends JFrame
 					newBooster = new HiddenBooster(newX, newY, strength, buttons[newX][newY], this, tileColor);
 					break;
 				case 3:
-					newBooster = new Jumper(newX, newY, strength, buttons[newX][newY], this);
+					newBooster = new Jumper(newX, newY, buttons[newX][newY], this);
 					break;
 				case 4:
 					newBooster = new MaxEnergyBooster(newX, newY, strength, buttons[newX][newY], this);
