@@ -278,8 +278,24 @@ public class TankTactics extends JFrame
 		        	}
 		        	else if(answer.equalsIgnoreCase("no"))
 		        	{
-		        		continueAsking = false;
-		        		saveToFile = true;
+				        while (continueAsking)
+				        {
+				        	System.out.print("\nDo you want to play again? (answer yes or no) ");
+				        	answer = reader.nextLine();
+				        	if(answer.equalsIgnoreCase("yes"))
+				        	{
+				        		continueAsking = false;
+				        		saveToFile = true;
+				        	}
+				        	else if(answer.equalsIgnoreCase("no"))
+				        	{
+				        		continueAsking = false;
+				        	}
+				        	else 
+				        	{
+				        		System.out.println("There isn't an option for " + answer + ", please input a valid answer.");
+				        	}
+				        }
 		        	}
 		        	else 
 		        	{
