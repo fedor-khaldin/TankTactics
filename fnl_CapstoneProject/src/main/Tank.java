@@ -101,11 +101,18 @@ public abstract class Tank extends FieldElement {
 
 						// Transfers energy to selected player
 						if (SwingUtilities.isRightMouseButton(e)) {
-							if (game.getCurrentPlayer().getEnergy() >= 1) {
+							if (game.getCurrentPlayer().getEnergy() >= 1 && !thisTank.atMax) {
 								thisTank.upgradeEnergy(1);
 								game.getCurrentPlayer().upgradeEnergy(-1);
 							}
-						}
+
+							else if (thisTank.atMax) {
+								System.out.println("The tank " + thisTank.name + " is at max energy.");;
+							}
+
+							else {
+								System.out.println("You don't have enough energy.");
+							}
 
 					} else {
 						// Votes for selected player
@@ -122,37 +129,38 @@ public abstract class Tank extends FieldElement {
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
-			// Old Action Performed Guts:
+		// Old Action Performed Guts:
 		// if (game.getCurrentPlayer().getLife() != 0) {
-		// 	if (this.equals(game.getCurrentPlayer())) {
-		// 		upgradeMenu();
-		// 	} else {
-		// 		// Hits Selected Player
-		// 		if (e.getActionCommand().equals("Left Click")) {
-		// 			if (game.getCurrentPlayer().getEnergy() >= 1) {
-		// 				game.getCurrentPlayer().hit(this);
-		// 				this.heal(0);
-		// 			}
-
-		// 			// Transfers energy to selected player
-		// 			if (e.getActionCommand().equals("Right Click")) {
-		// 				if (game.getCurrentPlayer().getEnergy() >= 1) {
-		// 					this.upgradeEnergy(1);
-		// 					game.getCurrentPlayer().upgradeEnergy(-1);
-		// 				}
-		// 			}
-
-		// 		} else {
-		// 			// Votes for selected player
-		// 			if (e.getActionCommand().equals("Left Click")) {
-		// 				this.votes++;
-		// 				game.getCurrentPlayer().upgradeEnergy(-1);
-		// 			}
-		// 		}
-		// 	}
+		// if (this.equals(game.getCurrentPlayer())) {
+		// upgradeMenu();
+		// } else {
+		// // Hits Selected Player
+		// if (e.getActionCommand().equals("Left Click")) {
+		// if (game.getCurrentPlayer().getEnergy() >= 1) {
+		// game.getCurrentPlayer().hit(this);
+		// this.heal(0);
 		// }
 
-		System.out.println("Tank's Action Performed Method Was Called But All Control Was Shifted To Mouse Event On Constructor");
+		// // Transfers energy to selected player
+		// if (e.getActionCommand().equals("Right Click")) {
+		// if (game.getCurrentPlayer().getEnergy() >= 1) {
+		// this.upgradeEnergy(1);
+		// game.getCurrentPlayer().upgradeEnergy(-1);
+		// }
+		// }
+
+		// } else {
+		// // Votes for selected player
+		// if (e.getActionCommand().equals("Left Click")) {
+		// this.votes++;
+		// game.getCurrentPlayer().upgradeEnergy(-1);
+		// }
+		// }
+		// }
+		// }
+
+		System.out.println(
+				"Tank's Action Performed Method Was Called But All Control Was Shifted To Mouse Event On Constructor");
 
 	}
 
@@ -414,7 +422,6 @@ public abstract class Tank extends FieldElement {
 
 	}
 
-
 	// Handles Voting:
 
 	// Resets Vote
@@ -429,23 +436,34 @@ public abstract class Tank extends FieldElement {
 
 }
 
-/*                                                                                                                      
-                                                                                                                     dddddddd
-         tttt         hhhhhhh                                                                                        d::::::d
-      ttt:::t         h:::::h                                                                                        d::::::d
-      t:::::t         h:::::h                                                                                        d::::::d
-      t:::::t         h:::::h                                                                                        d:::::d 
-ttttttt:::::ttttttt    h::::h hhhhh           eeeeeeeeeeee             eeeeeeeeeeee    nnnn  nnnnnnnn        ddddddddd:::::d 
-t:::::::::::::::::t    h::::hh:::::hhh      ee::::::::::::ee         ee::::::::::::ee  n:::nn::::::::nn    dd::::::::::::::d 
-t:::::::::::::::::t    h::::::::::::::hh   e::::::eeeee:::::ee      e::::::eeeee:::::een::::::::::::::nn  d::::::::::::::::d 
-tttttt:::::::tttttt    h:::::::hhh::::::h e::::::e     e:::::e     e::::::e     e:::::enn:::::::::::::::nd:::::::ddddd:::::d 
-      t:::::t          h::::::h   h::::::he:::::::eeeee::::::e     e:::::::eeeee::::::e  n:::::nnnn:::::nd::::::d    d:::::d 
-      t:::::t          h:::::h     h:::::he:::::::::::::::::e      e:::::::::::::::::e   n::::n    n::::nd:::::d     d:::::d 
-      t:::::t          h:::::h     h:::::he::::::eeeeeeeeeee       e::::::eeeeeeeeeee    n::::n    n::::nd:::::d     d:::::d 
-      t:::::t    tttttth:::::h     h:::::he:::::::e                e:::::::e             n::::n    n::::nd:::::d     d:::::d 
-      t::::::tttt:::::th:::::h     h:::::he::::::::e               e::::::::e            n::::n    n::::nd::::::ddddd::::::dd
-      tt::::::::::::::th:::::h     h:::::h e::::::::eeeeeeee        e::::::::eeeeeeee    n::::n    n::::n d:::::::::::::::::d
-        tt:::::::::::tth:::::h     h:::::h  ee:::::::::::::e         ee:::::::::::::e    n::::n    n::::n  d:::::::::ddd::::d
-          ttttttttttt  hhhhhhh     hhhhhhh    eeeeeeeeeeeeee           eeeeeeeeeeeeee    nnnnnn    nnnnnn   ddddddddd   ddddd
-                                                                                                                                                                                                                                                
-*/
+/*
+ * dddddddd
+ * tttt hhhhhhh d::::::d
+ * ttt:::t h:::::h d::::::d
+ * t:::::t h:::::h d::::::d
+ * t:::::t h:::::h d:::::d
+ * ttttttt:::::ttttttt h::::h hhhhh eeeeeeeeeeee eeeeeeeeeeee nnnn nnnnnnnn
+ * ddddddddd:::::d
+ * t:::::::::::::::::t h::::hh:::::hhh ee::::::::::::ee ee::::::::::::ee
+ * n:::nn::::::::nn dd::::::::::::::d
+ * t:::::::::::::::::t h::::::::::::::hh e::::::eeeee:::::ee
+ * e::::::eeeee:::::een::::::::::::::nn d::::::::::::::::d
+ * tttttt:::::::tttttt h:::::::hhh::::::h e::::::e e:::::e e::::::e
+ * e:::::enn:::::::::::::::nd:::::::ddddd:::::d
+ * t:::::t h::::::h h::::::he:::::::eeeee::::::e e:::::::eeeee::::::e
+ * n:::::nnnn:::::nd::::::d d:::::d
+ * t:::::t h:::::h h:::::he:::::::::::::::::e e:::::::::::::::::e n::::n
+ * n::::nd:::::d d:::::d
+ * t:::::t h:::::h h:::::he::::::eeeeeeeeeee e::::::eeeeeeeeeee n::::n
+ * n::::nd:::::d d:::::d
+ * t:::::t tttttth:::::h h:::::he:::::::e e:::::::e n::::n n::::nd:::::d d:::::d
+ * t::::::tttt:::::th:::::h h:::::he::::::::e e::::::::e n::::n
+ * n::::nd::::::ddddd::::::dd
+ * tt::::::::::::::th:::::h h:::::h e::::::::eeeeeeee e::::::::eeeeeeee n::::n
+ * n::::n d:::::::::::::::::d
+ * tt:::::::::::tth:::::h h:::::h ee:::::::::::::e ee:::::::::::::e n::::n
+ * n::::n d:::::::::ddd::::d
+ * ttttttttttt hhhhhhh hhhhhhh eeeeeeeeeeeeee eeeeeeeeeeeeee nnnnnn nnnnnn
+ * ddddddddd ddddd
+ * 
+ */
