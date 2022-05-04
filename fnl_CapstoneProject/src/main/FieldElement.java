@@ -91,6 +91,7 @@ public class FieldElement implements ActionListener{
 		button.setText(name);
 		button.setBackground(color);
 		button.setOpaque(true);
+		button.setBorderPainted(false);
 	}
 
 }
