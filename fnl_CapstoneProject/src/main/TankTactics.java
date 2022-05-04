@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 5/3/2022
- * Rev: 05
+ * Date: 5/4/2022
+ * Rev: 06
  * Notes: this class manages a TankTactics game
  */
 
@@ -48,8 +48,6 @@ public class TankTactics extends JFrame
 	{
 		super ("Tank Tactics");
 		
-		File currentDirFile = new File(".");
-		String helper = currentDirFile.getAbsolutePath();
 		startingTime = 0;
 		cycleLength = 0;
 		players = new Tank [0];
@@ -58,8 +56,10 @@ public class TankTactics extends JFrame
 		boosters = new Booster [0];
 		DOT = new DOT_Tank [0];
 		try {//Reads the game save file and sets up the game.
-			String currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
-			File file = new File (currentDir + "game save.txt");
+			Scanner reader = new Scanner(System.in);
+			System.out.print("Enter the directory of the save file ");
+			String dir = reader.nextLine();
+			File file = new File (dir);
 			Scanner fileIn = null;
 		    fileIn = new Scanner(file);
 		      
@@ -221,10 +221,6 @@ public class TankTactics extends JFrame
 		    }
 		    else
 		    {
-		    	if(!file.exists())
-		    	{
-		    		File save = new File("game save.txt");
-		    	}
 		    	newGame();
 		    }
 		} catch (IOException e) {
@@ -297,14 +293,24 @@ public class TankTactics extends JFrame
 		        	startingTime = System.currentTimeMillis();
 		        	Runnable saver = new Runnable() {
 		        		public void run() {
-		        			String helper = currentDirFile.getAbsolutePath();
-							String currentDir = "";
-							try {
-								currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
-							} catch (IOException e) {
-								System.exit(ABORT);
+		        			System.out.print("Enter where you want to save (.txt or a folder) ");
+							String dir = reader.nextLine();
+							File file = null;
+							if(dir.indexOf(".txt") != -1)
+							{
+								file = new File (dir);
 							}
-							File file = new File (currentDir + "game save.txt");
+							else
+							{
+								if (!dir.endsWith("\\"));
+									dir += "\\";
+								file = new File (dir + "game save.txt");
+								int i = 1;
+								while (file.exists())
+								{
+									file = new File (dir + "/game save " + i + ".txt");
+								}
+							}
 							PrintWriter fileOut = null;
 					    	if(!file.exists())
 					    	{
@@ -556,9 +562,9 @@ public class TankTactics extends JFrame
 		}
 		
 	  	
-	  	for (int i = 0; i < jury.length; i++)
+	  	for (int i = 0; i < alive.length; i++)
 	  	{
-	  		jury[i].resetVotes();
+	  		alive[i].resetVotes();
 	  	}
 	  	
 	  	draw();  
@@ -759,7 +765,7 @@ public class TankTactics extends JFrame
 		alive = players;
 		jury = new Tank[0];
 		
-		System.out.print("Enter the length of a cycle in secends ");
+		System.out.print("Enter the length of a cycle in seconds ");
 		cycleLength = reader.nextInt();
 		startingTime = System.currentTimeMillis();
 		reader.nextLine();
