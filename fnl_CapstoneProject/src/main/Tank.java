@@ -107,35 +107,38 @@ public abstract class Tank extends FieldElement {
 							}
 
 							else if (thisTank.atMax) {
-								System.out.println("The tank " + thisTank.name + " is at max energy.");;
+								System.out.println("The tank " + thisTank.name + " is at max energy.");
+								;
 							}
 
 							else {
 								System.out.println("You don't have enough energy.");
 							}
 
-					} else {
-						// Votes for selected player
-						if (SwingUtilities.isRightMouseButton(e)) {
-							thisTank.votes++;
-							game.getCurrentPlayer().upgradeEnergy(-1);
+						} else {
+							// Votes for selected player
+							if (SwingUtilities.isRightMouseButton(e)) {
+								thisTank.votes++;
+								game.getCurrentPlayer().upgradeEnergy(-1);
+							}
 						}
 					}
 				}
 			}
-		}});
+		});
 	}
 
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
-		// Old Action Performed Guts:
+		// // Old Action Performed Guts:
 		// if (game.getCurrentPlayer().getLife() != 0) {
 		// if (this.equals(game.getCurrentPlayer())) {
 		// upgradeMenu();
 		// } else {
 		// // Hits Selected Player
 		// if (e.getActionCommand().equals("Left Click")) {
+		// 	System.out.println("left click");
 		// if (game.getCurrentPlayer().getEnergy() >= 1) {
 		// game.getCurrentPlayer().hit(this);
 		// this.heal(0);
@@ -143,6 +146,7 @@ public abstract class Tank extends FieldElement {
 
 		// // Transfers energy to selected player
 		// if (e.getActionCommand().equals("Right Click")) {
+		// 	System.out.println("right click");
 		// if (game.getCurrentPlayer().getEnergy() >= 1) {
 		// this.upgradeEnergy(1);
 		// game.getCurrentPlayer().upgradeEnergy(-1);
@@ -159,8 +163,6 @@ public abstract class Tank extends FieldElement {
 		// }
 		// }
 
-		System.out.println(
-				"Tank's Action Performed Method Was Called But All Control Was Shifted To Mouse Event On Constructor");
 
 	}
 
@@ -437,18 +439,28 @@ public abstract class Tank extends FieldElement {
 }
 
 /*
- 
- .----------------.  .----------------.  .----------------.   .----------------.  .-----------------. .----------------. 
-| .--------------. || .--------------. || .--------------. | | .--------------. || .--------------. || .--------------. |
-| |  _________   | || |  ____  ____  | || |  _________   | | | |  _________   | || | ____  _____  | || |  ________    | |
-| | |  _   _  |  | || | |_   ||   _| | || | |_   ___  |  | | | | |_   ___  |  | || ||_   \|_   _| | || | |_   ___ `.  | |
-| | |_/ | | \_|  | || |   | |__| |   | || |   | |_  \_|  | | | |   | |_  \_|  | || |  |   \ | |   | || |   | |   `. \ | |
-| |     | |      | || |   |  __  |   | || |   |  _|  _   | | | |   |  _|  _   | || |  | |\ \| |   | || |   | |    | | | |
-| |    _| |_     | || |  _| |  | |_  | || |  _| |___/ |  | | | |  _| |___/ |  | || | _| |_\   |_  | || |  _| |___.' / | |
-| |   |_____|    | || | |____||____| | || | |_________|  | | | | |_________|  | || ||_____|\____| | || | |________.'  | |
-| |              | || |              | || |              | | | |              | || |              | || |              | |
-| '--------------' || '--------------' || '--------------' | | '--------------' || '--------------' || '--------------' |
- '----------------'  '----------------'  '----------------'   '----------------'  '----------------'  '----------------' 
-
- 
+ * 
+ * .----------------. .----------------. .----------------. .----------------.
+ * .-----------------. .----------------.
+ * | .--------------. || .--------------. || .--------------. | |
+ * .--------------. || .--------------. || .--------------. |
+ * | | _________ | || | ____ ____ | || | _________ | | | | _________ | || | ____
+ * _____ | || | ________ | |
+ * | | | _ _ | | || | |_ || _| | || | |_ ___ | | | | | |_ ___ | | || ||_ \|_ _|
+ * | || | |_ ___ `. | |
+ * | | |_/ | | \_| | || | | |__| | | || | | |_ \_| | | | | | |_ \_| | || | | \ |
+ * | | || | | | `. \ | |
+ * | | | | | || | | __ | | || | | _| _ | | | | | _| _ | || | | |\ \| | | || | |
+ * | | | | |
+ * | | _| |_ | || | _| | | |_ | || | _| |___/ | | | | | _| |___/ | | || | _| |_\
+ * |_ | || | _| |___.' / | |
+ * | | |_____| | || | |____||____| | || | |_________| | | | | |_________| | ||
+ * ||_____|\____| | || | |________.' | |
+ * | | | || | | || | | | | | | || | | || | | |
+ * | '--------------' || '--------------' || '--------------' | |
+ * '--------------' || '--------------' || '--------------' |
+ * '----------------' '----------------' '----------------' '----------------'
+ * '----------------' '----------------'
+ * 
+ * 
  */
