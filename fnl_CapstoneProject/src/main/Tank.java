@@ -139,38 +139,7 @@ public abstract class Tank extends FieldElement {
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
-		// // Old Action Performed Guts:
-		// if (game.getCurrentPlayer().getLife() != 0) {
-		// if (this.equals(game.getCurrentPlayer())) {
-		// upgradeMenu();
-		// } else {
-		// // Hits Selected Player
-		// if (e.getActionCommand().equals("Left Click")) {
-		// System.out.println("left click");
-		// if (game.getCurrentPlayer().getEnergy() >= 1) {
-		// game.getCurrentPlayer().hit(this);
-		// this.heal(0);
-		// }
-
-		// // Transfers energy to selected player
-		// if (e.getActionCommand().equals("Right Click")) {
-		// System.out.println("right click");
-		// if (game.getCurrentPlayer().getEnergy() >= 1) {
-		// this.upgradeEnergy(1);
-		// game.getCurrentPlayer().upgradeEnergy(-1);
-		// }
-		// }
-
-		// } else {
-		// // Votes for selected player
-		// if (e.getActionCommand().equals("Left Click")) {
-		// this.votes++;
-		// game.getCurrentPlayer().upgradeEnergy(-1);
-		// }
-		// }
-		// }
-		// }
-
+		// This was moved to the constructor.
 	}
 
 	// Custom draw method that draws super field element and sets custom tooltip
@@ -336,7 +305,7 @@ public abstract class Tank extends FieldElement {
 
 			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
 
-			for (int i = 0, j = 0; i < game.getAlive().length; i++) {
+			for (int i = 0; i < game.getAlive().length; i++) {
 				if (copyTankArray[i] != this) {
 					copyTankArray[i] = game.getAlive()[i];
 				}
@@ -370,10 +339,7 @@ public abstract class Tank extends FieldElement {
 
 	// Checks if inputted string matches password
 	public Boolean checkPassword(String name, String password) {
-		if (super.getName().equals(name) && this.password.equals(password)) {
-			return true;
-		} else
-			return false;
+		return super.getName().equals(name) && this.password.equals(password);
 	}
 
 	// Outputs an upgrade menu giving the user the ability to adjust tank stats
