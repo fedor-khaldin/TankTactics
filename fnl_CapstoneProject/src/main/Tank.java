@@ -89,14 +89,19 @@ public abstract class Tank extends FieldElement {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent e) {
 
-				if (this.equals(game.getCurrentPlayer())) {
+				if (thisTank.equals(game.getCurrentPlayer())) {
 					upgradeMenu();
-				} else {
-					// Hits Selected Player
-					if (SwingUtilities.isLeftMouseButton(e)) {
-						if (game.getCurrentPlayer().getEnergy() >= 1) {
-							game.getCurrentPlayer().hit(thisTank);
-							thisTank.heal(0);
+				} 
+				
+				else {
+					if (game.getCurrentPlayer().life > 0) {
+						
+						// Hits Selected Player
+						if (SwingUtilities.isLeftMouseButton(e)) {
+							if (game.getCurrentPlayer().getEnergy() >= 1) {
+								game.getCurrentPlayer().hit(thisTank);
+								thisTank.heal(0);
+							}
 						}
 
 						// Transfers energy to selected player
@@ -104,28 +109,30 @@ public abstract class Tank extends FieldElement {
 							if (game.getCurrentPlayer().getEnergy() >= 1 && !thisTank.atMax) {
 								thisTank.upgradeEnergy(1);
 								game.getCurrentPlayer().upgradeEnergy(-1);
-							}
+								}
+						}
 
-							else if (thisTank.atMax) {
-								System.out.println("The tank " + thisTank.name + " is at max energy.");
-								;
-							}
+						else if (thisTank.atMax) {
+							System.out.println("The tank " + thisTank.name + " is at max energy.");
+						}
 
-							else {
-								System.out.println("You don't have enough energy.");
-							}
+						else {
+							System.out.println("You don't have enough energy.");
+						}
 
-						} else {
-							// Votes for selected player
-							if (SwingUtilities.isRightMouseButton(e)) {
-								thisTank.votes++;
-								game.getCurrentPlayer().upgradeEnergy(-1);
-							}
+						} 
+						
+					else {
+						// Votes for selected player
+						if (SwingUtilities.isRightMouseButton(e)) {
+							thisTank.votes++;
+							game.getCurrentPlayer().upgradeEnergy(-1);
 						}
 					}
+					}
 				}
-			}
 		});
+
 	}
 
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
@@ -138,7 +145,7 @@ public abstract class Tank extends FieldElement {
 		// } else {
 		// // Hits Selected Player
 		// if (e.getActionCommand().equals("Left Click")) {
-		// 	System.out.println("left click");
+		// System.out.println("left click");
 		// if (game.getCurrentPlayer().getEnergy() >= 1) {
 		// game.getCurrentPlayer().hit(this);
 		// this.heal(0);
@@ -146,7 +153,7 @@ public abstract class Tank extends FieldElement {
 
 		// // Transfers energy to selected player
 		// if (e.getActionCommand().equals("Right Click")) {
-		// 	System.out.println("right click");
+		// System.out.println("right click");
 		// if (game.getCurrentPlayer().getEnergy() >= 1) {
 		// this.upgradeEnergy(1);
 		// game.getCurrentPlayer().upgradeEnergy(-1);
@@ -162,7 +169,6 @@ public abstract class Tank extends FieldElement {
 		// }
 		// }
 		// }
-
 
 	}
 
