@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import main.*;
 
 public class Shooter extends Booster {
-	public Shooter(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "<html>Shooter<br><html>"+strength, new Color(0, 255, 255));
+	public Shooter(int x, int y, JButton button, TankTactics tankTactics) {
+		super(x, y,0, button, tankTactics, "<html>Shooter<br><html>", new Color(0, 255, 255));
 	}
 
 	public String getType() {
