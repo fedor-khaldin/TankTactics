@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 4/29/2022
- * Rev: 01
+ * Date: 5/5/2022
+ * Rev: 02
  * Notes: this class repreasents a light tank
  */
 
@@ -29,6 +29,10 @@ public class LightTank extends Tank {
 		if (rechargeAmt > 0)
 		{
 			super.gainEnergy(rechargeAmt * energyGain);
+		}
+		else
+		{
+			super.gainEnergy(rechargeAmt);
 		}
 	}
 	

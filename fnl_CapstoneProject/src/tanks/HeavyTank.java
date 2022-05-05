@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 4/29/2022
- * Rev: 01
+ * Date: 5/5/2022
+ * Rev: 02
  * Notes: this class repreasents a heavy tank
  */
 
@@ -29,6 +29,10 @@ public class HeavyTank extends Tank {
 		if (healAmt < 0)
 		{
 			super.heal(healAmt / armor);
+		}
+		else
+		{
+			super.heal(healAmt);
 		}
 	}
 	

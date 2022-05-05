@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 4/29/2022
- * Rev: 01
+ * Date: 5/5/2022
+ * Rev: 02
  * Notes: this class repreasents a balanced tank
  */
 
@@ -29,6 +29,10 @@ public class BalancedTank extends Tank {
 		if (healAmt > 0)
 		{
 			super.heal(healAmt * lifeGain);
+		}
+		else
+		{
+			super.heal(healAmt);
 		}
 	}
 	
