@@ -290,7 +290,7 @@ public class TankTactics extends JFrame
 				        	}
 				        	else if(answer.equalsIgnoreCase("no"))
 				        	{
-				        		continueAsking = false;
+						        System.exit(0);
 				        	}
 				        	else 
 				        	{
