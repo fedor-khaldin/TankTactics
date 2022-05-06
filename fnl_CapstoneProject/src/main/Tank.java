@@ -112,7 +112,7 @@ public abstract class Tank extends FieldElement {
 					this.upgradeEnergy(1);
 
 					try {
-						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/transfer-tank-energy.wav").getAbsoluteFile());
+						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/transfer-tank-energy.wav").getAbsoluteFile());
 						Clip clip = AudioSystem.getClip();
 						clip.open(audioInputStream);
 						clip.start();
@@ -321,7 +321,7 @@ public abstract class Tank extends FieldElement {
 		else if (this.life <= 0) {
 
 			try {
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/tank-killed.wav").getAbsoluteFile());
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/tank-killed.wav").getAbsoluteFile());
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
@@ -361,7 +361,7 @@ public abstract class Tank extends FieldElement {
 	public void hit(Tank target) {
 		
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/tank-fire.wav").getAbsoluteFile());
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/tank-fire.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
