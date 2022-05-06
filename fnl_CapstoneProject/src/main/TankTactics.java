@@ -202,7 +202,7 @@ public class TankTactics extends JFrame
 			    	  else 	if (type.equalsIgnoreCase(Booster.POWER))
 			    		  nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.SHOOT))
-			    		  nextBooster = new Shooter (x, y, strength, buttons[x][y], this);
+			    		  nextBooster = new Shooter (x, y, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
 			    		  nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this);
 			    	  else 	if (type.equalsIgnoreCase(Booster.SPECIAL))
@@ -540,7 +540,7 @@ public class TankTactics extends JFrame
 					newBooster = new PowerBooster(newX, newY, strength, buttons[newX][newY], this);
 					break;
 				case 8:
-					newBooster = new Shooter(newX, newY, strength, buttons[newX][newY], this);
+					newBooster = new Shooter(newX, newY, buttons[newX][newY], this);
 					break;
 				case 9:
 					newBooster = new ShootingRangeBooster(newX, newY, strength, buttons[newX][newY], this);
