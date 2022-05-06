@@ -17,8 +17,11 @@ public class HeavyTank extends Tank {
 	
 	//Constructor
 	public HeavyTank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int armor, int votes, String password, JButton button, TankTactics tankTactics) {
-				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, tankTactics);
+			int energy, int maxEnergy, int armor, int votes, String password,
+			JButton button, TankTactics tankTactics, boolean onJumper, boolean onShooter) {
+		
+				super(x, y, name, power, shootingRange, movementRange, life, maxLife,
+						energy, maxEnergy, votes, password, button, tankTactics, onJumper, onShooter);
 				this.armor = armor;
 	}
 	

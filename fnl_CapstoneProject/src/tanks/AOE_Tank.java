@@ -17,9 +17,11 @@ public class AOE_Tank extends Tank {
 
 	//Constructor
 	public AOE_Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int areaOfEffect, int votes, String password, JButton button, TankTactics tankTactics) {
+			int energy, int maxEnergy, int areaOfEffect, int votes, String password,
+			JButton button, TankTactics tankTactics, boolean onJumper, boolean onShooter) {
 		
-				super(x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, votes, password, button, tankTactics);
+				super(x, y, name, power, shootingRange, movementRange, life, maxLife,
+						energy, maxEnergy, votes, password, button, tankTactics, onJumper, onShooter);
 				this.areaOfEffect = areaOfEffect;
 	}
 

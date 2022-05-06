@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 5/5/2022
- * Rev: 07
+ * Date: 5/6/2022
+ * Rev: 08
  * Notes: this class manages a TankTactics game
  */
 
@@ -99,18 +99,26 @@ public class TankTactics extends JFrame
 			    	  int maxEnergy = fileIn.nextInt();
 			    	  int special = fileIn.nextInt();
 			    	  int votes = fileIn.nextInt();
+			    	  boolean onJumper = fileIn.nextBoolean();
+			    	  boolean onShooter = fileIn.nextBoolean();
 			    	  fileIn.nextLine();
 			    	  String password = fileIn.nextLine();
 			    	  String type = fileIn.nextLine();
 			    	  
 			    	  Tank nextPlayer = null;
 			    	  if (type.equalsIgnoreCase(Tank.AOE))
-			    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+			    				  				energy, maxEnergy, special, votes, password, buttons[x][y], this,
+		    				  					onJumper, onShooter);
 			    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
-			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life,
+			    				  				maxLife, energy, maxEnergy, special, votes, password, buttons[x][y],
+			    				  				this, onJumper, onShooter);
 			    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
 			    	  {
-			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+		    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
+		    				  					onJumper, onShooter);
 			    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
 				    	  for (int i = 0; i < DOT.length; i++)
 				    	  {
@@ -120,9 +128,13 @@ public class TankTactics extends JFrame
 				    	  players = addedDOT;
 			    	  }
 		    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
-			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);
+			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+		    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
+		    				  					onJumper, onShooter);
 			    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
-			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife, energy, maxEnergy, special, votes, password, buttons[x][y], this);	  
+			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+			  									energy, maxEnergy, special, votes, password, buttons[x][y], this,
+			  									onJumper, onShooter);
 			    	  
 			    	  Tank [] addedPlayers = new Tank [players.length + 1];
 			    	  for (int i = 0; i < players.length; i++)
@@ -361,7 +373,8 @@ public class TankTactics extends JFrame
 					        	save += "\n" + players[i].getX() + "\n" + players[i].getY() + "\n" + players[i].getName() + "\n" + players[i].getPower() + "\n" + players[i].getShootingRange()
 					        			+ "\n" + players[i].getMovementRange() + "\n" + players[i].getLife() + "\n" + players[i].getMaxLife()
 					        			+ "\n" + players[i].getEnergy() + "\n" + players[i].getMaxEnergy() + "\n" + players[i].getSpecial()
-					        			 + "\n" + players[i].getVotes() + "\n" + players[i].getPassword() + "\n" + players[i].getType();
+					        			 + "\n" + players[i].getVotes() + "\n" + players[i].getOnJumper() + "\n" + players[i].getOnShooter()
+					        			 + "\n" + players[i].getPassword() + "\n" + players[i].getType();
 					        }
 					        
 					        save += "\n*";
@@ -711,15 +724,9 @@ public class TankTactics extends JFrame
 			{
 				System.out.print("Enter the type of that player (the types are: " + Tank.AOE + ", " + Tank.BALANCED + ", " + Tank.DOT + ", " + Tank.HEAVY + ", and " + Tank.LIGHT +") ");
 				type = reader.next();
-				if (type.equalsIgnoreCase(Tank.AOE))
-					keepAsking = false;
-				else if (type.equalsIgnoreCase(Tank.BALANCED))
-					keepAsking = false;
-				else if (type.equalsIgnoreCase(Tank.DOT))
-					keepAsking = false;
-				else if (type.equalsIgnoreCase(Tank.HEAVY))
-					keepAsking = false;
-				else if (type.equalsIgnoreCase(Tank.LIGHT))
+				if (type.equalsIgnoreCase(Tank.AOE) || type.equalsIgnoreCase(Tank.BALANCED) || 
+						type.equalsIgnoreCase(Tank.DOT) || type.equalsIgnoreCase(Tank.HEAVY) || 
+						type.equalsIgnoreCase(Tank.LIGHT))
 					keepAsking = false;
 				else
 				{
@@ -744,15 +751,20 @@ public class TankTactics extends JFrame
 			}
 			Tank nextPlayer = null;
 			if (type.equalsIgnoreCase(Tank.AOE))
-				nextPlayer = new AOE_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
-			else 	if (type.equalsIgnoreCase(Tank.BALANCED))
-				nextPlayer = new BalancedTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
-			else 	if (type.equalsIgnoreCase(Tank.DOT))
-				nextPlayer = new DOT_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
-			else 	if (type.equalsIgnoreCase(Tank.HEAVY))
-				nextPlayer = new HeavyTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
-			else 	if (type.equalsIgnoreCase(Tank.LIGHT))
-				nextPlayer = new LightTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this);
+				nextPlayer = new AOE_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y],this,
+										false, false);
+			else if (type.equalsIgnoreCase(Tank.BALANCED))
+				nextPlayer = new BalancedTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
+											false, false);
+			else if (type.equalsIgnoreCase(Tank.DOT))
+				nextPlayer = new DOT_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
+										false, false);
+			else if (type.equalsIgnoreCase(Tank.HEAVY))
+				nextPlayer = new HeavyTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
+										false, false);
+			else if (type.equalsIgnoreCase(Tank.LIGHT))
+				nextPlayer = new LightTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
+											false, false);
 			players[i] = nextPlayer;
 			
 			fieldElements[x][y] = nextPlayer;
