@@ -44,6 +44,8 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
+import javafx.event.ActionEvent;
+
 public abstract class Tank extends FieldElement {
 
 	// Tank Type Constants
@@ -64,9 +66,10 @@ public abstract class Tank extends FieldElement {
 	private int votes;
 	private String password;
 	private TankTactics game;
-	private Boolean onJumper;
-	private Boolean atMax;
+	private boolean onJumper;
+	private boolean  atMax;
 	private Tank thisTank;
+	private boolean onShooter;
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -84,55 +87,9 @@ public abstract class Tank extends FieldElement {
 		this.password = password;
 		this.game = game;
 		this.thisTank = this;
-
-		button.addMouseListener(new MouseInputAdapter() {
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent e) {
-
-				if (thisTank.equals(game.getCurrentPlayer())) {
-					upgradeMenu();
-				} 
-				
-				else {
-					
-					if (game.getCurrentPlayer().life > 0) {
-						
-						// Hits Selected Player
-						if (SwingUtilities.isLeftMouseButton(e)) {
-							if (game.getCurrentPlayer().getEnergy() >= 1) {
-								game.getCurrentPlayer().hit(thisTank);
-								thisTank.heal(0);
-							}
-						}
-
-						// Transfers energy to selected player
-						if (SwingUtilities.isRightMouseButton(e)) {
-							if (game.getCurrentPlayer().getEnergy() >= 1 && !thisTank.atMax) {
-								thisTank.upgradeEnergy(1);
-								game.getCurrentPlayer().upgradeEnergy(-1);
-								}
-						}
-
-						else if (thisTank.atMax) {
-							System.out.println("The tank " + thisTank.name + " is at max energy.");
-						}
-
-						else {
-							System.out.println("You don't have enough energy.");
-						}
-
-					} 
-						
-					else {
-						// Votes for selected player
-						if (SwingUtilities.isRightMouseButton(e)) {
-							thisTank.votes++;
-							game.getCurrentPlayer().upgradeEnergy(-1);
-						}
-					}
-				}
-			}
-		});
+		this.onJumper = false;
+		this.atMax = false;
+		this.onShooter = false;
 
 	}
 
@@ -140,7 +97,42 @@ public abstract class Tank extends FieldElement {
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
 		// This was moved to the constructor.
-	}
+		
+		int mods = e.getModifiers();
+	
+		if (game.getCurrentPlayer().life > 0) {
+
+			
+
+
+			if (mods == 17) {}
+				if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
+					this.upgradeEnergy(1);
+					game.getCurrentPlayer().upgradeEnergy(-1);
+				}
+	
+				else if (this.atMax) {
+					System.out.println("The tank " + this.name + " is at max energy.");
+				}
+	
+				else {
+					System.out.println("You don't have enough energy.");
+				}
+			}
+
+			else {
+				if (game.getCurrentPlayer().getEnergy() >= 1) {
+					hit(this);
+					this.heal(0);
+					System.out.println("Current player is " + game.getCurrentPlayer().name + " and attacked player is " + this.name);
+					
+				}
+
+				else System.out.println("You don't have enough energy to hit.");
+			}
+		}
+
+	
 
 	// Custom draw method that draws super field element and sets custom tooltip
 	@Override
@@ -333,7 +325,7 @@ public abstract class Tank extends FieldElement {
 	// Makes a tank take damage
 	public void hit(Tank target) {
 		target.life -= game.getCurrentPlayer().getPower();
-		this.upgradeEnergy(-1);
+		System.out.println("hit occurs on " + target.name + " and does " + game.getCurrentPlayer().getPower() + " damage ");
 
 	}
 

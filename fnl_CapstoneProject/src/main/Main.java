@@ -19,3 +19,7 @@ public class Main {
 	}
 
 }
+
+// Shift is 17
+// Ctrl is 20
+// Option/Alt is 21
