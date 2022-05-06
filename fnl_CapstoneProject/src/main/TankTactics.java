@@ -617,61 +617,38 @@ public class TankTactics extends JFrame
 		return alive;
 	}
 	
-	//Returns juty
+	//Returns jury
 	public Tank[] getJury()
 	{
 		return jury;
 	}
 	
 	//Setters
-	//Sets fieldElements to the inputted value
+	//Sets fieldElements to the inputed value
 	public void setFieldElements (FieldElement[][] newField)
 	{
 		fieldElements = newField;
 	}
 	
-	//Sets buttons to the inputted value
+	//Sets buttons to the inputed value
 	public void setButtons (JButton[][] newButtons)
 	{
 		buttons = newButtons;
 	}
 	
-	//Sets players to the inputted value
+	//Sets players to the inputed value
 	public void setPlayers (Tank[] newPlayers)
 	{
 		players = newPlayers;
 	}
 	
-	//Sets alive to the inputted value
+	//Sets alive to the inputed value
 	public void setAlive (Tank[] newAlive)
 	{
 		alive = newAlive;
 		if (alive.length <= 1)
-		{//Ends the game and deletes the save file when there is only one player left alive.
+		{//Ends the game if there is only one player left alive.
 			System.out.println(alive[0].getName() + " won.");
-			File currentDirFile = new File(".");
-			String helper = currentDirFile.getAbsolutePath();
-			String currentDir = "";
-			try {
-				currentDir = helper.substring(0, helper.length() - currentDirFile.getCanonicalPath().length());
-			} catch (IOException e) {
-				System.exit(ABORT);
-			}
-			File file = new File (currentDir + "game save.txt");
-			PrintWriter fileOut = null;
-	        try
-	        {
-	          fileOut = new PrintWriter(new FileWriter(file));
-	          fileOut.print("");
-	          fileOut.close();
-	        }
-	        catch (IOException ex)
-	        {
-		    	if(!file.exists())
-		    	{
-		    		File save = new File("game save.txt");
-		    	}
-	        }
 	        System.exit(0);
 		}
 	}
