@@ -676,7 +676,7 @@ public class TankTactics extends JFrame
 		}
 	}
 	
-	//Sets jury to the inputted value
+	//Sets jury to the inputed value
 	public void setJury (Tank[] newJury)
 	{
 		jury = newJury;
