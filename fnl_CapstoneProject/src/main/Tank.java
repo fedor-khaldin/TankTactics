@@ -72,7 +72,7 @@ public abstract class Tank extends FieldElement {
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int votes, String password, JButton button, TankTactics game) {
+			int energy, int maxEnergy, int votes, String password, JButton button, TankTactics game, boolean onJumper, boolean onShooter) {
 
 		super(x, y, button, game, new Color(0, 0, 0), name);
 		this.power = power;
@@ -86,9 +86,10 @@ public abstract class Tank extends FieldElement {
 		this.password = password;
 		this.game = game;
 		this.thisTank = this;
-		this.onJumper = false;
+		this.onJumper = onJumper;
 		this.atMax = false;
-		this.onShooter = false;
+		this.onShooter = onShooter;
+		
 
 	}
 
