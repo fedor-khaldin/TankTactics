@@ -41,12 +41,15 @@ package main;
 import java.awt.Color;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
+
+import javafx.scene.image.Image;
 
 
 
@@ -74,7 +77,7 @@ public abstract class Tank extends FieldElement {
 	private boolean  atMax;
 	private Tank thisTank;
 	private boolean onShooter;
-	
+	private ImageIcon regularTankIcon = new ImageIcon("fnl_CapstoneProject/assets/icons/tank.png");
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -95,8 +98,8 @@ public abstract class Tank extends FieldElement {
 		this.onJumper = onJumper;
 		this.atMax = false;
 		this.onShooter = onShooter;
-		
-
+		// Commenting this line out untill I can figure out how to get the image to work the way I want it to.
+		// this.button.setIcon(regularTankIcon);
 	}
 
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
