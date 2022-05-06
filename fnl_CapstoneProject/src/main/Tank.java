@@ -39,7 +39,11 @@ Notes: The tank class is responsible for handling all of the tank specific logic
 package main;
 
 import java.awt.Color;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
@@ -70,7 +74,7 @@ public abstract class Tank extends FieldElement {
 	private boolean  atMax;
 	private Tank thisTank;
 	private boolean onShooter;
-	JFXPanel fxPanel = new JFXPanel();
+	
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -335,6 +339,17 @@ public abstract class Tank extends FieldElement {
 
 	// Makes a tank take damage
 	public void hit(Tank target) {
+		
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/tank-fire.wav").getAbsoluteFile());
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch(Exception ex) {
+			System.out.println("Error with playing sound.");
+			ex.printStackTrace();
+		}
+		
 		target.life -= game.getCurrentPlayer().getPower();
 
 		
