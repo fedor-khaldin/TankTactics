@@ -453,7 +453,7 @@ public class TankTactics extends JFrame
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		clock.stop();
-		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/3)
+		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/5)
 		{
 			int newX = (int)(Math.random() * fieldElements.length);
 			int newY = (int)(Math.random() * fieldElements[0].length);
@@ -462,7 +462,7 @@ public class TankTactics extends JFrame
 			{
 				int xDistance = Math.abs(newX - boosters[i].getX());
 				int yDistance = Math.abs(newY - boosters[i].getY());
-				if (xDistance + yDistance <= 1)
+				if (xDistance <= 2 || yDistance <= 2)
 				{
 					newX = (int)(Math.random() * fieldElements.length);
 					newY = (int)(Math.random() * fieldElements[0].length);
@@ -581,9 +581,9 @@ public class TankTactics extends JFrame
 	  		alive[i].resetVotes();
 	  	}
 	  	
-	  	draw();  
-		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
+	  	draw();
 		startingTime += cycleLength*1000;
+		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 	}
 	
