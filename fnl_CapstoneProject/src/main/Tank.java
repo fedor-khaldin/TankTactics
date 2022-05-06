@@ -44,7 +44,6 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
-import javafx.event.ActionEvent;
 
 public abstract class Tank extends FieldElement {
 
@@ -120,8 +119,6 @@ public abstract class Tank extends FieldElement {
 				if (game.getCurrentPlayer().getEnergy() >= 1) {
 					hit(this);
 					this.heal(0);
-					System.out.println("Current player is " + game.getCurrentPlayer().name + " and attacked player is " + this.name);
-					
 				}
 
 				else System.out.println("You don't have enough energy to hit.");
@@ -168,6 +165,8 @@ public abstract class Tank extends FieldElement {
 		if (this.power < 0)
 			this.power = 1;
 
+		
+
 	}
 
 	// Upgrades Tank Shooting Range
@@ -175,6 +174,8 @@ public abstract class Tank extends FieldElement {
 		this.shootingRange += upgradeAmt;
 		if (this.shootingRange < 0)
 			this.shootingRange = 1;
+		
+		
 	}
 
 	// Upgrades Tank Movement Range
@@ -182,6 +183,8 @@ public abstract class Tank extends FieldElement {
 		this.movementRange += upgradeAmt;
 		if (this.movementRange < 0)
 			this.movementRange = 1;
+	
+		
 	}
 
 	// Upgrades Tank Max Life
@@ -189,6 +192,8 @@ public abstract class Tank extends FieldElement {
 		this.maxLife += upgradeAmt;
 		if (this.maxLife < 0)
 			this.maxLife = 1;
+		
+		
 	}
 
 	// Upgrades Tank Max Energy
@@ -196,6 +201,8 @@ public abstract class Tank extends FieldElement {
 		this.maxEnergy += upgradeAmt;
 		if (this.maxEnergy < 0)
 			this.maxEnergy = 1;
+		
+		
 	}
 
 	// Adjust Tank Energy
@@ -212,6 +219,8 @@ public abstract class Tank extends FieldElement {
 
 		else
 			this.atMax = false;
+		
+		
 	}
 
 	// Abstract method that upgrades tank's special ability
@@ -297,7 +306,7 @@ public abstract class Tank extends FieldElement {
 			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
 
 			for (int i = 0; i < game.getAlive().length; i++) {
-				if (copyTankArray[i] != this) {
+				if (game.getAlive()[i]!= this) {
 					copyTankArray[i] = game.getAlive()[i];
 				}
 			}
