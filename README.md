@@ -1,7 +1,7 @@
 ## General Info
 ### Team Name: TankTactics
 ### Team Members: Fedor Khaldin, Itay Volk, Wilson Wu
-### Revision Date: 4/26/22
+### Revision Date: 5/6/22
 ### Discord Server: [Join Now](https://discord.gg/tKKjS9Puav "Discord server")
 
 # Project Info
@@ -61,6 +61,7 @@ Players of various ages looking for a simple and fun strategy game they can play
 ## Credit List:
 [Inspiration for Basic Game Design](https://www.gdcvault.com/play/1017744/The-Prototype-that-was-Banned#:~:text=Overview%3A,each%20other%20to%20this%20day "GDC Talk Describing Initial Prototype")
 
+[Sound Effects #1](https://mixkit.co/free-sound-effects/tanks/ "Free SFX Site")
 
 ## Setup Instructions
 1. Import all neccesarry source files.
