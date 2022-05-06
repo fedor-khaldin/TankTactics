@@ -110,6 +110,17 @@ public abstract class Tank extends FieldElement {
 			if (mods == 17) {
 				if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
 					this.upgradeEnergy(1);
+
+					try {
+						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/transfer-tank-energy.wav").getAbsoluteFile());
+						Clip clip = AudioSystem.getClip();
+						clip.open(audioInputStream);
+						clip.start();
+					} catch(Exception ex) {
+						System.out.println("Error with playing sound.");
+						ex.printStackTrace();
+					}
+
 					game.getCurrentPlayer().upgradeEnergy(-1);
 				}
 	
@@ -125,7 +136,6 @@ public abstract class Tank extends FieldElement {
 			else {
 				if (game.getCurrentPlayer().getEnergy() >= 1) {
 					hit(this);
-					this.heal(0);
 				}
 
 				else System.out.println("You don't have enough energy to hit.");
@@ -308,7 +318,17 @@ public abstract class Tank extends FieldElement {
 			this.life = this.maxLife;
 		}
 
-		else if (this.life < 0) {
+		else if (this.life <= 0) {
+
+			try {
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/tank-killed.wav").getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.start();
+			} catch(Exception ex) {
+				System.out.println("Error with playing sound.");
+				ex.printStackTrace();
+			}
 
 			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
 
@@ -341,7 +361,7 @@ public abstract class Tank extends FieldElement {
 	public void hit(Tank target) {
 		
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/tank-fire.wav").getAbsoluteFile());
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/tank-fire.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
@@ -351,7 +371,7 @@ public abstract class Tank extends FieldElement {
 		}
 		
 		target.life -= game.getCurrentPlayer().getPower();
-
+		this.heal(0);
 		
 	}
 
