@@ -20,7 +20,7 @@ public class MaxLifeBooster extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.upgradeMaxLife(strength);
-			tankTactics.draw();
 		}
+		tankTactics.draw();
 	}
 }

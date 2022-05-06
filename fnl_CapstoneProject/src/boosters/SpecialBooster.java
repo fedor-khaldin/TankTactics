@@ -20,7 +20,7 @@ public class SpecialBooster extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.upgradeSpecial(strength);
-			tankTactics.draw();
 		}
+		tankTactics.draw();
 	}
 }

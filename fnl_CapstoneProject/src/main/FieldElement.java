@@ -43,6 +43,7 @@ public class FieldElement implements ActionListener{
 		return this.tankTactics;
 	}
 	
+	//sets a new button for the field element
 	public void setButton(JButton button) {
 		this.button.removeActionListener(this);
 		button.addActionListener(this);
@@ -57,39 +58,47 @@ public class FieldElement implements ActionListener{
 			if(current.getEnergy()>0) {
 				//replaces current player with field element
 				FieldElement[][] newField = tankTactics.getFieldElements();
-				Tank currentPlayer = tankTactics.getCurrentPlayer();
-				int x = currentPlayer.getX();
-				int y = currentPlayer.getY();
+			//	Tank currentPlayer = tankTactics.getCurrentPlayer();
+				int x = current.getX();
+				int y = current.getY();
 				int thisX= this.getX();
 				int thisY = this.getY();
 				
 				newField[x][y] = this;
-				newField[thisX][thisY] = currentPlayer;
+				newField[thisX][thisY] = current;
 				
-				currentPlayer.x = thisX;
-				currentPlayer.y = thisY;
+				current.x = thisX;
+				current.y = thisY;
 				this.x = x;
 				this.y = y;
 				tankTactics.setFieldElements(newField);
 			
+				//replaces the buttons position
+				System.out.println("Before:");
+				System.out.println("Current X:"+current.button.getX()+"Current Y:"+current.button.getY());
+				System.out.println("This X:"+this.button.getX()+"This Y:"+this.button.getY());
 				
 				JButton[][] buttons = tankTactics.getButtons();
 				JButton button = buttons[x][y];
+				
 				buttons[x][y] = this.button;
 				buttons[thisX][thisY] = button;
 				
+				this.setButton(buttons[thisX][thisY]);
+				current.setButton(buttons[x][y]);
+				tankTactics.setButtons(buttons);
+				
+				System.out.println("After");
+				System.out.println("Current X:"+current.button.getX()+"Current Y:"+current.button.getY());
+				System.out.println("This X:"+this.button.getX()+"This Y:"+this.button.getY());
 //				Color color = button.getBackground();
 //				button.setBackground(this.button.getBackground());
 //				this.button.setBackground(color);
-				this.setButton(buttons[thisX][thisY]);
-				
-				tankTactics.setButtons(buttons);
 				
 				current.gainEnergy(-1);
-				tankTactics.draw();
 			}
 		}
-		
+		tankTactics.draw();
 	}
 
 	public void draw() {

@@ -51,8 +51,8 @@ public class UnknownBooster extends Booster {
 						current.upgradeShootingRange(strength);
 						break;
 			}
-			tankTactics.draw();
 		}
+		tankTactics.draw();
 	}
 }	
 

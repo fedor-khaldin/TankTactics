@@ -20,7 +20,7 @@ public class ShootingRangeBooster extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {		
 			current.upgradeShootingRange(strength);
-			tankTactics.draw();
 		}
+		tankTactics.draw();
 	}
 }

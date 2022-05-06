@@ -20,7 +20,7 @@ public class Shooter extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			
-			tankTactics.draw();
 		}
+		tankTactics.draw();
 	}
 }

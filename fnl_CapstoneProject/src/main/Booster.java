@@ -28,6 +28,7 @@ public abstract class Booster extends FieldElement {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
+		tankTactics.draw();
 	}
 	
 	public int getStrength() {
