@@ -45,6 +45,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 
+
 public abstract class Tank extends FieldElement {
 
 	// Tank Type Constants
@@ -69,6 +70,7 @@ public abstract class Tank extends FieldElement {
 	private boolean  atMax;
 	private Tank thisTank;
 	private boolean onShooter;
+	JFXPanel fxPanel = new JFXPanel();
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -334,8 +336,8 @@ public abstract class Tank extends FieldElement {
 	// Makes a tank take damage
 	public void hit(Tank target) {
 		target.life -= game.getCurrentPlayer().getPower();
-		System.out.println("hit occurs on " + target.name + " and does " + game.getCurrentPlayer().getPower() + " damage ");
 
+		
 	}
 
 	// Checks if inputted string matches password
@@ -398,6 +400,16 @@ public abstract class Tank extends FieldElement {
 
 	}
 
+
+	// On Shooter handling
+
+	public boolean getOnShooter() {
+		return onShooter;
+	}
+
+	public void setOnShooter(boolean onShooter) {
+		this.onShooter = onShooter;
+	}
 	// Handles Voting:
 
 	// Resets Vote
