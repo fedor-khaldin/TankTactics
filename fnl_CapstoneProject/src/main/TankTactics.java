@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 5/4/2022
- * Rev: 06
+ * Date: 5/5/2022
+ * Rev: 07
  * Notes: this class manages a TankTactics game
  */
 
@@ -58,13 +58,16 @@ public class TankTactics extends JFrame
 		try {//Reads the game save file and sets up the game.
 			System.out.print("Enter the full location or name of the save file (enter \"nothing\" to create a new game) ");
 			String dir = reader.nextLine();
+			boolean added = !dir.endsWith(".txt");
 			if (!dir.endsWith(".txt"))
+			{
 				dir += ".txt";
+			}
 			File file = new File (dir);
 			Scanner fileIn = null;
 		    fileIn = new Scanner(file);
 		      
-		    if (file.exists() && fileIn.hasNext())
+		    if (!(dir.substring(0, dir.indexOf(".txt")).equalsIgnoreCase("nothing") && added)&& !dir.equals(".txt") && file.exists() && fileIn.hasNext())
 		    {
 			      startingTime = fileIn.nextLong();
 			      cycleLength = fileIn.nextInt();
@@ -313,19 +316,19 @@ public class TankTactics extends JFrame
 		        			System.out.print("Enter where you want to save (.txt or a folder) ");
 							String dir = reader.nextLine();
 							File file = null;
-							if(dir.indexOf(".txt") != -1)
+							if(dir.endsWith(".txt"))
 							{
 								file = new File (dir);
 							}
 							else
 							{
-								System.out.println(new File(".").getAbsolutePath());
 								if (!dir.endsWith("\\"));
 									dir += "\\";
 								if (new File(".").getAbsolutePath().endsWith(dir + "."))
 								{
 									dir = "";
 								}
+								System.out.print("Enter the name of the file you want to save ");
 								String name = reader.nextLine();
 								if (name.endsWith(".txt"))
 									name = name.substring(0, name.length() - 4);
@@ -334,16 +337,17 @@ public class TankTactics extends JFrame
 								while (file.exists())
 								{
 									file = new File (dir + name + "("+i+")" + ".txt");
+									i++;
 								}
-								System.out.println(file.getName());
 								try {
 									file.createNewFile();
 								} catch (IOException e) {}
 							}
+							
 							PrintWriter fileOut = null;
 					        try
 					        {
-					          fileOut = new PrintWriter(new FileWriter(file));
+					          fileOut = new PrintWriter(file);
 					        }
 					        catch (IOException ex)
 					        {
@@ -357,47 +361,13 @@ public class TankTactics extends JFrame
 					        	save += "\n" + players[i].getX() + "\n" + players[i].getY() + "\n" + players[i].getName() + "\n" + players[i].getPower() + "\n" + players[i].getShootingRange()
 					        			+ "\n" + players[i].getMovementRange() + "\n" + players[i].getLife() + "\n" + players[i].getMaxLife()
 					        			+ "\n" + players[i].getEnergy() + "\n" + players[i].getMaxEnergy() + "\n" + players[i].getSpecial()
-					        			 + "\n" + players[i].getVotes() + "\n" + players[i].getPassword() + "\n";
-					        	if (players[i].getType().equalsIgnoreCase(Tank.AOE))
-					        		save +=  Tank.AOE;
-					        	else if (players[i].getType().equalsIgnoreCase(Tank.BALANCED))
-					        		save +=  Tank.BALANCED;
-					        	else if (players[i].getType().equalsIgnoreCase(Tank.DOT))
-					        		save +=  Tank.DOT;
-					        	else if (players[i].getType().equalsIgnoreCase(Tank.HEAVY))
-				        			save +=  Tank.HEAVY;
-					        	else if (players[i].getType().equalsIgnoreCase(Tank.LIGHT))
-					        		save +=  Tank.LIGHT;
+					        			 + "\n" + players[i].getVotes() + "\n" + players[i].getPassword() + "\n" + players[i].getType();
 					        }
 					        
 					        save += "\n*";
 					        for(int i = 0; i < boosters.length; i++)
 					        {
-					        	save += "\n" + boosters[i].getX() + "\n" + boosters[i].getY() + "\n" + boosters[i].getStrength() + "\n";
-						    	  if (boosters[i].getType().equalsIgnoreCase(Booster.ENERGY))
-						    		  save += Booster.ENERGY;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HEAL))
-						    		  save += Booster.HEAL;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.HIDDEN))
-						    		  save += Booster.HIDDEN;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.JUMPER))
-						    		  save += Booster.JUMPER;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_ENERGY))
-						    		  save += Booster.MAX_ENERGY;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MAX_LIFE))
-						    		  save += Booster.MAX_LIFE;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.MOVEMENT_RANGE))
-						    		  save += Booster.MOVEMENT_RANGE;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.POWER))
-						    		  save += Booster.POWER;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOT))
-						    		  save += Booster.SHOOT;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SHOOTING_RANGE))
-						    		  save += Booster.SHOOTING_RANGE;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.SPECIAL))
-						    		  save += Booster.SPECIAL;
-						    	  else if (boosters[i].getType().equalsIgnoreCase(Booster.UNKNOWN))
-						    		  save += Booster.UNKNOWN;
+					        	save += "\n" + boosters[i].getX() + "\n" + boosters[i].getY() + "\n" + boosters[i].getStrength() + "\n" + boosters[i].getType();
 					        }
 					        
 					        fileOut.print(save);
