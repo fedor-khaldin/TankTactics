@@ -101,11 +101,7 @@ public abstract class Tank extends FieldElement {
 		int mods = e.getModifiers();
 	
 		if (game.getCurrentPlayer().life > 0) {
-
-			
-
-
-			if (mods == 17) {}
+			if (mods == 17) {
 				if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
 					this.upgradeEnergy(1);
 					game.getCurrentPlayer().upgradeEnergy(-1);
@@ -130,7 +126,10 @@ public abstract class Tank extends FieldElement {
 
 				else System.out.println("You don't have enough energy to hit.");
 			}
+
+			game.draw();
 		}
+	}
 
 	
 
