@@ -721,7 +721,9 @@ public class TankTactics extends JFrame
 			int j = 0;
 			while (players[j] != null && j < players.length)
 			{
-				if (x == players[j].getX() && y == players[j].getY())
+				int xDistance = Math.abs(x - players[i].getX());
+				int yDistance = Math.abs(y - players[i].getY());
+				if (xDistance <= 2 || yDistance <= 2)
 				{
 					x = (int)(Math.random() * xField); 
 					y = (int)(Math.random() * yField);
@@ -752,7 +754,7 @@ public class TankTactics extends JFrame
 			
 			fieldElements[x][y] = nextPlayer;
 		}
-		alive = players;
+		setAlive(players);
 		jury = new Tank[0];
 		
 		System.out.print("Enter the length of a cycle in seconds ");
