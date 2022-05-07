@@ -127,7 +127,7 @@ public class TankTactics extends JFrame
 					    		  addedDOT[i] = DOT[i];
 					    	  }
 					    	  addedDOT[DOT.length] = (DOT_Tank) nextPlayer;
-					    	  players = addedDOT;
+					    	  DOT = addedDOT;
 				    	  }
 			    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
 				    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
@@ -734,6 +734,7 @@ public class TankTactics extends JFrame
 					j++;
 				}
 			}
+			System.out.println("created");
 			Tank nextPlayer = null;
 			if (type.equalsIgnoreCase(Tank.AOE))
 				nextPlayer = new AOE_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y],this,
