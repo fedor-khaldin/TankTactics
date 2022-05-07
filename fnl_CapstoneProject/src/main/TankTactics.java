@@ -721,8 +721,8 @@ public class TankTactics extends JFrame
 			int j = 0;
 			while (players[j] != null && j < players.length)
 			{
-				int xDistance = Math.abs(x - players[i].getX());
-				int yDistance = Math.abs(y - players[i].getY());
+				int xDistance = Math.abs(x - players[j].getX());
+				int yDistance = Math.abs(y - players[j].getY());
 				if (xDistance <= 2 || yDistance <= 2)
 				{
 					x = (int)(Math.random() * xField); 
