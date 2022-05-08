@@ -49,7 +49,12 @@ public class FieldElement implements ActionListener{
 		return tankTactics;
 	}
 	
-	//sets a new button for the field element
+	//returns the button
+	public JButton getButton() {
+		return button;
+	}
+	
+ 	//sets a new button for the field element
 	public void setButton(JButton button) {
 		this.button.removeActionListener(this);
 		button.addActionListener(this);

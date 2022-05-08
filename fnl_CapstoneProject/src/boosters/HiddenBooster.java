@@ -27,6 +27,9 @@ public class HiddenBooster extends Booster {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
+		FieldElement[][] fieldElements = tankTactics.getFieldElements();
+		JButton[][] buttons = tankTactics.getButtons();
+		
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 				Random random = new Random();
 				int boost = random.nextInt(8) + 1;
@@ -58,7 +61,24 @@ public class HiddenBooster extends Booster {
 					default:
 						current.upgradeShootingRange(strength);
 						break;
-			}		
+			}
+				//creates a new field element in place of the booster
+				if(this.x%2==0) {
+					if(this.y%2==0) {
+						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(69, 177, 72), name);
+					}else {
+						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(82, 188, 82), name);
+					}
+				}else {
+					if(this.y%2==0) {
+						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(82, 188, 82), name);
+					}else {
+						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(69, 177, 72), name);
+					}
+				}
+				buttons[this.x][this.y] = fieldElements[this.x][this.y].getButton();
+				tankTactics.setButtons(buttons);
+				tankTactics.setFieldElements(fieldElements);
 		}
 		tankTactics.draw();
 	}
