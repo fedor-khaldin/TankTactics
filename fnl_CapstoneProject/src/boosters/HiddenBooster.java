@@ -1,3 +1,8 @@
+/*
+ * Name: Wilson Wu
+ * Date: 5/7/2022
+ * Notes: This class represents a booster.
+ */
 package boosters;
 
 import javax.swing.*;
@@ -10,11 +15,14 @@ public class HiddenBooster extends Booster {
 	public HiddenBooster(int x, int y, int strength, JButton button, TankTactics tankTactics, Color color) {
 		super(x, y,strength, button, tankTactics, "", color);
 	}
-
+	
+	//returns the booster type
 	public String getType() {
 		return Booster.HIDDEN;
 	}
-
+	
+	//the booster is hidden
+	//if the player clicks on the booster, they will recieve a random boost
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);	

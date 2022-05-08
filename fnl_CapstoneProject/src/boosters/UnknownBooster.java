@@ -1,3 +1,8 @@
+/*
+ * Name: Wilson Wu
+ * Date: 5/7/2022
+ * Notes: This class represents a booster.
+ */
 package boosters;
 
 import javax.swing.*;
@@ -10,11 +15,13 @@ public class UnknownBooster extends Booster {
 	public UnknownBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
 		super(x, y,strength, button, tankTactics, "<html>Unknown<br><html>"+strength, new Color(167, 192, 218));
 	}
-
+	
+	//returns the booster type
 	public String getType() {
 		return Booster.UNKNOWN;
-	}
-
+	}	
+	
+	//when the player clicks on this booster, they recieved a random boost
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);	

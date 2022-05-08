@@ -1,3 +1,8 @@
+/*
+ * Name: Wilson Wu
+ * Date: 5/7/2022
+ * Notes: This class represents a booster.
+ */
 package boosters;
 
 import javax.swing.*;
@@ -10,10 +15,12 @@ public class PowerBooster extends Booster {
 		super(x, y,strength, button, tankTactics, "<html>Power<br>Booster<br><html>"+strength, new Color(255, 85, 0));
 	}
 	
+	//returns the booster type
 	public String getType() {
 		return Booster.POWER;
 	}
 	
+	//when clicked on, the player's power is increased
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);	

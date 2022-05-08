@@ -1,3 +1,8 @@
+/*
+ * Name: Wilson Wu
+ * Date: 5/7/2022
+ * Notes: This class represents a booster.
+ */
 package main;
 
 import javax.swing.*;
@@ -31,10 +36,12 @@ public abstract class Booster extends FieldElement {
 		tankTactics.draw();
 	}
 	
+	//returns the strength
 	public int getStrength() {
 		return strength;
 	}
 	
+	//abstract method to return the type
 	public abstract String getType();
 
 

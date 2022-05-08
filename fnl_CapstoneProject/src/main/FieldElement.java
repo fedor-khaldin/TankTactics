@@ -28,20 +28,24 @@ public class FieldElement implements ActionListener{
 		button.addActionListener(this);
 	}
 	
+	//returns the x value
 	public int getX() {
 		return x;
 	}
 	
+	//returns the y value
 	public int getY() {
 		return y;
 	}
 	
+	//returns the name
 	public String getName() {
-		return this.name;
+		return name;
 	}
-
+	
+	//returns the tank tactics
 	public TankTactics getTankTactics() {
-		return this.tankTactics;
+		return tankTactics;
 	}
 	
 	//sets a new button for the field element
@@ -51,7 +55,7 @@ public class FieldElement implements ActionListener{
 		this.button = button;
 	}
 	
-	//replace current player with field element
+	//this happens when a player clicks on the field element
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Tank current = tankTactics.getCurrentPlayer();
@@ -98,8 +102,9 @@ public class FieldElement implements ActionListener{
 			}
 		}
 		tankTactics.draw();
-	}
-
+	}	
+	
+	//draws the field element
 	public void draw() {
 		button.setText(name);
 		button.setBackground(color);

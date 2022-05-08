@@ -1,3 +1,8 @@
+/*
+ * Name: Wilson Wu
+ * Date: 5/7/2022
+ * Notes: This class represents a booster.
+ */
 package boosters;
 
 import javax.swing.*;
@@ -9,17 +14,19 @@ public class Shooter extends Booster {
 	public Shooter(int x, int y, JButton button, TankTactics tankTactics) {
 		super(x, y,0, button, tankTactics, "<html>Shooter<br><html>", new Color(0, 255, 255));
 	}
-
+	
+	//returns the booster type
 	public String getType() {
 		return Booster.SHOOT;
 	}
-
+	
+	//allows the player to shoot again when clicked on
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-			
+			current.setOnShooter(true);
 		}
 		tankTactics.draw();
 	}
