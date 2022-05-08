@@ -8,7 +8,8 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
+import java.awt.Button;
+import java.awt.Color;
 import javax.swing.JButton;
 
 public class FieldElement implements ActionListener{
@@ -61,8 +62,8 @@ public class FieldElement implements ActionListener{
 			//	Tank currentPlayer = tankTactics.getCurrentPlayer();
 				int x = current.getX();
 				int y = current.getY();
-				int thisX= this.getX();
-				int thisY = this.getY();
+				int thisX= this.x;
+				int thisY = this.y;
 				
 				newField[x][y] = this;
 				newField[thisX][thisY] = current;
@@ -74,26 +75,24 @@ public class FieldElement implements ActionListener{
 				tankTactics.setFieldElements(newField);
 			
 				//replaces the buttons position
-				System.out.println("Before:");
-				System.out.println("Current X:"+current.button.getX()+"Current Y:"+current.button.getY());
-				System.out.println("This X:"+this.button.getX()+"This Y:"+this.button.getY());
-				
 				JButton[][] buttons = tankTactics.getButtons();
-				JButton button = buttons[x][y];
-				
+				JButton temp = buttons[x][y];
+				JButton temp2 = this.button;
 				buttons[x][y] = this.button;
 				buttons[thisX][thisY] = button;
 				
-				this.setButton(buttons[thisX][thisY]);
-				current.setButton(buttons[x][y]);
+				current.setButton(temp2);
+				this.setButton(temp);
 				tankTactics.setButtons(buttons);
 				
-				System.out.println("After");
-				System.out.println("Current X:"+current.button.getX()+"Current Y:"+current.button.getY());
-				System.out.println("This X:"+this.button.getX()+"This Y:"+this.button.getY());
 //				Color color = button.getBackground();
+//				String textString =  button.getText();
 //				button.setBackground(this.button.getBackground());
+//				button.setText(this.button.getText());
 //				this.button.setBackground(color);
+//				this.button.setText(textString);				
+//				current.setButton(buttons[thisX][thisY]);
+//				this.setButton(buttons[x][y]);
 				
 				current.gainEnergy(-1);
 			}
