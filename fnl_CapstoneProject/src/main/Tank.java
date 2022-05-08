@@ -41,13 +41,12 @@ package main;
 import java.awt.Color;
 import java.io.File;
 
-import javax.swing.ImageIcon;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputAdapter;
+
 
 
 
@@ -74,9 +73,8 @@ public abstract class Tank extends FieldElement {
 	private TankTactics game;
 	private boolean onJumper;
 	private boolean  atMax;
-	private Tank thisTank;
 	private boolean onShooter;
-	private ImageIcon regularTankIcon = new ImageIcon("fnl_CapstoneProject/assets/icons/tank.png");
+	
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -93,7 +91,6 @@ public abstract class Tank extends FieldElement {
 		this.votes = votes;
 		this.password = password;
 		this.game = game;
-		this.thisTank = this;
 		this.onJumper = onJumper;
 		this.atMax = false;
 		this.onShooter = onShooter;
