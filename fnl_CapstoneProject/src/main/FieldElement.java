@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.Button;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
 public class FieldElement implements ActionListener{
 	protected int x, y;
@@ -87,6 +88,21 @@ public class FieldElement implements ActionListener{
 				
 				current.setButton(temp2);
 				this.setButton(temp);
+
+				if(this.x%2==0) {
+					if(this.y%2==0) {
+						this.button.setBackground(new Color(69, 177, 72));
+					}else {
+						this.button.setBackground(new Color(82, 188, 82));
+					}
+				}else {
+					if(this.y%2==0) {
+						this.button.setBackground(new Color(82, 188, 82));
+					}else {
+						this.button.setBackground(new Color(69, 177, 72));
+					}
+				}
+				
 				tankTactics.setButtons(buttons);
 				
 //				Color color = button.getBackground();
