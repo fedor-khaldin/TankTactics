@@ -107,43 +107,54 @@ public abstract class Tank extends FieldElement {
 		// This was moved to the constructor.
 		
 		int mods = e.getModifiers();
-	
-		if (game.getCurrentPlayer().life > 0) {
-			if (mods == 17) {
-				if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
-					this.upgradeEnergy(1);
+		
+		if (!this.equals(game.getCurrentPlayer())) {
+			if (game.getCurrentPlayer().life > 0) {
+				if (mods == 17) {
+					if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
+						this.upgradeEnergy(1);
 
-					try {
-						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/transfer-tank-energy.wav").getAbsoluteFile());
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioInputStream);
-						clip.start();
-					} catch(Exception ex) {
-						System.out.println("Error with playing sound.");
-						ex.printStackTrace();
+						try {
+							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/transfer-tank-energy.wav").getAbsoluteFile());
+							Clip clip = AudioSystem.getClip();
+							clip.open(audioInputStream);
+							clip.start();
+						} catch(Exception ex) {
+							System.out.println("Error with playing sound.");
+							ex.printStackTrace();
+						}
+
+						game.getCurrentPlayer().upgradeEnergy(-1);
+					}
+		
+					else if (this.atMax) {
+						System.out.println("The tank " + this.name + " is at max energy.");
+					}
+		
+					else {
+						System.out.println("You don't have enough energy.");
+					}
+				}
+
+				else {
+					if (game.getCurrentPlayer().getEnergy() >= 1) {
+						hit(this);
 					}
 
-					game.getCurrentPlayer().upgradeEnergy(-1);
+					else System.out.println("You don't have enough energy to hit.");
 				}
-	
-				else if (this.atMax) {
-					System.out.println("The tank " + this.name + " is at max energy.");
-				}
-	
-				else {
-					System.out.println("You don't have enough energy.");
-				}
+
+				game.draw();
 			}
 
 			else {
-				if (game.getCurrentPlayer().getEnergy() >= 1) {
-					hit(this);
-				}
-
-				else System.out.println("You don't have enough energy to hit.");
+				this.gainVotes(1);
+				game.getCurrentPlayer().upgradeEnergy(-1);
 			}
+		}
 
-			game.draw();
+		else {
+			game.getCurrentPlayer().upgradeMenu();
 		}
 	}
 
