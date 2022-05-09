@@ -96,15 +96,15 @@ public class FieldElement implements ActionListener{
 
 				if(this.x%2==0) {
 					if(this.y%2==0) {
-						this.button.setBackground(new Color(69, 177, 72));
+						color = new Color(69, 177, 72);
 					}else {
-						this.button.setBackground(new Color(82, 188, 82));
+						color = new Color(82, 188, 82);
 					}
 				}else {
 					if(this.y%2==0) {
-						this.button.setBackground(new Color(82, 188, 82));
+						color = new Color(82, 188, 82);
 					}else {
-						this.button.setBackground(new Color(69, 177, 72));
+						color = new Color(69, 177, 72);
 					}
 				}
 				
