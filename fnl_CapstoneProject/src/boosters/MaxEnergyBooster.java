@@ -23,7 +23,7 @@ public class MaxEnergyBooster extends Booster {
 	//when the player clicks on the booster, their max energy is increased
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);	
+		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		FieldElement[][] fieldElements = tankTactics.getFieldElements();
 		JButton[][] buttons = tankTactics.getButtons();

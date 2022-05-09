@@ -23,7 +23,7 @@ public class ShootingRangeBooster extends Booster {
 	//when the player clicks on the booster, the player's shooting range is increased
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);	
+		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		FieldElement[][] fieldElements = tankTactics.getFieldElements();
 		JButton[][] buttons = tankTactics.getButtons();

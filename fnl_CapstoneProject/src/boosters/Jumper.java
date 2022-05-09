@@ -23,7 +23,7 @@ public class Jumper extends Booster {
 	//when booster is clicked, the player gains a extra move
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);	
+		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		FieldElement[][] fieldElements = tankTactics.getFieldElements();
 		JButton[][] buttons = tankTactics.getButtons();

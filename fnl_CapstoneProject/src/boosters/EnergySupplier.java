@@ -23,7 +23,7 @@ public class EnergySupplier extends Booster {
 	//increases player's energy when clicked on
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);	
+		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		FieldElement[][] fieldElements = tankTactics.getFieldElements();
 		JButton[][] buttons = tankTactics.getButtons();

@@ -23,7 +23,7 @@ public class Shooter extends Booster {
 	//allows the player to shoot again when clicked on
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);	
+		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
 		FieldElement[][] fieldElements = tankTactics.getFieldElements();
 		JButton[][] buttons = tankTactics.getButtons();
