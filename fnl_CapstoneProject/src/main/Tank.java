@@ -6,7 +6,7 @@ Written By:
 | _|| _|| v | \/ | v / |   <| >< | /\ | |_| v | | | ' | 
 |_| |___|__/ \__/|_|_\ |_|\_\_||_|_||_|___|__/|_|_|\__| 
                                                                                                                 
-Modified Date: 4/29/2022
+Modified Date: 5/10/22
 Notes: The tank class is responsible for handling all of the tank specific logic not handled by Fieldelement class. 
 
                                              _..----.._                                   
@@ -146,17 +146,23 @@ public abstract class Tank extends FieldElement {
 			}
 
 			else {
-				this.gainVotes(1);
-				game.getCurrentPlayer().upgradeEnergy(-1);
+				if (mods == 17) {
+					this.gainVotes(-1);
+					game.getCurrentPlayer().upgradeEnergy(-1);
+				}
+
+				else {
+					this.gainVotes(1);
+					game.getCurrentPlayer().upgradeEnergy(-1);
+				}
 			}
 		}
+
 
 		else {
 			game.getCurrentPlayer().upgradeMenu();
 		}
 	}
-
-	
 
 	// Custom draw method that draws super field element and sets custom tooltip
 	@Override
@@ -466,8 +472,24 @@ public abstract class Tank extends FieldElement {
 	// Adds a vote to the tank
 	public void gainVotes(int amountOfVotes) {
 		this.votes += amountOfVotes;
+	
+		if (votes >= 3) {
+			this.upgradeEnergy(1);
+		}
+
+		if (votes <= -3) {
+			this.upgradeEnergy(-1);
+		}
 	}
 
+
+	// SetButton
+	@Override
+	public void setButton(JButton button) {
+		this.button.setIcon(null);
+		super.setButton(button);
+		this.button.setIcon(regularTankIcon);
+	}
 }
 
 /*
