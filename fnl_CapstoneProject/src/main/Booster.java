@@ -24,6 +24,7 @@ public abstract class Booster extends FieldElement {
 	public static final String JUMPER = "jumper";
 	public static final String UNKNOWN = "unknown";
 	public static final String HIDDEN = "hidden";
+	public static final String DEBUFF = "debuff";
 	
 	public Booster (int x, int y, int strength, JButton button, TankTactics tankTactics, String name, Color color) {
 		super(x, y, button, tankTactics, color, name);
