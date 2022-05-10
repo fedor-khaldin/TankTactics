@@ -1,7 +1,7 @@
 /*
- * Name: Wilson Wu
- * Date: 5/7/2022
- * Notes: This class represents a booster.
+ * Name: Wilson wu
+ * Date: 5/10/2022
+ * Notes: A booster that debuffs all other players except for the current player.
  */
 package boosters;
 
@@ -10,14 +10,14 @@ import java.awt.*;
 import java.awt.event.*;
 import main.*;
 
-public class Jumper extends Booster {
-	public Jumper(int x, int y, JButton button, TankTactics tankTactics) {
+public class DebuffBooster extends Booster {
+	public DebuffBooster(int x, int y, JButton button, TankTactics tankTactics) {
 		super(x, y,0, button, tankTactics, "<html>Jumper<br><html>", new Color(43, 0, 255));
 	}
 	
 	//returns the booster type
 	public String getType() {
-		return Booster.JUMPER;
+		return Booster.DEBUFF;
 	}
 	
 	//when booster is clicked, the player gains a extra move
@@ -27,10 +27,39 @@ public class Jumper extends Booster {
 		Tank current = tankTactics.getCurrentPlayer();
 		FieldElement[][] fieldElements = tankTactics.getFieldElements();
 		JButton[][] buttons = tankTactics.getButtons();
-		
-		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-			current.setOnJumper(true);
-			
+		Tank[] players = tankTactics.getPlayers();
+	
+		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()&&current.getEnergy()>0) {
+			//debuffs other players
+			int debuff = (int)Math.random()*10;
+			for(int i = 0; i<players.length; i++) {
+				if(!players[i].getName().equals(current.getName())) {
+					switch(debuff) {
+					case 1:
+						players[i].gainEnergy(strength);
+						break;
+					case 2:
+						players[i].heal(strength);
+						break;
+					case 3:
+						players[i].upgradeMaxEnergy(strength);
+						break;
+					case 4:
+						players[i].upgradeMaxLife(strength);
+						break;
+					case 5:
+						players[i].upgradeMovementRange(strength);
+						break;
+					case 6:
+						players[i].upgradePower(strength);
+						break;
+					case 7:
+						players[i].upgradeShootingRange(strength);
+						break;
+					}
+				}
+			}
+			tankTactics.setPlayers(players);	
 			//creates a new field element in place of the booster
 			if(this.x%2==0) {
 				if(this.y%2==0) {
@@ -51,4 +80,5 @@ public class Jumper extends Booster {
 		}
 		tankTactics.draw();
 	}
+	
 }

@@ -8,7 +8,6 @@ package boosters;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.*;
 import main.*;
 
 public class UnknownBooster extends Booster {
@@ -30,8 +29,7 @@ public class UnknownBooster extends Booster {
 		JButton[][] buttons = tankTactics.getButtons();
 		
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-				Random random = new Random();
-				int boost = random.nextInt(8) + 1;
+				int boost = (int)Math.random()*10+1;
 				switch(boost) {
 					case 1:
 						current.gainEnergy(strength);
@@ -55,9 +53,41 @@ public class UnknownBooster extends Booster {
 						current.upgradePower(strength);
 						break;
 					case 8:
-						
+						current.setOnShooter(true);
 						break;
-					default:
+					case 9:
+						Tank[] players = tankTactics.getPlayers();
+						int debuff = (int)Math.random()*10;
+						for(int i = 0; i<players.length; i++) {
+							if(!players[i].getName().equals(current.getName())) {
+								switch(debuff) {
+								case 1:
+									players[i].gainEnergy(strength);
+									break;
+								case 2:
+									players[i].heal(strength);
+									break;
+								case 3:
+									players[i].upgradeMaxEnergy(strength);
+									break;
+								case 4:
+									players[i].upgradeMaxLife(strength);
+									break;
+								case 5:
+									players[i].upgradeMovementRange(strength);
+									break;
+								case 6:
+									players[i].upgradePower(strength);
+									break;
+								case 7:
+									players[i].upgradeShootingRange(strength);
+									break;
+								}
+							}
+						}
+						tankTactics.setPlayers(players);	
+						break;
+					case 10:
 						current.upgradeShootingRange(strength);
 						break;
 			}
@@ -78,9 +108,7 @@ public class UnknownBooster extends Booster {
 			}
 			buttons[this.x][this.y] = fieldElements[this.x][this.y].getButton();
 			tankTactics.setButtons(buttons);
-			tankTactics.setFieldElements(fieldElements);
-			tankTactics.setFieldElements(fieldElements);
-				
+			tankTactics.setFieldElements(fieldElements);		
 		}
 		tankTactics.draw();
 	}

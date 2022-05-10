@@ -8,7 +8,6 @@ package boosters;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import main.*;
 
 public class HiddenBooster extends Booster {
@@ -31,8 +30,7 @@ public class HiddenBooster extends Booster {
 		JButton[][] buttons = tankTactics.getButtons();
 		
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-				Random random = new Random();
-				int boost = random.nextInt(8) + 1;
+				int boost = (int)Math.random()*10;
 				switch(boost) {
 					case 1:
 						current.gainEnergy(strength);
@@ -56,12 +54,41 @@ public class HiddenBooster extends Booster {
 						current.upgradePower(strength);
 						break;
 					case 8:
-						
+						Tank[] players = tankTactics.getPlayers();
+						int debuff = (int)Math.random()*10;
+						for(int i = 0; i<players.length; i++) {
+							if(!players[i].getName().equals(current.getName())) {
+								switch(debuff) {
+								case 1:
+									players[i].gainEnergy(strength);
+									break;
+								case 2:
+									players[i].heal(strength);
+									break;
+								case 3:
+									players[i].upgradeMaxEnergy(strength);
+									break;
+								case 4:
+									players[i].upgradeMaxLife(strength);
+									break;
+								case 5:
+									players[i].upgradeMovementRange(strength);
+									break;
+								case 6:
+									players[i].upgradePower(strength);
+									break;
+								case 7:
+									players[i].upgradeShootingRange(strength);
+									break;
+								}
+							}
+						}
+						tankTactics.setPlayers(players);	
 						break;
 					default:
 						current.upgradeShootingRange(strength);
 						break;
-			}
+				}
 				//creates a new field element in place of the booster
 				if(this.x%2==0) {
 					if(this.y%2==0) {
