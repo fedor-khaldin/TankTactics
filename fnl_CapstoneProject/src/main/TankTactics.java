@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 5/6/2022
+ * Date: 5/10/2022
  * Rev: 08
  * Notes: this class manages a TankTactics game
  */
@@ -226,6 +226,8 @@ public class TankTactics extends JFrame
 				    		  nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this);
 				    	  else 	if (type.equalsIgnoreCase(Booster.UNKNOWN))
 				    		  nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this);
+				    	  else 	if (type.equalsIgnoreCase(Booster.DEBUFF))
+				    		  nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this);
 				    	  
 				    	  Booster [] addedBoosters = new Booster [boosters.length + 1];
 				    	  for (int i = 0; i < boosters.length; i++)
@@ -489,7 +491,7 @@ public class TankTactics extends JFrame
 				}
 			}
 			
-			int type = (int)(Math.random() * 12);
+			int type = (int)(Math.random() * 13);
 			int strength = (int)(Math.random() * 5) + 1;
 			if ((int)(Math.random() * 2) == 0)
 			{
@@ -539,6 +541,9 @@ public class TankTactics extends JFrame
 					break;
 				case 11:
 					newBooster = new UnknownBooster(newX, newY, strength, buttons[newX][newY], this);
+					break;
+				case 12:
+					newBooster = new DebuffBooster(newX, newY, strength, buttons[newX][newY], this);
 					break;
 			}
 		  	Booster [] addedBoosters = new Booster [boosters.length + 1];
