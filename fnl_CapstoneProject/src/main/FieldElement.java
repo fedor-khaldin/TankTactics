@@ -57,7 +57,9 @@ public class FieldElement implements ActionListener{
  	//sets a new button for the field element
 	public void setButton(JButton button) {
 		this.button.removeActionListener(this);
+		this.button.setIcon(null);
 		button.addActionListener(this);
+
 		this.button = button;
 	}
 	
