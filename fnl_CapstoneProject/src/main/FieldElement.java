@@ -110,15 +110,6 @@ public class FieldElement implements ActionListener{
 				
 				tankTactics.setButtons(buttons);
 				
-//				Color color = button.getBackground();
-//				String textString =  button.getText();
-//				button.setBackground(this.button.getBackground());
-//				button.setText(this.button.getText());
-//				this.button.setBackground(color);
-//				this.button.setText(textString);				
-//				current.setButton(buttons[thisX][thisY]);
-//				this.setButton(buttons[x][y]);
-				
 				current.gainEnergy(-1);
 			}
 		}
