@@ -468,6 +468,14 @@ public abstract class Tank extends FieldElement {
 		this.votes += amountOfVotes;
 	}
 
+
+	// SetButton
+	@Override
+	public void setButton(JButton button) {
+		this.button.setIcon(null);
+		super.setButton(button);
+		this.button.setIcon(regularTankIcon);
+	}
 }
 
 /*
