@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
  * Date: 5/10/2022
- * Rev: 08
+ * Rev: 09
  * Notes: this class manages a TankTactics game
  */
 
@@ -25,6 +25,7 @@ import javax.swing.Timer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import boosters.*;
 import tanks.*;
@@ -43,6 +44,7 @@ public class TankTactics extends JFrame
 	private int cycleLength;
 	private Timer clock;
 	private Scanner reader = new Scanner(System.in);
+	private JTextField actions;
 	
 	//Constructor
 	public TankTactics ()
@@ -279,10 +281,14 @@ public class TankTactics extends JFrame
 			}
 		}
 		
+		actions = new JTextField ("");
+		actions.setEditable(false);
+		
 		setSize(fieldElements.length * 100, fieldElements[0].length * 100);
 		
 		Container c = getContentPane();
 		c.add(panel, BorderLayout.CENTER);
+		c.add(actions, BorderLayout.SOUTH);
 		draw();
 		c.repaint();
 		
@@ -662,6 +668,14 @@ public class TankTactics extends JFrame
 	public void setJury (Tank[] newJury)
 	{
 		jury = newJury;
+	}
+	
+	//Sets the text of actions to the inputed value
+	public void setActionsText (String action)
+	{
+		setVisible(false);
+		actions.setText(action);
+		setVisible(true);
 	}
 	
 	//Private methods
