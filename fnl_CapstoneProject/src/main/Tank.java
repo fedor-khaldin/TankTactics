@@ -135,7 +135,7 @@ public abstract class Tank extends FieldElement {
 				}
 
 				else {
-					if (game.getCurrentPlayer().getEnergy() >= 1) {
+					if (game.getCurrentPlayer().getEnergy() >= 1 && this.x<game.getCurrentPlayer().getX()+game.getCurrentPlayer().getShootingRange()&&this.y<game.getCurrentPlayer().getY()+game.getCurrentPlayer().getMovementRange()) {
 						hit(this);
 					}
 
