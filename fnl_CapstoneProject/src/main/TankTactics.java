@@ -45,6 +45,9 @@ public class TankTactics extends JFrame
 	private Timer clock;
 	private Scanner reader = new Scanner(System.in);
 	private JTextField actions;
+	private JButton rules;
+	private boolean rulesShowed;
+	private JPanel panel;
 	
 	//Constructor
 	public TankTactics ()
@@ -271,7 +274,7 @@ public class TankTactics extends JFrame
 	      }
 
 		newLogin();
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setLayout(new GridLayout(fieldElements.length, fieldElements[0].length));
 		for (int i = 0; i < fieldElements[0].length; i++)
 		{
@@ -281,12 +284,15 @@ public class TankTactics extends JFrame
 			}
 		}
 		
+		rules = new JButton("Show rules and instractions.");
+		rules.addActionListener(this);
 		actions = new JTextField ("");
 		actions.setEditable(false);
 		
 		setSize(fieldElements.length * 100, fieldElements[0].length * 100);
 		
 		Container c = getContentPane();
+		c.add(rules, BorderLayout.NORTH);
 		c.add(panel, BorderLayout.CENTER);
 		c.add(actions, BorderLayout.SOUTH);
 		draw();
@@ -362,7 +368,7 @@ public class TankTactics extends JFrame
 								int i = 1;
 								while (file.exists())
 								{
-									file = new File (dir + name + "("+i+")" + ".txt");
+									file = new File (dir + name + " ("+i+")" + ".txt");
 									i++;
 								}
 								try {
@@ -457,145 +463,177 @@ public class TankTactics extends JFrame
 		} while (continueAsking);
 	}
 	
-	//Called whenever the timer reaches zero, symbolizes a new cycle.
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		clock.stop();
-		if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/5)
+		if (e.getSource().equals(clock)) 	//Called whenever the timer reaches zero, symbolizes a new cycle.
 		{
-			int newX = (int)(Math.random() * fieldElements.length);
-			int newY = (int)(Math.random() * fieldElements[0].length);
-			int i = 0;
-			while (i < boosters.length)
+			clock.stop();
+			if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/5)
 			{
-				int xDistance = Math.abs(newX - boosters[i].getX());
-				int yDistance = Math.abs(newY - boosters[i].getY());
-				if (xDistance <= 2 || yDistance <= 2)
+				int newX = (int)(Math.random() * fieldElements.length);
+				int newY = (int)(Math.random() * fieldElements[0].length);
+				int i = 0;
+				while (i < boosters.length)
 				{
-					newX = (int)(Math.random() * fieldElements.length);
-					newY = (int)(Math.random() * fieldElements[0].length);
-					i = 0;
-				}
-				else
-				{
-					i++;
-					int j = 0;
-					while (j < alive.length)
+					int xDistance = Math.abs(newX - boosters[i].getX());
+					int yDistance = Math.abs(newY - boosters[i].getY());
+					if (xDistance <= 2 || yDistance <= 2)
 					{
-						if(alive[j].getX() == newX && alive[j].getY() == newY)
+						newX = (int)(Math.random() * fieldElements.length);
+						newY = (int)(Math.random() * fieldElements[0].length);
+						i = 0;
+					}
+					else
+					{
+						i++;
+						int j = 0;
+						while (j < alive.length)
 						{
-							newX = (int)(Math.random() * fieldElements.length);
-							newY = (int)(Math.random() * fieldElements[0].length);
-							j = 0;
-							i = 0;
-						}
-						else
-						{
-							j++;
+							if(alive[j].getX() == newX && alive[j].getY() == newY)
+							{
+								newX = (int)(Math.random() * fieldElements.length);
+								newY = (int)(Math.random() * fieldElements[0].length);
+								j = 0;
+								i = 0;
+							}
+							else
+							{
+								j++;
+							}
 						}
 					}
 				}
-			}
-			
-			int type = (int)(Math.random() * 13);
-			int strength = (int)(Math.random() * 5) + 1;
-			if ((int)(Math.random() * 2) == 0)
-			{
-				strength *= -1;
-			}
-			
-			Booster newBooster = null;
-			switch (type)
-			{
-				case 0:
-					newBooster = new EnergySupplier(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 1:
-					newBooster = new Healer(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 2:
-					Color tileColor;
-					if ((newX+newY) % 2 == 0)
-						tileColor = new Color(69, 177, 72);
-					else
-						tileColor = new Color(82, 188, 82);
-					newBooster = new HiddenBooster(newX, newY, strength, buttons[newX][newY], this, tileColor);
-					break;
-				case 3:
-					newBooster = new Jumper(newX, newY, buttons[newX][newY], this);
-					break;
-				case 4:
-					newBooster = new MaxEnergyBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 5:
-					newBooster = new MaxLifeBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 6:
-					newBooster = new MovementRangeBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 7:
-					newBooster = new PowerBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 8:
-					newBooster = new Shooter(newX, newY, buttons[newX][newY], this);
-					break;
-				case 9:
-					newBooster = new ShootingRangeBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 10:
-					newBooster = new SpecialBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 11:
-					newBooster = new UnknownBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-				case 12:
-					newBooster = new DebuffBooster(newX, newY, strength, buttons[newX][newY], this);
-					break;
-			}
-		  	Booster [] addedBoosters = new Booster [boosters.length + 1];
-		  	for (i = 0; i < boosters.length; i++)
-		  	{
-		  		addedBoosters[i] = boosters[i];
-		  	}
-		  	addedBoosters[boosters.length] = newBooster;
-		  	boosters = addedBoosters;
-		  	fieldElements[newX][newY] = newBooster;
-		  	
-		  	for (int j = 0; j < players.length; j++)
-		  	{
-		  		players[j].gainEnergy(1);
-		  	}
-		  	for(int j = 0; j < DOT.length; j++)
-		  	{
-		  		DOT[j].newCycle();
-		  	}
-		}
-		else
-		{
-			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
-			{
-			  	for (int i = 0; i < players.length; i++)
+				
+				int type = (int)(Math.random() * 13);
+				int strength = (int)(Math.random() * 5) + 1;
+				if ((int)(Math.random() * 2) == 0)
+				{
+					strength *= -1;
+				}
+				
+				Booster newBooster = null;
+				switch (type)
+				{
+					case 0:
+						newBooster = new EnergySupplier(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 1:
+						newBooster = new Healer(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 2:
+						Color tileColor;
+						if ((newX+newY) % 2 == 0)
+							tileColor = new Color(69, 177, 72);
+						else
+							tileColor = new Color(82, 188, 82);
+						newBooster = new HiddenBooster(newX, newY, strength, buttons[newX][newY], this, tileColor);
+						break;
+					case 3:
+						newBooster = new Jumper(newX, newY, buttons[newX][newY], this);
+						break;
+					case 4:
+						newBooster = new MaxEnergyBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 5:
+						newBooster = new MaxLifeBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 6:
+						newBooster = new MovementRangeBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 7:
+						newBooster = new PowerBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 8:
+						newBooster = new Shooter(newX, newY, buttons[newX][newY], this);
+						break;
+					case 9:
+						newBooster = new ShootingRangeBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 10:
+						newBooster = new SpecialBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 11:
+						newBooster = new UnknownBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+					case 12:
+						newBooster = new DebuffBooster(newX, newY, strength, buttons[newX][newY], this);
+						break;
+				}
+			  	Booster [] addedBoosters = new Booster [boosters.length + 1];
+			  	for (i = 0; i < boosters.length; i++)
 			  	{
-			  		players[i].gainEnergy(1);
+			  		addedBoosters[i] = boosters[i];
 			  	}
+			  	addedBoosters[boosters.length] = newBooster;
+			  	boosters = addedBoosters;
+			  	fieldElements[newX][newY] = newBooster;
 			  	
-			  	for(int i = 0; i < DOT.length; i++)
+			  	for (int j = 0; j < players.length; j++)
 			  	{
-			  		DOT[i].newCycle();
+			  		players[j].gainEnergy(1);
+			  	}
+			  	for(int j = 0; j < DOT.length; j++)
+			  	{
+			  		DOT[j].newCycle();
 			  	}
 			}
+			else
+			{
+				for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
+				{
+				  	for (int i = 0; i < players.length; i++)
+				  	{
+				  		players[i].gainEnergy(1);
+				  	}
+				  	
+				  	for(int i = 0; i < DOT.length; i++)
+				  	{
+				  		DOT[i].newCycle();
+				  	}
+				}
+			}
+			
+		  	
+		  	for (int i = 0; i < alive.length; i++)
+		  	{
+		  		alive[i].resetVotes();
+		  	}
+		  	
+		  	draw();
+			startingTime += cycleLength*1000;
+			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
+			clock.start();
 		}
 		
-	  	
-	  	for (int i = 0; i < alive.length; i++)
-	  	{
-	  		alive[i].resetVotes();
-	  	}
-	  	
-	  	draw();
-		startingTime += cycleLength*1000;
-		clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
-		clock.start();
+		else if(rulesShowed)	//Called when the JButton is pressed and the rules are desplayed, redrawes the field.
+		{
+			Container c = getContentPane();
+			c.removeAll();
+			c.add(rules, BorderLayout.NORTH);
+			c.add(panel, BorderLayout.CENTER);
+			c.add(actions, BorderLayout.SOUTH);
+			draw();
+			c.repaint();
+			rulesShowed = false;
+			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
+			clock.start();
+		}
+		else	//Called when the JButton is pressed and the rules aren't desplayed, desplayes the rules.
+		{
+			Container c = getContentPane();
+			c.removeAll();
+			clock.stop();
+			setVisible(false);
+			JTextField rulesBox = new JTextField();
+			rulesBox.setEditable(false);
+			rulesBox.setSize(WIDTH, HEIGHT);
+			rules.setText("Stop showing rules.");
+			c.add(rules, BorderLayout.NORTH);
+			c.add(rulesBox, BorderLayout.CENTER);
+			c.repaint();
+			rulesShowed = true;
+			setVisible(true);
+		}
 	}
 	
 	//Getters
