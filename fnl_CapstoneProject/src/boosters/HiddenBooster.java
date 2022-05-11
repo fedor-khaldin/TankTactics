@@ -56,30 +56,32 @@ public class HiddenBooster extends Booster {
 					case 8:
 						Tank[] players = tankTactics.getPlayers();
 						int debuff = (int)Math.random()*10;
+						//loops through the player array to debuff the player
 						for(int i = 0; i<players.length; i++) {
+							//make sure it isn't the current player
 							if(!players[i].getName().equals(current.getName())) {
 								switch(debuff) {
-								case 1:
-									players[i].gainEnergy(strength);
-									break;
-								case 2:
-									players[i].heal(strength);
-									break;
-								case 3:
-									players[i].upgradeMaxEnergy(strength);
-									break;
-								case 4:
-									players[i].upgradeMaxLife(strength);
-									break;
-								case 5:
-									players[i].upgradeMovementRange(strength);
-									break;
-								case 6:
-									players[i].upgradePower(strength);
-									break;
-								case 7:
-									players[i].upgradeShootingRange(strength);
-									break;
+									case 1:
+										players[i].gainEnergy(strength);
+										break;
+									case 2:
+										players[i].heal(strength);
+										break;
+									case 3:
+										players[i].upgradeMaxEnergy(strength);
+										break;
+									case 4:
+										players[i].upgradeMaxLife(strength);
+										break;
+									case 5:
+										players[i].upgradeMovementRange(strength);
+										break;
+									case 6:
+										players[i].upgradePower(strength);
+										break;
+									case 7:
+										players[i].upgradeShootingRange(strength);
+										break;
 								}
 							}
 						}

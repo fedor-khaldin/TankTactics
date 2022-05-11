@@ -11,7 +11,8 @@ import java.awt.event.ActionEvent;
 
 public abstract class Booster extends FieldElement {
 	protected int strength;
-
+	
+	//static variables for the different types of boosters
 	public static final String POWER = "power";
 	public static final String SHOOTING_RANGE = "shooting range";
 	public static final String MOVEMENT_RANGE = "movement range";
@@ -44,6 +45,5 @@ public abstract class Booster extends FieldElement {
 	
 	//abstract method to return the type
 	public abstract String getType();
-
-
+	
 }
