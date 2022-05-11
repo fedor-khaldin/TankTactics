@@ -474,42 +474,53 @@ public class TankTactics extends JFrame
 		if (e.getSource().equals(clock)) 	//Called whenever the timer reaches zero, symbolizes a new cycle.
 		{
 			clock.stop();
-			if (boosters.length < (fieldElements.length * fieldElements[0].length - alive.length)/5)
+			int newX = (int)(Math.random() * fieldElements.length);
+			int newY = (int)(Math.random() * fieldElements[0].length);
+			int i = 0, tried = 1;
+			String triedPosition = newX + "," + newY + ".";
+			while (i < boosters.length && tried < fieldElements.length * fieldElements[0].length)
 			{
-				int newX = (int)(Math.random() * fieldElements.length);
-				int newY = (int)(Math.random() * fieldElements[0].length);
-				int i = 0;
-				while (i < boosters.length)
+				int xDistance = Math.abs(newX - boosters[i].getX());
+				int yDistance = Math.abs(newY - boosters[i].getY());
+				if (xDistance <= 1 && yDistance <= 1)
 				{
-					int xDistance = Math.abs(newX - boosters[i].getX());
-					int yDistance = Math.abs(newY - boosters[i].getY());
-					if (xDistance <= 1 && yDistance <= 1)
+					newX = (int)(Math.random() * fieldElements.length);
+					newY = (int)(Math.random() * fieldElements[0].length);
+					i = 0;
+					if (triedPosition.indexOf(newX + "," + newY) == -1)
 					{
-						newX = (int)(Math.random() * fieldElements.length);
-						newY = (int)(Math.random() * fieldElements[0].length);
-						i = 0;
+						tried++;
+						triedPosition += newX + "," + newY + ".";
 					}
-					else
+				}
+				else
+				{
+					i++;
+					int j = 0;
+					while (j < alive.length)
 					{
-						i++;
-						int j = 0;
-						while (j < alive.length)
+						if(alive[j].getX() == newX && alive[j].getY() == newY)
 						{
-							if(alive[j].getX() == newX && alive[j].getY() == newY)
+							newX = (int)(Math.random() * fieldElements.length);
+							newY = (int)(Math.random() * fieldElements[0].length);
+							j = 0;
+							i = 0;
+							if (triedPosition.indexOf(newX + "," + newY) == -1)
 							{
-								newX = (int)(Math.random() * fieldElements.length);
-								newY = (int)(Math.random() * fieldElements[0].length);
-								j = 0;
-								i = 0;
+								tried++;
+								triedPosition += newX + "," + newY + ".";
 							}
-							else
-							{
-								j++;
-							}
+						}
+						else
+						{
+							j++;
 						}
 					}
 				}
+			}
 				
+			if (tried < fieldElements.length * fieldElements[0].length)
+			{
 				int type = (int)(Math.random() * 13);
 				int strength = (int)(Math.random() * 5) + 1;
 				if ((int)(Math.random() * 2) == 0)
@@ -583,24 +594,9 @@ public class TankTactics extends JFrame
 			  		DOT[j].newCycle();
 			  	}
 			}
-			else
-			{
-				for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
-				{
-				  	for (int i = 0; i < players.length; i++)
-				  	{
-				  		players[i].gainEnergy(1);
-				  	}
-				  	
-				  	for(int i = 0; i < DOT.length; i++)
-				  	{
-				  		DOT[i].newCycle();
-				  	}
-				}
-			}
 			
 		  	
-		  	for (int i = 0; i < alive.length; i++)
+		  	for (i = 0; i < alive.length; i++)
 		  	{
 		  		alive[i].resetVotes();
 		  	}
@@ -786,7 +782,8 @@ public class TankTactics extends JFrame
 			}
 			int x = (int)(Math.random() * xField); 
 			int y = (int)(Math.random() * yField);
-			int j = 0;
+			int j = 0, tried = 1;
+			String triedPosition = x + "," + y + ".";
 			while (players[j] != null && j < players.length)
 			{
 				int xDistance = Math.abs(x - players[j].getX());
@@ -796,12 +793,58 @@ public class TankTactics extends JFrame
 					x = (int)(Math.random() * xField); 
 					y = (int)(Math.random() * yField);
 					j = 0;
+					if (triedPosition.indexOf(x + "," + y) == 1)
+					{
+						triedPosition += x + "," + y + ".";
+						tried++;
+						if (tried < fieldElements.length * fieldElements[0].length)
+						{
+							boolean continueAsking = true;
+							while (continueAsking)
+							{
+								System.out.print("There isn't enough room for the current amount of players, would you like to add a row or a column? ");
+								String choice = reader.next();
+								if (choice.equalsIgnoreCase("row"))
+								{
+									xField++;
+									continueAsking = false;
+								}
+								else if (choice.equalsIgnoreCase("column"))
+								{
+									yField++;
+									continueAsking = false;
+								}
+								else
+								{
+									System.out.println("There isn't an option for " + choice + ", please input a valid answer.");
+								}
+							}
+							
+							JButton [][] newButtons = new JButton[xField][yField];
+							fieldElements = new FieldElement[xField][yField];
+							for (int k = 0; k < newButtons.length; k++)
+							{
+								for (int l = 0; l < newButtons[0].length; l++)
+								{
+									if (buttons[k][l] != null)
+									{
+										newButtons [k][l] = buttons[k][l];
+									}
+									else
+									{
+										newButtons [k][l] = new JButton();
+									}
+								}
+							}
+						}
+					}
 				}
 				else
 				{
 					j++;
 				}
 			}
+			
 			System.out.println("created");
 			Tank nextPlayer = null;
 			if (type.equalsIgnoreCase(Tank.AOE))
