@@ -59,29 +59,28 @@ public class FieldElement implements ActionListener{
 		this.button.removeActionListener(this);
 		this.button.setIcon(null);
 		button.addActionListener(this);
-
 		this.button = button;
 	}
 	
 	//this happens when a player clicks on the field element
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Tank current = tankTactics.getCurrentPlayer();
-		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-			if(current.getEnergy()>0) {
+		Tank currentPlayer = tankTactics.getCurrentPlayer();
+		//if the field element is in the range of the current player
+		if(this.x<currentPlayer.getX()+currentPlayer.getMovementRange()&&this.y<currentPlayer.getY()+currentPlayer.getMovementRange()) {
+			if(currentPlayer.getEnergy()>0) {
 				//replaces current player with field element
 				FieldElement[][] newField = tankTactics.getFieldElements();
-			//	Tank currentPlayer = tankTactics.getCurrentPlayer();
-				int x = current.getX();
-				int y = current.getY();
+				int x = currentPlayer.getX();
+				int y = currentPlayer.getY();
 				int thisX= this.x;
 				int thisY = this.y;
 				
 				newField[x][y] = this;
-				newField[thisX][thisY] = current;
+				newField[thisX][thisY] = currentPlayer;
 				
-				current.x = thisX;
-				current.y = thisY;
+				currentPlayer.x = thisX;
+				currentPlayer.y = thisY;
 				this.x = x;
 				this.y = y;
 				tankTactics.setFieldElements(newField);
@@ -93,9 +92,10 @@ public class FieldElement implements ActionListener{
 				buttons[x][y] = this.button;
 				buttons[thisX][thisY] = button;
 				
-				current.setButton(temp2);
+				currentPlayer.setButton(temp2);
 				this.setButton(temp);
-
+				
+				//changes the fieldElement's color depending what it's x and y is
 				if(this.x%2==0) {
 					if(this.y%2==0) {
 						color = new Color(69, 177, 72);
@@ -112,7 +112,7 @@ public class FieldElement implements ActionListener{
 				
 				tankTactics.setButtons(buttons);
 				
-				current.gainEnergy(-1);
+				currentPlayer.gainEnergy(-1);
 			}
 		}
 		tankTactics.draw();
