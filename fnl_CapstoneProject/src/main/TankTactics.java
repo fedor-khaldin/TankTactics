@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 5/10/2022
+ * Date: 5/11/2022
  * Rev: 09
  * Notes: this class manages a TankTactics game
  */
@@ -10,6 +10,7 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.swing.Timer;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -284,17 +286,21 @@ public class TankTactics extends JFrame
 			}
 		}
 		
-		rules = new JButton("Show rules and instractions.");
+		rules = new JButton("R");
 		rules.addActionListener(this);
+		rules.setPreferredSize(new Dimension(fieldElements.length * 10, 40));
 		actions = new JTextField ("");
 		actions.setEditable(false);
+		actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
+		Box bar = Box.createHorizontalBox();
+		bar.add(actions);
+		bar.add(rules);
 		
-		setSize(fieldElements.length * 100, fieldElements[0].length * 100);
+		setSize(fieldElements.length * 100, fieldElements[0].length * 100 + 40);
 		
 		Container c = getContentPane();
-		c.add(rules, BorderLayout.NORTH);
+		c.add(bar, BorderLayout.NORTH);
 		c.add(panel, BorderLayout.CENTER);
-		c.add(actions, BorderLayout.SOUTH);
 		draw();
 		c.repaint();
 		
@@ -477,7 +483,7 @@ public class TankTactics extends JFrame
 				{
 					int xDistance = Math.abs(newX - boosters[i].getX());
 					int yDistance = Math.abs(newY - boosters[i].getY());
-					if (xDistance <= 2 || yDistance <= 2)
+					if (xDistance <= 1 && yDistance <= 1)
 					{
 						newX = (int)(Math.random() * fieldElements.length);
 						newY = (int)(Math.random() * fieldElements[0].length);
@@ -607,11 +613,13 @@ public class TankTactics extends JFrame
 		
 		else if(rulesShowed)	//Called when the JButton is pressed and the rules are desplayed, redrawes the field.
 		{
+			Box bar = Box.createHorizontalBox();
+			bar.add(actions);
+			bar.add(rules);
+			
 			Container c = getContentPane();
-			c.removeAll();
-			c.add(rules, BorderLayout.NORTH);
+			c.add(bar, BorderLayout.NORTH);
 			c.add(panel, BorderLayout.CENTER);
-			c.add(actions, BorderLayout.SOUTH);
 			draw();
 			c.repaint();
 			rulesShowed = false;
@@ -780,7 +788,7 @@ public class TankTactics extends JFrame
 			{
 				int xDistance = Math.abs(x - players[j].getX());
 				int yDistance = Math.abs(y - players[j].getY());
-				if (xDistance <= 2 || yDistance <= 2)
+				if (xDistance <= 1 && yDistance <= 1)
 				{
 					x = (int)(Math.random() * xField); 
 					y = (int)(Math.random() * yField);
