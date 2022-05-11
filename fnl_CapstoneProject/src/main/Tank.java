@@ -162,6 +162,8 @@ public abstract class Tank extends FieldElement {
 		else {
 			game.getCurrentPlayer().upgradeMenu();
 		}
+
+		game.draw();
 	}
 
 	// Custom draw method that draws super field element and sets custom tooltip
@@ -415,41 +417,45 @@ public abstract class Tank extends FieldElement {
 		System.out.print("Input the number of the upgrade you would like to purchase: ");
 		int upgradeChoice = input.nextInt();
 
-		System.out.print("Input the amount of the upgrade you would like to purchase: ");
-		int upgradeAmt = input.nextInt();
+		if (upgradeChoice != 7) {
+			System.out.print("Input the amount of the upgrade you would like to purchase: ");
+			int upgradeAmt = input.nextInt();
 
-		if (upgradeAmt > this.energy) {
-			System.out.println("You do not have enough energy to purchase this upgrade.");
-			return;
-		} else {
-			this.energy -= upgradeAmt;
-			switch (upgradeChoice) {
-				case 1:
-					this.upgradePower(upgradeAmt);
-					break;
-				case 2:
-					this.upgradeShootingRange(upgradeAmt);
-					break;
-				case 3:
-					this.upgradeMovementRange(upgradeAmt);
-					break;
-				case 4:
-					this.upgradeMaxLife(upgradeAmt);
-					break;
-				case 5:
-					this.upgradeMaxEnergy(upgradeAmt);
-					break;
-				case 6:
-					this.upgradeSpecial(upgradeAmt);
-					break;
-				case 7:
-					break;
-				default:
-					System.out.println("Invalid input.");
-					break;
+			if (upgradeAmt > this.energy) {
+				System.out.println("You do not have enough energy to purchase this upgrade.");
+				return;
+			} else {
+				this.energy -= upgradeAmt;
+				
+				switch (upgradeChoice) {
+					case 1:
+						this.upgradePower(upgradeAmt);
+						break;
+					case 2:
+						this.upgradeShootingRange(upgradeAmt);
+						break;
+					case 3:
+						this.upgradeMovementRange(upgradeAmt);
+						break;
+					case 4:
+						this.upgradeMaxLife(upgradeAmt);
+						break;
+					case 5:
+						this.upgradeMaxEnergy(upgradeAmt);
+						break;
+					case 6:
+						this.upgradeSpecial(upgradeAmt);
+						break;
+					case 7:
+						break;
+					default:
+						System.out.println("Invalid input.");
+						break;
+				}
 			}
-		}
 
+		game.draw();
+		}
 	}
 
 
