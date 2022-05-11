@@ -428,7 +428,6 @@ public class TankTactics extends JFrame
 	//Draws all the field elements
 	public void draw()
 	{
-		setVisible(false);
 		for (int i = 0; i < fieldElements[0].length; i++)
 		{
 			for (int j = 0; j < fieldElements.length; j++)
@@ -436,6 +435,7 @@ public class TankTactics extends JFrame
 				fieldElements[j][i].draw();
 			}
 		}
+		setVisible(false);
 		setVisible(true);
 	}
 	
@@ -613,15 +613,18 @@ public class TankTactics extends JFrame
 		
 		else if(rulesShowed)	//Called when the JButton is pressed and the rules are desplayed, redrawes the field.
 		{
+			rules.setText("R");
 			Box bar = Box.createHorizontalBox();
 			bar.add(actions);
 			bar.add(rules);
 			
 			Container c = getContentPane();
+			c.removeAll();
 			c.add(bar, BorderLayout.NORTH);
 			c.add(panel, BorderLayout.CENTER);
 			draw();
 			c.repaint();
+			
 			rulesShowed = false;
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
