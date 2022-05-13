@@ -64,14 +64,6 @@ public class TankTactics extends JFrame
 		DOT = new DOT_Tank [0];
 		try {//Reads the game save file and sets up the game.
 			try {
-//				System.out.print("Enter the full location or name of the save file (enter \"nothing\" to create a new game) ");
-//				String dir = reader.nextLine();
-//				String dir = "fnl_CapstoneProject" + File.separator + "game save.txt";
-//				boolean added = !dir.endsWith(".txt");
-//				if (!dir.endsWith(".txt"))
-//				{
-//					dir += ".txt";
-//				}
 				File file = null;
 				if (System.getProperty("os.name").indexOf("Windows") != -1)
 				{
@@ -85,182 +77,175 @@ public class TankTactics extends JFrame
 				}
 				Scanner fileIn = new Scanner(file);
 			      
-//			    if (!(dir.substring(0, dir.indexOf(".txt")).equalsIgnoreCase("nothing") && added)&& !dir.equals(".txt") && file.exists() && fileIn.hasNext())
-			    {
-				      startingTime = fileIn.nextLong();
-				      cycleLength = fileIn.nextInt();
-				      int xField = fileIn.nextInt();
-			    	  int yField = fileIn.nextInt();
-			    	  buttons = new JButton [xField] [yField];
-			    	  fieldElements = new FieldElement [xField] [yField];
-				      
-			    	  for (int i = 0; i < xField; i++)
+		      startingTime = fileIn.nextLong();
+		      cycleLength = fileIn.nextInt();
+		      int xField = fileIn.nextInt();
+	    	  int yField = fileIn.nextInt();
+	    	  buttons = new JButton [xField] [yField];
+	    	  fieldElements = new FieldElement [xField] [yField];
+		      
+	    	  for (int i = 0; i < xField; i++)
+	    	  {
+	    		  for (int j = 0; j < yField; j++)
+	    		  {
+	    			  buttons [i] [j] = new JButton();
+	    		  }
+	    	  }
+	    	  
+		      while (fileIn.hasNextInt())
+		      {
+		    	  int x = fileIn.nextInt();
+		    	  int y = fileIn.nextInt();
+		    	  fileIn.nextLine();
+		    	  String name = fileIn.nextLine();
+		    	  int power = fileIn.nextInt();
+		    	  int shootingRange = fileIn.nextInt();
+		    	  int movementRange = fileIn.nextInt();
+		    	  int life = fileIn.nextInt();
+		    	  int maxLife = fileIn.nextInt();
+		    	  int energy = fileIn.nextInt();
+		    	  int maxEnergy = fileIn.nextInt();
+		    	  int special = fileIn.nextInt();
+		    	  int votes = fileIn.nextInt();
+		    	  boolean onJumper = fileIn.nextBoolean();
+		    	  boolean onShooter = fileIn.nextBoolean();
+		    	  fileIn.nextLine();
+		    	  String password = fileIn.nextLine();
+		    	  String type = fileIn.nextLine();
+		    	  
+		    	  Tank nextPlayer = null;
+		    	  if (type.equalsIgnoreCase(Tank.AOE))
+		    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+		    				  				energy, maxEnergy, special, votes, password, buttons[x][y], this,
+	    				  					onJumper, onShooter);
+		    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
+		    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life,
+		    				  				maxLife, energy, maxEnergy, special, votes, password, buttons[x][y],
+		    				  				this, onJumper, onShooter);
+		    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
+		    	  {
+		    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+	    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
+	    				  					onJumper, onShooter);
+		    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
+			    	  for (int i = 0; i < DOT.length; i++)
 			    	  {
-			    		  for (int j = 0; j < yField; j++)
-			    		  {
-			    			  buttons [i] [j] = new JButton();
-			    		  }
+			    		  addedDOT[i] = DOT[i];
 			    	  }
-			    	  
-				      while (fileIn.hasNextInt())
-				      {
-				    	  int x = fileIn.nextInt();
-				    	  int y = fileIn.nextInt();
-				    	  fileIn.nextLine();
-				    	  String name = fileIn.nextLine();
-				    	  int power = fileIn.nextInt();
-				    	  int shootingRange = fileIn.nextInt();
-				    	  int movementRange = fileIn.nextInt();
-				    	  int life = fileIn.nextInt();
-				    	  int maxLife = fileIn.nextInt();
-				    	  int energy = fileIn.nextInt();
-				    	  int maxEnergy = fileIn.nextInt();
-				    	  int special = fileIn.nextInt();
-				    	  int votes = fileIn.nextInt();
-				    	  boolean onJumper = fileIn.nextBoolean();
-				    	  boolean onShooter = fileIn.nextBoolean();
-				    	  fileIn.nextLine();
-				    	  String password = fileIn.nextLine();
-				    	  String type = fileIn.nextLine();
-				    	  
-				    	  Tank nextPlayer = null;
-				    	  if (type.equalsIgnoreCase(Tank.AOE))
-				    		  nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-				    				  				energy, maxEnergy, special, votes, password, buttons[x][y], this,
-			    				  					onJumper, onShooter);
-				    	  else 	if (type.equalsIgnoreCase(Tank.BALANCED))
-				    		  nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life,
-				    				  				maxLife, energy, maxEnergy, special, votes, password, buttons[x][y],
-				    				  				this, onJumper, onShooter);
-				    	  else 	if (type.equalsIgnoreCase(Tank.DOT))
-				    	  {
-				    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-			    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
-			    				  					onJumper, onShooter);
-				    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
-					    	  for (int i = 0; i < DOT.length; i++)
-					    	  {
-					    		  addedDOT[i] = DOT[i];
-					    	  }
-					    	  addedDOT[DOT.length] = (DOT_Tank) nextPlayer;
-					    	  DOT = addedDOT;
-				    	  }
-			    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
-				    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-			    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
-			    				  					onJumper, onShooter);
-				    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
-				    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-				  									energy, maxEnergy, special, votes, password, buttons[x][y], this,
-				  									onJumper, onShooter);
-				    	  
-				    	  Tank [] addedPlayers = new Tank [players.length + 1];
-				    	  for (int i = 0; i < players.length; i++)
-				    	  {
-				    		  addedPlayers[i] = players[i];
-				    	  }
-				    	  addedPlayers[players.length] = nextPlayer;
-				    	  players = addedPlayers;
-				    	  
-				    	  
-				    	  if (nextPlayer.getLife() > 0)
-				    	  {
-				    		  Tank [] addedAlive = new Tank [alive.length + 1];
-					    	  for (int i = 0; i < alive.length; i++)
-					    	  {
-					    		  addedAlive[i] = alive[i];
-					    	  }
-					    	  addedAlive[alive.length] = nextPlayer;
-					    	  alive = addedAlive;
-					    	  fieldElements[x][y] = nextPlayer;
-				    	  }
-				    	  else
-				    	  {
-				    		  Tank [] addedJury = new Tank [jury.length + 1];
-					    	  for (int i = 0; i < jury.length; i++)
-					    	  {
-					    		  addedJury[i] = jury[i];
-					    	  }
-					    	  addedJury[jury.length] = nextPlayer;
-					    	  jury = addedJury;
-				    	  }
-				    	  
-				    	  nextPlayer.upgradeMaxEnergy(0);
-				    	  nextPlayer.gainEnergy(0);
-				      }
-				      fileIn.nextLine();
-				      setAlive(alive);
-				      
-				      for (int i = 0; i < alive.length; i++)
-				      {
-				    	  alive[i].upgradeMaxLife(0);
-				    	  alive[i].upgradeMovementRange(0);
-				    	  alive[i].upgradePower(0);
-				    	  alive[i].upgradeShootingRange(0);
-				    	  alive[i].upgradeSpecial(0);
-				    	  alive[i].heal(0);
-				    	  alive[i].gainVotes(0);
-				      }
-				      
-				      while (fileIn.hasNextLine())
-				      {
-				    	  int x = fileIn.nextInt();
-				    	  int y = fileIn.nextInt();
-				    	  int strength = fileIn.nextInt();
-				    	  fileIn.nextLine();
-				    	  String type = fileIn.nextLine();
-				    	  
-				    	  Booster nextBooster = null;
-				    	  if (type.equalsIgnoreCase(Booster.ENERGY))
-				    		  nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.HEAL))
-				    		  nextBooster = new Healer (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.HIDDEN))
-				    	  {
-				    		  Color tileColor;
-			    			  if ((x+y) % 2 == 0)
-			    				  tileColor = new Color(69, 177, 72);
-			    			  else
-			    				  tileColor = new Color(82, 188, 82);
-				    		  nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, tileColor);
-				    	  }
-				    	  else 	if (type.equalsIgnoreCase(Booster.JUMPER))
-				    		  nextBooster = new Jumper (x, y, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
-				    		  nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.MAX_LIFE))
-				    		  nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.MOVEMENT_RANGE))
-				    		  nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.POWER))
-				    		  nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.SHOOT))
-				    		  nextBooster = new Shooter (x, y, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
-				    		  nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.SPECIAL))
-				    		  nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.UNKNOWN))
-				    		  nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this);
-				    	  else 	if (type.equalsIgnoreCase(Booster.DEBUFF))
-				    		  nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this);
-				    	  
-				    	  Booster [] addedBoosters = new Booster [boosters.length + 1];
-				    	  for (int i = 0; i < boosters.length; i++)
-				    	  {
-				    		  addedBoosters[i] = boosters[i];
-				    	  }
-				    	  addedBoosters[boosters.length] = nextBooster;
-				    	  boosters = addedBoosters;
-				    	  fieldElements[x][y] = nextBooster;
-				      }
-				      
-				      fileIn.close();
-			    }
-//			    else
-//			    {
-//			    	newGame();
-//			    }
+			    	  addedDOT[DOT.length] = (DOT_Tank) nextPlayer;
+			    	  DOT = addedDOT;
+		    	  }
+	    		  else 	if (type.equalsIgnoreCase(Tank.HEAVY))
+		    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+	    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
+	    				  					onJumper, onShooter);
+		    	  else 	if (type.equalsIgnoreCase(Tank.LIGHT))
+		    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+		  									energy, maxEnergy, special, votes, password, buttons[x][y], this,
+		  									onJumper, onShooter);
+		    	  
+		    	  Tank [] addedPlayers = new Tank [players.length + 1];
+		    	  for (int i = 0; i < players.length; i++)
+		    	  {
+		    		  addedPlayers[i] = players[i];
+		    	  }
+		    	  addedPlayers[players.length] = nextPlayer;
+		    	  players = addedPlayers;
+		    	  
+		    	  
+		    	  if (nextPlayer.getLife() > 0)
+		    	  {
+		    		  Tank [] addedAlive = new Tank [alive.length + 1];
+			    	  for (int i = 0; i < alive.length; i++)
+			    	  {
+			    		  addedAlive[i] = alive[i];
+			    	  }
+			    	  addedAlive[alive.length] = nextPlayer;
+			    	  alive = addedAlive;
+			    	  fieldElements[x][y] = nextPlayer;
+		    	  }
+		    	  else
+		    	  {
+		    		  Tank [] addedJury = new Tank [jury.length + 1];
+			    	  for (int i = 0; i < jury.length; i++)
+			    	  {
+			    		  addedJury[i] = jury[i];
+			    	  }
+			    	  addedJury[jury.length] = nextPlayer;
+			    	  jury = addedJury;
+		    	  }
+		    	  
+		    	  nextPlayer.upgradeMaxEnergy(0);
+		    	  nextPlayer.gainEnergy(0);
+		      }
+		      fileIn.nextLine();
+		      setAlive(alive);
+		      
+		      for (int i = 0; i < alive.length; i++)
+		      {
+		    	  alive[i].upgradeMaxLife(0);
+		    	  alive[i].upgradeMovementRange(0);
+		    	  alive[i].upgradePower(0);
+		    	  alive[i].upgradeShootingRange(0);
+		    	  alive[i].upgradeSpecial(0);
+		    	  alive[i].heal(0);
+		    	  alive[i].gainVotes(0);
+		      }
+		      
+		      while (fileIn.hasNextLine())
+		      {
+		    	  int x = fileIn.nextInt();
+		    	  int y = fileIn.nextInt();
+		    	  int strength = fileIn.nextInt();
+		    	  fileIn.nextLine();
+		    	  String type = fileIn.nextLine();
+		    	  
+		    	  Booster nextBooster = null;
+		    	  if (type.equalsIgnoreCase(Booster.ENERGY))
+		    		  nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.HEAL))
+		    		  nextBooster = new Healer (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.HIDDEN))
+		    	  {
+		    		  Color tileColor;
+	    			  if ((x+y) % 2 == 0)
+	    				  tileColor = new Color(69, 177, 72);
+	    			  else
+	    				  tileColor = new Color(82, 188, 82);
+		    		  nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, tileColor);
+		    	  }
+		    	  else 	if (type.equalsIgnoreCase(Booster.JUMPER))
+		    		  nextBooster = new Jumper (x, y, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
+		    		  nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.MAX_LIFE))
+		    		  nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.MOVEMENT_RANGE))
+		    		  nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.POWER))
+		    		  nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.SHOOT))
+		    		  nextBooster = new Shooter (x, y, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
+		    		  nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.SPECIAL))
+		    		  nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.UNKNOWN))
+		    		  nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this);
+		    	  else 	if (type.equalsIgnoreCase(Booster.DEBUFF))
+		    		  nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this);
+		    	  
+		    	  Booster [] addedBoosters = new Booster [boosters.length + 1];
+		    	  for (int i = 0; i < boosters.length; i++)
+		    	  {
+		    		  addedBoosters[i] = boosters[i];
+		    	  }
+		    	  addedBoosters[boosters.length] = nextBooster;
+		    	  boosters = addedBoosters;
+		    	  fieldElements[x][y] = nextBooster;
+		      }
+		      
+		      fileIn.close();
 			} catch (InputMismatchException e)
 			{
 				newGame();
@@ -365,36 +350,7 @@ public class TankTactics extends JFrame
 		        	startingTime = System.currentTimeMillis();
 		        	Runnable saver = new Runnable() {
 		        		public void run() {
-		        			System.out.print("Enter where you want to save (.txt or a folder) ");
-							String dir = reader.nextLine();
-							File file = null;
-							if(dir.endsWith(".txt"))
-							{
-								file = new File (dir);
-							}
-							else
-							{
-								if (!dir.endsWith("\\"));
-									dir += "\\";
-								if (new File(".").getAbsolutePath().endsWith(dir + "."))
-								{
-									dir = "";
-								}
-								System.out.print("Enter the name of the file you want to save ");
-								String name = reader.nextLine();
-								if (name.endsWith(".txt"))
-									name = name.substring(0, name.length() - 4);
-								file = new File (dir + name + ".txt");
-								int i = 1;
-								while (file.exists())
-								{
-									file = new File (dir + name + " ("+i+")" + ".txt");
-									i++;
-								}
-								try {
-									file.createNewFile();
-								} catch (IOException e) {}
-							}
+		        			File file = new File("game save.txt");
 							
 							PrintWriter fileOut = null;
 					        try
