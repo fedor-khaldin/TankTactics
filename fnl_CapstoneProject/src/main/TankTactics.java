@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 5/11/2022
+ * Date: 5/12/2022
  * Rev: 09
  * Notes: this class manages a TankTactics game
  */
@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.InputMismatchException;
@@ -32,7 +31,7 @@ import javax.swing.JTextField;
 import boosters.*;
 import tanks.*;
 
-@SuppressWarnings({"serial", "resource", "unused"})
+@SuppressWarnings("serial")
 public class TankTactics extends JFrame
 				implements ActionListener{
 	//Fields
@@ -48,7 +47,7 @@ public class TankTactics extends JFrame
 	private Scanner reader = new Scanner(System.in);
 	private JTextField actions;
 	private JButton rules;
-	private boolean rulesShowed;
+	private boolean rulesShowed, full;
 	private JPanel panel;
 	
 	//Constructor
@@ -245,6 +244,8 @@ public class TankTactics extends JFrame
 				    	  boosters = addedBoosters;
 				    	  fieldElements[x][y] = nextBooster;
 				      }
+				      
+				      fileIn.close();
 			    }
 			    else
 			    {
@@ -291,6 +292,7 @@ public class TankTactics extends JFrame
 		rules.setPreferredSize(new Dimension(fieldElements.length * 10, 40));
 		actions = new JTextField ("");
 		actions.setEditable(false);
+		actions.setHorizontalAlignment(JTextField.CENTER);
 		actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
 		Box bar = Box.createHorizontalBox();
 		bar.add(actions);
@@ -303,6 +305,8 @@ public class TankTactics extends JFrame
 		c.add(panel, BorderLayout.CENTER);
 		draw();
 		c.repaint();
+		
+		full = false;
 		
 		//Saves the data to the game save file when the window is closed, after asking the user if they want to log in again.
 		addWindowListener(new WindowAdapter() {
@@ -421,6 +425,14 @@ public class TankTactics extends JFrame
 		
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
+		
+		Runnable gameStarted = new Runnable(){ //Sets the text in action bar to show the game has started.
+			@Override
+			public void run() {
+				actions.setText("This game has started");
+			}
+		};
+		gameStarted.run();
 	}
 	
 	//Public methods
@@ -471,7 +483,7 @@ public class TankTactics extends JFrame
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(clock)) 	//Called whenever the timer reaches zero, symbolizes a new cycle.
+		if (e.getSource().equals(clock) && !full) 	//Called whenever the timer reaches zero and there are remaining spaces, symbolizes a new cycle.
 		{
 			clock.stop();
 			int newX = (int)(Math.random() * fieldElements.length);
@@ -594,6 +606,10 @@ public class TankTactics extends JFrame
 			  		DOT[j].newCycle();
 			  	}
 			}
+			else
+			{
+				full = true;
+			}
 			
 		  	
 		  	for (i = 0; i < alive.length; i++)
@@ -601,8 +617,35 @@ public class TankTactics extends JFrame
 		  		alive[i].resetVotes();
 		  	}
 		  	
+		  	actions.setText("A new cycle has started");
 		  	draw();
 			startingTime += cycleLength*1000;
+			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
+			clock.start();
+		}
+		
+		else if(e.getSource().equals(clock)) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
+		{
+			clock.stop();
+			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
+			{
+				for (int j = 0; j < players.length; j++)
+			  	{
+			  		players[j].gainEnergy(1);
+			  	}
+			  	for(int j = 0; j < DOT.length; j++)
+			  	{
+			  		DOT[j].newCycle();
+			  	}
+			}
+			
+			for (int i = 0; i < alive.length; i++)
+		  	{
+		  		alive[i].resetVotes();
+		  	}
+		  	
+			actions.setText("A new cycle has started");
+		  	draw();
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
 		}
@@ -630,7 +673,6 @@ public class TankTactics extends JFrame
 			Container c = getContentPane();
 			c.removeAll();
 			clock.stop();
-			setVisible(false);
 			JTextField rulesBox = new JTextField();
 			rulesBox.setEditable(false);
 			rulesBox.setSize(WIDTH, HEIGHT);
@@ -639,6 +681,7 @@ public class TankTactics extends JFrame
 			c.add(rulesBox, BorderLayout.CENTER);
 			c.repaint();
 			rulesShowed = true;
+			setVisible(false);
 			setVisible(true);
 		}
 	}
@@ -683,6 +726,17 @@ public class TankTactics extends JFrame
 	//Sets fieldElements to the inputed value
 	public void setFieldElements (FieldElement[][] newField)
 	{
+		for (int i = 0; i < fieldElements.length; i++)
+		{
+			for (int j = 0; j < fieldElements[i].length; j++)
+			{
+				if (!Booster.class.isAssignableFrom(newField[i][j].getClass()) && Booster.class.isAssignableFrom(fieldElements[i][j].getClass()))
+				{
+					full = false;
+				}
+			}
+		}
+		
 		fieldElements = newField;
 	}
 	
@@ -718,8 +772,8 @@ public class TankTactics extends JFrame
 	//Sets the text of actions to the inputed value
 	public void setActionsText (String action)
 	{
-		setVisible(false);
 		actions.setText(action);
+		setVisible(false);
 		setVisible(true);
 	}
 	
@@ -845,7 +899,6 @@ public class TankTactics extends JFrame
 				}
 			}
 			
-			System.out.println("created");
 			Tank nextPlayer = null;
 			if (type.equalsIgnoreCase(Tank.AOE))
 				nextPlayer = new AOE_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y],this,
