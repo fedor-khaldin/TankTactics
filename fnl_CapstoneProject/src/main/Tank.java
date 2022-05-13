@@ -76,6 +76,7 @@ public abstract class Tank extends FieldElement {
 	private boolean  atMax;
 	private boolean onShooter;
 	private ImageIcon regularTankIcon = new ImageIcon("fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator+ "tank.png");
+	File swag = new File("fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator+ "tank.png");
 	
 
 	// Tank Constructor
@@ -97,6 +98,7 @@ public abstract class Tank extends FieldElement {
 		this.atMax = false;
 		this.onShooter = onShooter;
 		this.button.setIcon(regularTankIcon);
+		System.out.println(swag.getAbsolutePath());
 	}
 
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
