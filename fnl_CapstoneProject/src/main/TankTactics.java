@@ -72,7 +72,7 @@ public class TankTactics extends JFrame
 //				{
 //					dir += ".txt";
 //				}
-				File file = null;
+				File file = null;//
 				if (System.getProperty("os.name").indexOf("Windows") != -1)
 				{
 					File helper = new File(".");
