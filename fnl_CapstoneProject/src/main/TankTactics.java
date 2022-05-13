@@ -64,18 +64,20 @@ public class TankTactics extends JFrame
 		DOT = new DOT_Tank [0];
 		try {//Reads the game save file and sets up the game.
 			try {
-				System.out.print("Enter the full location or name of the save file (enter \"nothing\" to create a new game) ");
-				String dir = reader.nextLine();
-				boolean added = !dir.endsWith(".txt");
-				if (!dir.endsWith(".txt"))
-				{
-					dir += ".txt";
-				}
-				File file = new File (dir);
-				Scanner fileIn = null;
-			    fileIn = new Scanner(file);
+//				System.out.print("Enter the full location or name of the save file (enter \"nothing\" to create a new game) ");
+//				String dir = reader.nextLine();
+//				String dir = "fnl_CapstoneProject" + File.separator + "game save.txt";
+//				boolean added = !dir.endsWith(".txt");
+//				if (!dir.endsWith(".txt"))
+//				{
+//					dir += ".txt";
+//				}
+				File helper = new File(".");
+				File file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
+						+ File.separator + "game save.txt");
+				Scanner fileIn = new Scanner(file);
 			      
-			    if (!(dir.substring(0, dir.indexOf(".txt")).equalsIgnoreCase("nothing") && added)&& !dir.equals(".txt") && file.exists() && fileIn.hasNext())
+//			    if (!(dir.substring(0, dir.indexOf(".txt")).equalsIgnoreCase("nothing") && added)&& !dir.equals(".txt") && file.exists() && fileIn.hasNext())
 			    {
 				      startingTime = fileIn.nextLong();
 				      cycleLength = fileIn.nextInt();
@@ -247,10 +249,10 @@ public class TankTactics extends JFrame
 				      
 				      fileIn.close();
 			    }
-			    else
-			    {
-			    	newGame();
-			    }
+//			    else
+//			    {
+//			    	newGame();
+//			    }
 			} catch (InputMismatchException e)
 			{
 				newGame();
