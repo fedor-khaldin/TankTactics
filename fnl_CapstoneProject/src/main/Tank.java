@@ -6,7 +6,7 @@ Written By:
 | _|| _|| v | \/ | v / |   <| >< | /\ | |_| v | | | ' | 
 |_| |___|__/ \__/|_|_\ |_|\_\_||_|_||_|___|__/|_|_|\__| 
                                                                                                                 
-Modified Date: 5/10/22
+Modified Date: 5/13/22
 Notes: The tank class is responsible for handling all of the tank specific logic not handled by Fieldelement class. 
 
                                              _..----.._                                   
@@ -75,7 +75,7 @@ public abstract class Tank extends FieldElement {
 	private boolean onJumper;
 	private boolean  atMax;
 	private boolean onShooter;
-	private ImageIcon regularTankIcon = new ImageIcon("fnl_CapstoneProject/assets/icons/tank.png");
+	private ImageIcon regularTankIcon = new ImageIcon("fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator+ "tank.png");
 	
 
 	// Tank Constructor
@@ -493,6 +493,7 @@ public abstract class Tank extends FieldElement {
 	@Override
 	public void setButton(JButton button) {
 		this.button.setIcon(null);
+		this.button.setToolTipText("");
 		super.setButton(button);
 		this.button.setIcon(regularTankIcon);
 	}
