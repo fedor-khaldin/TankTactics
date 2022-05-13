@@ -72,9 +72,17 @@ public class TankTactics extends JFrame
 //				{
 //					dir += ".txt";
 //				}
-				File helper = new File(".");
-				File file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
-						+ File.separator + "game save.txt");
+				File file = null;
+				if (System.getProperty("os.name").indexOf("Windows") != -1)
+				{
+					File helper = new File(".");
+					file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
+							+ File.separator + "game save.txt");
+				}
+				else
+				{
+					file = new File ("game save.txt");
+				}
 				Scanner fileIn = new Scanner(file);
 			      
 //			    if (!(dir.substring(0, dir.indexOf(".txt")).equalsIgnoreCase("nothing") && added)&& !dir.equals(".txt") && file.exists() && fileIn.hasNext())
