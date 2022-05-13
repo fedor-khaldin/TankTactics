@@ -34,7 +34,30 @@ public abstract class Booster extends FieldElement {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);
+		//super.actionPerformed(e);
+		
+		//super.actionPerformed(e);	
+		Tank current = tankTactics.getCurrentPlayer();
+		FieldElement[][] fieldElements = tankTactics.getFieldElements();
+		JButton[][] buttons = tankTactics.getButtons();
+		
+		/*
+		 * Once the tank touches the booster, fieldElement[x][y] becomes empty
+		 * THEN after the tank leaves the spot, updates into a new fieldElement
+		 */
+		if(current.x == this.x && current.y == current.y) {
+			fieldElements[this.x][this.y] = current;
+		}else {
+			if((this.x+this.y)%2==0) {
+				fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(69, 177, 72), name);
+			}else {
+				fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(82, 188, 82), name);
+			}
+		}
+		
+		buttons[this.x][this.y] = fieldElements[this.x][this.y].getButton();
+		tankTactics.setButtons(buttons);
+		tankTactics.setFieldElements(fieldElements);
 		tankTactics.draw();
 	}
 	

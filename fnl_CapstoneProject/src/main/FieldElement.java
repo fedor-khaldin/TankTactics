@@ -67,53 +67,55 @@ public class FieldElement implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Tank currentPlayer = tankTactics.getCurrentPlayer();
 		//if the field element is in the range of the current player
-		if(this.x<currentPlayer.getX()+currentPlayer.getMovementRange()&&this.y<currentPlayer.getY()+currentPlayer.getMovementRange()) {
-			if(currentPlayer.getEnergy()>0) {
-				//replaces current player with field element
-				FieldElement[][] newField = tankTactics.getFieldElements();
-				int x = currentPlayer.getX();
-				int y = currentPlayer.getY();
-				int thisX= this.x;
-				int thisY = this.y;
+		if(this.x<=currentPlayer.getX()+currentPlayer.getMovementRange()&&this.y<=currentPlayer.getY()+currentPlayer.getMovementRange()&&currentPlayer.getEnergy()>0) {
+			System.out.print("\nBefore\nCurrent: ("+currentPlayer.getButton().getX()+","+currentPlayer.getButton().getY()+")\nField Element: ("+this.button.getX()+","+this.button.getY()+")");
+			//replaces current player with field element
+			FieldElement[][] newField = tankTactics.getFieldElements();
+			int x = currentPlayer.getX();
+			int y = currentPlayer.getY();
+			int thisX= this.x;
+			int thisY = this.y;
 				
-				newField[x][y] = this;
-				newField[thisX][thisY] = currentPlayer;
+			newField[x][y] = this;
+			newField[thisX][thisY] = currentPlayer;
 				
-				currentPlayer.x = thisX;
-				currentPlayer.y = thisY;
-				this.x = x;
-				this.y = y;
-				tankTactics.setFieldElements(newField);
+			currentPlayer.x = thisX;
+			currentPlayer.y = thisY;
+			this.x = x;
+			this.y = y;
+			tankTactics.setFieldElements(newField);
 			
-				//replaces the buttons position
-				JButton[][] buttons = tankTactics.getButtons();
-				JButton temp = buttons[x][y];
-				JButton temp2 = this.button;
-				buttons[x][y] = this.button;
-				buttons[thisX][thisY] = button;
+			//replaces the buttons position
+			JButton[][] buttons = tankTactics.getButtons();
+			JButton temp = buttons[x][y];
+			JButton temp2 = this.button;
+			buttons[x][y] = this.button;
+			buttons[thisX][thisY] = button;
 				
-				currentPlayer.setButton(temp2);
-				this.setButton(temp);
+			currentPlayer.setButton(temp2);
+			this.setButton(temp);
 				
-				//changes the fieldElement's color depending what it's x and y is
-				if(this.x%2==0) {
-					if(this.y%2==0) {
-						color = new Color(69, 177, 72);
-					}else {
-						color = new Color(82, 188, 82);
-					}
+			//changes the fieldElement's color depending what it's x and y is
+			if(this.x%2==0) {
+				if(this.y%2==0) {
+					color = new Color(69, 177, 72);
 				}else {
-					if(this.y%2==0) {
-						color = new Color(82, 188, 82);
-					}else {
-						color = new Color(69, 177, 72);
-					}
+					color = new Color(82, 188, 82);
 				}
-				
-				tankTactics.setButtons(buttons);
-				
-				currentPlayer.gainEnergy(-1);
+			}else {
+				if(this.y%2==0) {
+					color = new Color(82, 188, 82);
+				}else {
+					color = new Color(69, 177, 72);
+				}
 			}
+				
+			tankTactics.setButtons(buttons);
+				
+			currentPlayer.gainEnergy(-1);
+				
+			System.out.print("\nAfter\nCurrent: ("+currentPlayer.getButton().getX()+","+currentPlayer.getButton().getY()+")\nField Element: ("+this.button.getX()+","+this.button.getY()+")");
+			
 		}
 		tankTactics.draw();
 	}	
