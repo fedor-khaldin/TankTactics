@@ -31,24 +31,23 @@ public class ShootingRangeBooster extends Booster {
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {		
 			current.upgradeShootingRange(strength);
 			
-			//creates a new field element in place of the booster
-			super.actionPerformed(e);	
-//			if(this.x%2==0) {
-//				if(this.y%2==0) {
-//					fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(69, 177, 72), name);
-//				}else {
-//					fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(82, 188, 82), name);
-//				}
-//			}else {
-//				if(this.y%2==0) {
-//					fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(82, 188, 82), name);
-//				}else {
-//					fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(69, 177, 72), name);
-//				}
-//			}
-//			buttons[this.x][this.y] = fieldElements[this.x][this.y].getButton();
-//			tankTactics.setButtons(buttons);
-//			tankTactics.setFieldElements(fieldElements);
+			/*
+			 * Once the tank touches the booster, fieldElement[x][y] becomes empty
+			 * THEN after the tank leaves the spot, updates into a new fieldElement
+			 */
+			if(current.getX() == this.x && current.getY() == this.y) {
+				fieldElements[this.x][this.y] = current;
+			}else {
+				if((this.x+this.y)%2==0) {
+					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(69, 177, 72), name);
+				}else {
+					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(82, 188, 82), name);
+				}
+			}
+			
+			buttons[this.x][this.y] = fieldElements[this.x][this.y].getButton();
+			tankTactics.setButtons(buttons);
+			tankTactics.setFieldElements(fieldElements);
 		}
 		tankTactics.draw();
 	}

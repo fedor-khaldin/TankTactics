@@ -30,85 +30,85 @@ public class HiddenBooster extends Booster {
 		JButton[][] buttons = tankTactics.getButtons();
 		
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
-				int boost = (int)Math.random()*10;
-				switch(boost) {
-					case 1:
-						current.gainEnergy(strength);
-						break;
-					case 2:
-						current.heal(strength);
-						break;
-					case 3:
-						current.setOnJumper(true);
-						break;
-					case 4:
-						current.upgradeMaxEnergy(strength);
-						break;
-					case 5:
-						current.upgradeMaxLife(strength);
-						break;
-					case 6:
-						current.upgradeMovementRange(strength);
-						break;
-					case 7:
-						current.upgradePower(strength);
-						break;
-					case 8:
-						Tank[] players = tankTactics.getPlayers();
-						int debuff = (int)Math.random()*10;
-						//loops through the player array to debuff the player
-						for(int i = 0; i<players.length; i++) {
-							//make sure it isn't the current player
-							if(!players[i].getName().equals(current.getName())) {
-								switch(debuff) {
-									case 1:
-										players[i].gainEnergy(strength);
-										break;
-									case 2:
-										players[i].heal(strength);
-										break;
-									case 3:
-										players[i].upgradeMaxEnergy(strength);
-										break;
-									case 4:
-										players[i].upgradeMaxLife(strength);
-										break;
-									case 5:
-										players[i].upgradeMovementRange(strength);
-										break;
-									case 6:
-										players[i].upgradePower(strength);
-										break;
-									case 7:
-										players[i].upgradeShootingRange(strength);
-										break;
-								}
+			int boost = (int)Math.random()*10;
+			switch(boost) {
+				case 1:
+					current.gainEnergy(strength);
+					break;
+				case 2:
+					current.heal(strength);
+					break;
+				case 3:
+					current.setOnJumper(true);
+					break;
+				case 4:
+					current.upgradeMaxEnergy(strength);
+					break;
+				case 5:
+					current.upgradeMaxLife(strength);
+					break;
+				case 6:
+					current.upgradeMovementRange(strength);
+					break;
+				case 7:
+					current.upgradePower(strength);
+					break;
+				case 8:
+					Tank[] players = tankTactics.getPlayers();
+					int debuff = (int)Math.random()*10;
+					//loops through the player array to debuff the player
+					for(int i = 0; i<players.length; i++) {
+						//make sure it isn't the current player
+						if(!players[i].getName().equals(current.getName())) {
+							switch(debuff) {
+								case 1:
+									players[i].gainEnergy(strength);
+									break;
+								case 2:
+									players[i].heal(strength);
+									break;
+								case 3:
+									players[i].upgradeMaxEnergy(strength);
+									break;
+								case 4:
+									players[i].upgradeMaxLife(strength);
+									break;
+								case 5:
+									players[i].upgradeMovementRange(strength);
+									break;
+								case 6:
+									players[i].upgradePower(strength);
+									break;
+								case 7:
+									players[i].upgradeShootingRange(strength);
+									break;
 							}
 						}
-						tankTactics.setPlayers(players);	
-						break;
-					default:
-						current.upgradeShootingRange(strength);
-						break;
+					}
+					tankTactics.setPlayers(players);	
+					break;
+				default:
+					current.upgradeShootingRange(strength);
+					break;
+			}
+			/*
+			 * Once the tank touches the booster, fieldElement[x][y] becomes empty
+			 * THEN after the tank leaves the spot, updates into a new fieldElement
+			 */
+			if(current.getX() == this.x && current.getY() == this.y) {
+				fieldElements[this.x][this.y] = current;
+			}else {
+				if((this.x+this.y)%2==0) {
+					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(69, 177, 72), name);
+				}else {
+					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(82, 188, 82), name);
 				}
-				//creates a new field element in place of the booster
-				super.actionPerformed(e);	
-//				if(this.x%2==0) {
-//					if(this.y%2==0) {
-//						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(69, 177, 72), name);
-//					}else {
-//						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(82, 188, 82), name);
-//					}
-//				}else {
-//					if(this.y%2==0) {
-//						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(82, 188, 82), name);
-//					}else {
-//						fieldElements[this.x][this.y] = new FieldElement(x, y, button, tankTactics, new Color(69, 177, 72), name);
-//					}
-//				}
-//				buttons[this.x][this.y] = fieldElements[this.x][this.y].getButton();
-//				tankTactics.setButtons(buttons);
-//				tankTactics.setFieldElements(fieldElements);
+			}
+			
+			buttons[this.x][this.y] = fieldElements[this.x][this.y].getButton();
+			tankTactics.setButtons(buttons);
+			tankTactics.setFieldElements(fieldElements);
+			tankTactics.draw();
 		}
 		tankTactics.draw();
 	}
