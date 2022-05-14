@@ -452,53 +452,44 @@ public class TankTactics extends JFrame
 		if (e.getSource().equals(clock) && !full) 	//Called whenever the timer reaches zero and there are remaining spaces, symbolizes a new cycle.
 		{
 			clock.stop();
-			int newX = (int)(Math.random() * fieldElements.length);
-			int newY = (int)(Math.random() * fieldElements[0].length);
-			int i = 0, tried = 1;
-			String triedPosition = newX + "," + newY + ".";
-			while (i < boosters.length && tried < fieldElements.length * fieldElements[0].length)
+			int [][] possible = new int [0][2];
+			for (int i = 0; i < fieldElements.length; i++)
 			{
-				int xDistance = Math.abs(newX - boosters[i].getX());
-				int yDistance = Math.abs(newY - boosters[i].getY());
-				if (xDistance <= 1 && yDistance <= 1)
+				for (int j = 0; j < fieldElements[i].length; j++)
 				{
-					newX = (int)(Math.random() * fieldElements.length);
-					newY = (int)(Math.random() * fieldElements[0].length);
-					i = 0;
-					if (triedPosition.indexOf(newX + "," + newY) == -1)
+					if (!Tank.class.isAssignableFrom(fieldElements[i][j].getClass()) && !Booster.class.isAssignableFrom(fieldElements[i][j].getClass()))
 					{
-						tried++;
-						triedPosition += newX + "," + newY + ".";
-					}
-				}
-				else
-				{
-					i++;
-					int j = 0;
-					while (j < alive.length)
-					{
-						if(alive[j].getX() == newX && alive[j].getY() == newY)
+						boolean adjacent = false;
+						for (int k = 0; k < boosters.length; k++)
 						{
-							newX = (int)(Math.random() * fieldElements.length);
-							newY = (int)(Math.random() * fieldElements[0].length);
-							j = 0;
-							i = 0;
-							if (triedPosition.indexOf(newX + "," + newY) == -1)
+							int xDistance = Math.abs(i - boosters[k].getX());
+							int yDistance = Math.abs(j - boosters[k].getY());
+							if (xDistance <= 1 && yDistance <= 1)
 							{
-								tried++;
-								triedPosition += newX + "," + newY + ".";
+								adjacent = true;
 							}
 						}
-						else
+						
+						if(!adjacent)
 						{
-							j++;
+							int [][] newPossible = new int [possible.length + 1][2];
+							for (int k = 0; k < possible.length; k++)
+							{
+								newPossible[k] = possible[k];
+							}
+							newPossible[possible.length][0] = i;
+							newPossible[possible.length][1] = j;
+							possible = newPossible;
 						}
 					}
 				}
 			}
 				
-			if (tried < fieldElements.length * fieldElements[0].length)
+			if (possible.length > 0)
 			{
+				int rndPosition = (int)(Math.random() * possible.length);
+				int newX = possible[rndPosition][0];
+				int newY = possible[rndPosition][1];
 				int type = (int)(Math.random() * 13);
 				int strength = (int)(Math.random() * 5) + 1;
 				if ((int)(Math.random() * 2) == 0)
@@ -555,7 +546,7 @@ public class TankTactics extends JFrame
 						break;
 				}
 			  	Booster [] addedBoosters = new Booster [boosters.length + 1];
-			  	for (i = 0; i < boosters.length; i++)
+			  	for (int i = 0; i < boosters.length; i++)
 			  	{
 			  		addedBoosters[i] = boosters[i];
 			  	}
@@ -578,7 +569,7 @@ public class TankTactics extends JFrame
 			}
 			
 		  	
-		  	for (i = 0; i < alive.length; i++)
+		  	for (int i = 0; i < alive.length; i++)
 		  	{
 		  		alive[i].resetVotes();
 		  	}
