@@ -12,8 +12,11 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -303,6 +306,33 @@ public class TankTactics extends JFrame
 		c.repaint();
 		
 		full = false;
+		addComponentListener(new ComponentListener() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Rectangle b = e.getComponent().getBounds();
+			    e.getComponent().setBounds(b.x, b.y, b.width, b.width + 40);
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		
 		//Saves the data to the game save file when the window is closed, after asking the user if they want to log in again.
 		addWindowListener(new WindowAdapter() {
@@ -570,12 +600,10 @@ public class TankTactics extends JFrame
 		  		alive[i].resetVotes();
 		  	}
 		  	
-		  	actions.setText("A new cycle has started");
 		  	draw();
 			startingTime += cycleLength*1000;
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
-			actions.setText("A new cycle has started.");
 		}
 		
 		else if(e.getSource().equals(clock)) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
@@ -598,11 +626,9 @@ public class TankTactics extends JFrame
 		  		alive[i].resetVotes();
 		  	}
 		  	
-			actions.setText("A new cycle has started");
 		  	draw();
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
-			actions.setText("A new cycle has started.");
 		}
 		
 		else if(rulesShowed)	//Called when the JButton is pressed and the rules are desplayed, redrawes the field.
