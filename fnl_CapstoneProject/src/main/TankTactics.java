@@ -1,7 +1,7 @@
 /*
  * Author: Itay Volk
- * Date: 5/12/2022
- * Rev: 09
+ * Date: 5/15/2022
+ * Rev: 10
  * Notes: this class manages a TankTactics game
  */
 
@@ -246,6 +246,12 @@ public class TankTactics extends JFrame
 		      }
 		      
 		      fileIn.close();
+		      
+		      actions = new JTextField ("");
+		      actions.setEditable(false);
+		      actions.setHorizontalAlignment(JTextField.CENTER);
+		      actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
+		      newLogin();
 			} catch (InputMismatchException e)
 			{
 				newGame();
@@ -271,7 +277,6 @@ public class TankTactics extends JFrame
 	    	  }
 	      }
 
-		newLogin();
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(fieldElements.length, fieldElements[0].length));
 		for (int i = 0; i < fieldElements[0].length; i++)
@@ -285,10 +290,6 @@ public class TankTactics extends JFrame
 		rules = new JButton("R");
 		rules.addActionListener(this);
 		rules.setPreferredSize(new Dimension(fieldElements.length * 10, 40));
-		actions = new JTextField ("");
-		actions.setEditable(false);
-		actions.setHorizontalAlignment(JTextField.CENTER);
-		actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
 		Box bar = Box.createHorizontalBox();
 		bar.add(actions);
 		bar.add(rules);
@@ -391,14 +392,6 @@ public class TankTactics extends JFrame
 		
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
-		
-		Runnable gameStarted = new Runnable(){ //Sets the text in action bar to show the game has started.
-			@Override
-			public void run() {
-				actions.setText("This game has started");
-			}
-		};
-		gameStarted.run();
 	}
 	
 	//Public methods
@@ -445,6 +438,7 @@ public class TankTactics extends JFrame
 				continueAsking = false;
 			}
 		} while (continueAsking);
+		actions.setText("This game has started again with " + currentPlayer.getName() + " as the current player.");
 	}
 	
 	@Override
@@ -460,7 +454,8 @@ public class TankTactics extends JFrame
 					if (!Tank.class.isAssignableFrom(fieldElements[i][j].getClass()) && !Booster.class.isAssignableFrom(fieldElements[i][j].getClass()))
 					{
 						boolean adjacent = false;
-						for (int k = 0; k < boosters.length; k++)
+						int k = 0;
+						while (k < boosters.length && !adjacent)
 						{
 							int xDistance = Math.abs(i - boosters[k].getX());
 							int yDistance = Math.abs(j - boosters[k].getY());
@@ -468,12 +463,13 @@ public class TankTactics extends JFrame
 							{
 								adjacent = true;
 							}
+							k++;
 						}
 						
 						if(!adjacent)
 						{
 							int [][] newPossible = new int [possible.length + 1][2];
-							for (int k = 0; k < possible.length; k++)
+							for (k = 0; k < possible.length; k++)
 							{
 								newPossible[k] = possible[k];
 							}
@@ -579,6 +575,7 @@ public class TankTactics extends JFrame
 			startingTime += cycleLength*1000;
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
+			actions.setText("A new cycle has started.");
 		}
 		
 		else if(e.getSource().equals(clock)) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
@@ -605,6 +602,7 @@ public class TankTactics extends JFrame
 		  	draw();
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
+			actions.setText("A new cycle has started.");
 		}
 		
 		else if(rulesShowed)	//Called when the JButton is pressed and the rules are desplayed, redrawes the field.
@@ -885,5 +883,8 @@ public class TankTactics extends JFrame
 		reader.nextLine();
 		alive = players;
 	    jury = new Tank [0];
+	    
+	    newLogin();
+	    actions.setText("This game has started with " + currentPlayer.getName() + " as the current player.");
 	}
 }
