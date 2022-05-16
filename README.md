@@ -1,7 +1,7 @@
 ## General Info
 ### Team Name: TankTactics
 ### Team Members: Fedor Khaldin, Itay Volk, Wilson Wu
-### Revision Date: 5/6/22
+### Revision Date: 5/15/22
 ### Discord Server: [Join Now](https://discord.gg/tKKjS9Puav "Discord server")
 
 # Project Info
@@ -52,7 +52,7 @@ Players of various ages looking for a simple and fun strategy game they can play
  - LightTank
 
 ### Team Responsibility: 
-- Itay: Wrote and now Managing core TankTactics class, which controls the main gameplay loop along with all graphics. Contributed greatly to actual game design.
+- Itay: Wrote and now Managing core TankTactics class, which controls the main gameplay loop along with all graphics. Also Wrote, and now Managing all special tanks classes. Contributed greatly to actual game design.
 - Fedor: Wrote and now Managing Tank superclass which handles all of the logic for all tank types. Contributed greatly to actual game design.
 - Wilson: Wrote and now Managing FieldElement class along with all on-field boosters. Contributed greatly to actual game design.
 
