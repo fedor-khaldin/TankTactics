@@ -12,11 +12,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -264,24 +261,27 @@ public class TankTactics extends JFrame
 		}
 
 		for (int i = 0; i < fieldElements.length; i++)
-	      {
+	    {
 	    	  for (int j = 0; j < fieldElements[i].length; j++)
 	    	  {
 	    		  if (fieldElements[i][j] == null)
 	    		  {
 	    			  Color tileColor;
-	    			  if ((i+j) % 2 == 0)
+	    			  if ((i+j)%2 == 0)
+	    			  {
 	    				  tileColor = new Color(69, 177, 72);
+	    			  }
 	    			  else
+	    			  {
 	    				  tileColor = new Color(82, 188, 82);
+	    			  }
 	    			  
 	    			  fieldElements[i][j] = new FieldElement(i, j, buttons[i][j], this, tileColor, "");
 	    		  }
 	    	  }
-	      }
+	    }
 
-		panel = new JPanel();
-		panel.setLayout(new GridLayout(fieldElements.length, fieldElements[0].length));
+		panel = new JPanel(new GridLayout(fieldElements[0].length, fieldElements.length));
 		for (int i = 0; i < fieldElements[0].length; i++)
 		{
 			for (int j = 0; j < fieldElements.length; j++)
@@ -306,33 +306,6 @@ public class TankTactics extends JFrame
 		c.repaint();
 		
 		full = false;
-		addComponentListener(new ComponentListener() {
-
-			@Override
-			public void componentResized(ComponentEvent e) {
-				Rectangle b = e.getComponent().getBounds();
-			    e.getComponent().setBounds(b.x, b.y, b.width, b.width + 40);
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void componentShown(ComponentEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void componentHidden(ComponentEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
 		
 		//Saves the data to the game save file when the window is closed, after asking the user if they want to log in again.
 		addWindowListener(new WindowAdapter() {
@@ -378,10 +351,30 @@ public class TankTactics extends JFrame
 		        if(saveToFile)
 		        {
 		        	clock.stop();
-		        	startingTime = System.currentTimeMillis();
 		        	Runnable saver = new Runnable() {
 		        		public void run() {
-		        			File file = new File("game save.txt");
+				        	startingTime = System.currentTimeMillis();
+				        	File file = null;
+							if (System.getProperty("os.name").indexOf("Windows") != -1)
+							{
+								File helper = new File(".");
+								file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
+										+ File.separator + "game save.txt");
+							}
+							else
+							{
+								file = new File ("fnl_CapstoneProject" + File.separator + "game save.txt");
+							}
+							
+							if(!file.exists())
+							{
+								try {
+									file.createNewFile();
+								} catch (IOException e) {
+									System.out.println("Cannot create game save file.");
+						        	System.exit(ERROR);
+								}
+							}
 							
 							PrintWriter fileOut = null;
 					        try
@@ -739,6 +732,32 @@ public class TankTactics extends JFrame
 		alive = newAlive;
 		if (alive.length <= 1)
 		{//Ends the game if there is only one player left alive.
+			File file = null;
+			if (System.getProperty("os.name").indexOf("Windows") != -1)
+			{
+				File helper = new File(".");
+				file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
+						+ File.separator + "game save.txt");
+			}
+			else
+			{
+				file = new File ("fnl_CapstoneProject" + File.separator + "game save.txt");
+			}
+			if(file.exists())
+			{
+				PrintWriter fileOut = null;
+		        try
+		        {
+		          fileOut = new PrintWriter(file);
+		        }
+		        catch (IOException ex)
+		        {
+		        	System.out.println("Cannot access game save file.");
+		        	System.exit(ERROR);
+		        }
+		        fileOut.print("");
+		        fileOut.close();
+			}
 			System.out.println(alive[0].getName() + " won.");
 	        System.exit(0);
 		}
@@ -815,70 +834,101 @@ public class TankTactics extends JFrame
 					System.out.println("No tank type for " + type + ", please input a valid type.");
 				}
 			}
-			int x = (int)(Math.random() * xField); 
-			int y = (int)(Math.random() * yField);
-			int j = 0, tried = 1;
-			String triedPosition = x + "," + y + ".";
-			while (players[j] != null && j < players.length)
+			
+			int [][] possible;
+			boolean retry;
+			do
 			{
-				int xDistance = Math.abs(x - players[j].getX());
-				int yDistance = Math.abs(y - players[j].getY());
-				if (xDistance <= 1 && yDistance <= 1)
+				retry = false;
+				possible = new int [0][2];
+				for (int j = 0; j < fieldElements.length; j++)
 				{
-					x = (int)(Math.random() * xField); 
-					y = (int)(Math.random() * yField);
-					j = 0;
-					if (triedPosition.indexOf(x + "," + y) == 1)
+					for (int k = 0; k < fieldElements[j].length; k++)
 					{
-						triedPosition += x + "," + y + ".";
-						tried++;
-						if (tried < fieldElements.length * fieldElements[0].length)
+						if (fieldElements[j][k] == null)
 						{
-							boolean continueAsking = true;
-							while (continueAsking)
+							boolean adjacent = false;
+							int l = 0;
+							while (players[l] != null && !adjacent)
 							{
-								System.out.print("There isn't enough room for the current amount of players, would you like to add a row or a column? ");
-								String choice = reader.next();
-								if (choice.equalsIgnoreCase("row"))
+								int xDistance = Math.abs(j - players[l].getX());
+								int yDistance = Math.abs(k - players[l].getY());
+								if (xDistance <= 1 && yDistance <= 1)
 								{
-									xField++;
-									continueAsking = false;
+									adjacent = true;
 								}
-								else if (choice.equalsIgnoreCase("column"))
-								{
-									yField++;
-									continueAsking = false;
-								}
-								else
-								{
-									System.out.println("There isn't an option for " + choice + ", please input a valid answer.");
-								}
+								l++;
 							}
 							
-							JButton [][] newButtons = new JButton[xField][yField];
-							fieldElements = new FieldElement[xField][yField];
-							for (int k = 0; k < newButtons.length; k++)
+							if(!adjacent)
 							{
-								for (int l = 0; l < newButtons[0].length; l++)
+								int [][] newPossible = new int [possible.length + 1][2];
+								for (l = 0; l < possible.length; l++)
 								{
-									if (buttons[k][l] != null)
-									{
-										newButtons [k][l] = buttons[k][l];
-									}
-									else
-									{
-										newButtons [k][l] = new JButton();
-									}
+									newPossible[l] = possible[l];
 								}
+								newPossible[possible.length][0] = j;
+								newPossible[possible.length][1] = k;
+								possible = newPossible;
 							}
 						}
 					}
 				}
-				else
+					
+				if (possible.length == 0)
 				{
-					j++;
+					retry = true;
+					boolean continueAsking = true;
+					while (continueAsking)
+					{
+						System.out.print("There isn't enough room for the current amount of players, would you like to add a row, a column, or both? ");
+						String choice = reader.next();
+						if (choice.equalsIgnoreCase("row"))
+						{
+							xField++;
+							continueAsking = false;
+						}
+						else if (choice.equalsIgnoreCase("column"))
+						{
+							yField++;
+							continueAsking = false;
+						}
+						else if (choice.equalsIgnoreCase("both"))
+						{
+							xField++;
+							yField++;
+							continueAsking = false;
+						}
+						else
+						{
+							System.out.println("There isn't an option for " + choice + ", please input a valid answer.");
+						}
+					}
+					
+					JButton [][] newButtons = new JButton[xField][yField];
+					fieldElements = new FieldElement[xField][yField];
+					for (int k = 0; k < newButtons.length; k++)
+					{
+						for (int l = 0; l < newButtons[k].length; l++)
+						{
+							if (k < buttons.length && l < buttons.length)
+							{
+								newButtons [k][l] = buttons[k][l];
+							}
+							else
+							{
+								newButtons [k][l] = new JButton();
+							}
+						}
+					}
+					
+					buttons = newButtons;
 				}
-			}
+			} while(retry);
+			
+			int position = (int)(Math.random() * possible.length);
+			int x = possible[position][0];
+			int y = possible[position][1];
 			
 			Tank nextPlayer = null;
 			if (type.equalsIgnoreCase(Tank.AOE))
@@ -909,6 +959,11 @@ public class TankTactics extends JFrame
 		reader.nextLine();
 		alive = players;
 	    jury = new Tank [0];
+	    
+	    actions = new JTextField("");
+	    actions.setEditable(false);
+	    actions.setHorizontalAlignment(JTextField.CENTER);
+	    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
 	    
 	    newLogin();
 	    actions.setText("This game has started with " + currentPlayer.getName() + " as the current player.");
