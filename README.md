@@ -57,6 +57,8 @@ Players of various ages looking for a simple and fun strategy game they can play
 - Wilson: Wrote and now Managing FieldElement class along with all on-field boosters. Contributed greatly to actual game design.
 
 ## Known Bugs/Workarounds:
+- At the moment icons for the diffrent field elements do not work due to some difficulty in file handling between MacOs and windows, will be fixed in a later release
+- Most SFX are not yet implemented 
 ## Key Learnings:
 ## Credit List:
 [Inspiration for Basic Game Design](https://www.gdcvault.com/play/1017744/The-Prototype-that-was-Banned#:~:text=Overview%3A,each%20other%20to%20this%20day "GDC Talk Describing Initial Prototype")
