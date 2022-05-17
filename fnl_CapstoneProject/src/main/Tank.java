@@ -75,8 +75,8 @@ public abstract class Tank extends FieldElement {
 	private boolean onJumper;
 	private boolean  atMax;
 	private boolean onShooter;
-	private ImageIcon regularTankIcon = new ImageIcon("fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator+ "tank.png");
-	File swag = new File("fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator+ "tank.png");
+	private ImageIcon regularTankIcon;
+	private String assetPath;
 	
 
 	// Tank Constructor
@@ -97,8 +97,30 @@ public abstract class Tank extends FieldElement {
 		this.onJumper = onJumper;
 		this.atMax = false;
 		this.onShooter = onShooter;
+
+		String type = this.getType();
+
+		if (System.getProperty("os.name").contains("Windows")) {
+			assetPath = "assets" +File.separator + "icons" + File.separator;
+		} else {
+			assetPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator;
+		}
+		
+		
+		if (type.equals(AOE)) {
+			regularTankIcon = new ImageIcon(assetPath + "tank_aoe.png");
+		} else if (type.equals(DOT)) {
+			regularTankIcon = new ImageIcon(assetPath + "tank_dot.png");
+		} else if (type.equals(LIGHT)) {
+			regularTankIcon = new ImageIcon(assetPath + "tank_light.png");
+		} else if (type.equals(HEAVY)) {
+			regularTankIcon = new ImageIcon(assetPath + "tank_heavy.png");
+		} else if (type.equals(BALANCED)) {
+			regularTankIcon = new ImageIcon(assetPath + "tank_balanced.png");
+		}
+
 		this.button.setIcon(regularTankIcon);
-		System.out.println(swag.getAbsolutePath());
+
 	}
 
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
@@ -141,7 +163,13 @@ public abstract class Tank extends FieldElement {
 						hit(this);
 					}
 
-					else System.out.println("You don't have enough energy to hit.");
+					else if (game.getCurrentPlayer().getEnergy() < 1) {
+						System.out.println("You don't have enough energy.");
+					}
+
+					else {
+						System.out.println("You are out of range.");
+					}
 				}
 
 				game.draw();
