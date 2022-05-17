@@ -102,8 +102,10 @@ public abstract class Tank extends FieldElement {
 
 		if (System.getProperty("os.name").contains("Windows")) {
 			assetPath = "assets" +File.separator + "icons" + File.separator;
+			System.out.println("user on windows");
 		} else {
 			assetPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator;
+			System.out.println("user on macos/linux");
 		}
 		
 		
