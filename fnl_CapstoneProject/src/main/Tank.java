@@ -104,11 +104,10 @@ public abstract class Tank extends FieldElement {
 		if (System.getProperty("os.name").contains("Windows")) {
 			iconPath = "assets" +File.separator + "icons" + File.separator;
 			soundPath = "assets" +File.separator + "sounds" + File.separator;
-			System.out.println("user on windows");
+			
 		} else {
 			iconPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator;
 			soundPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "sounds" + File.separator;
-			System.out.println("user on macos/linux");
 		}
 		
 		
@@ -385,10 +384,14 @@ public abstract class Tank extends FieldElement {
 			}
 
 			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
-
+			int offset = 0;
 			for (int i = 0; i < game.getAlive().length; i++) {
 				if (game.getAlive()[i]!= this) {
-					copyTankArray[i] = game.getAlive()[i];
+					copyTankArray[i] = game.getAlive()[i + offset];
+				}
+
+				else {
+					offset = 1;
 				}
 			}
 
