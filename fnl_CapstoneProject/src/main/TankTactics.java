@@ -26,8 +26,10 @@ import javax.swing.Timer;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import boosters.*;
 import tanks.*;
@@ -50,6 +52,8 @@ public class TankTactics extends JFrame
 	private JButton rules;
 	private boolean rulesShowed, full;
 	private JPanel panel;
+	
+	public static final String RULES = "rules";
 	
 	//Constructor
 	public TankTactics ()
@@ -647,14 +651,14 @@ public class TankTactics extends JFrame
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
 		}
-		else	//Called when the JButton is pressed and the rules aren't desplayed, desplayes the rules.
+		else	//Called when the JButton is pressed and the rules aren't displayed, displays the rules.
 		{
 			Container c = getContentPane();
 			c.removeAll();
 			clock.stop();
-			JTextField rulesBox = new JTextField();
-			rulesBox.setEditable(false);
+			JLabel rulesBox = new JLabel(RULES);
 			rulesBox.setSize(WIDTH, HEIGHT);
+			rulesBox.setHorizontalAlignment(SwingConstants.CENTER);
 			rules.setText("Stop showing rules.");
 			c.add(rules, BorderLayout.NORTH);
 			c.add(rulesBox, BorderLayout.CENTER);
@@ -788,6 +792,26 @@ public class TankTactics extends JFrame
 	//Prompts the user to input the information about the new game
 	private void newGame()
 	{
+		boolean continueAsking = true;
+        while (continueAsking)
+        {
+    		System.out.print("Do you want to read the rules of the game? (enter yes or no) ");
+        	String answer = reader.nextLine();
+        	if(answer.equalsIgnoreCase("yes"))
+        	{
+        		System.out.println(RULES + "\n");
+        		continueAsking = false;
+        	}
+        	else if(answer.equalsIgnoreCase("no"))
+        	{
+        		continueAsking = false;
+        	}
+        	else
+        	{
+        		System.out.println("There isn't an option for " + answer + ", please input a valid answer.");
+        	}
+        }
+		
 		System.out.print("Enter the width of the field ");
 		int xField = reader.nextInt();
 		System.out.print("Enter the height of the field ");
@@ -884,7 +908,7 @@ public class TankTactics extends JFrame
 				if (possible.length == 0)
 				{
 					retry = true;
-					boolean continueAsking = true;
+					continueAsking = true;
 					while (continueAsking)
 					{
 						System.out.print("There isn't enough room for the current amount of players, would you like to add a row, a column, or both? ");
