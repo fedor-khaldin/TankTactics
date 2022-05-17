@@ -68,7 +68,7 @@ public class FieldElement implements ActionListener{
 		Tank currentPlayer = tankTactics.getCurrentPlayer();
 		//if the field element is in the range of the current player
 		if(this.x<=currentPlayer.getX()+currentPlayer.getMovementRange()&&this.y<=currentPlayer.getY()+currentPlayer.getMovementRange()&&currentPlayer.getEnergy()>0) {
-			System.out.print("\nBefore\nCurrent: ("+currentPlayer.getButton().getX()+","+currentPlayer.getButton().getY()+")\nField Element: ("+this.button.getX()+","+this.button.getY()+")");
+			//System.out.print("\nBefore\nCurrent: ("+currentPlayer.getButton().getX()+","+currentPlayer.getButton().getY()+")\nField Element: ("+this.button.getX()+","+this.button.getY()+")");
 			//replaces current player with field element
 			FieldElement[][] newField = tankTactics.getFieldElements();
 			int x = currentPlayer.getX();
@@ -96,25 +96,17 @@ public class FieldElement implements ActionListener{
 			this.setButton(temp);
 				
 			//changes the fieldElement's color depending what it's x and y is
-			if(this.x%2==0) {
-				if(this.y%2==0) {
-					color = new Color(69, 177, 72);
-				}else {
-					color = new Color(82, 188, 82);
-				}
+			if((this.x+this.y)%2==0) {
+				color = new Color(69, 177, 72);
 			}else {
-				if(this.y%2==0) {
-					color = new Color(82, 188, 82);
-				}else {
-					color = new Color(69, 177, 72);
-				}
+				color = new Color(82, 188, 82);
 			}
 				
 			tankTactics.setButtons(buttons);
 				
 			currentPlayer.gainEnergy(-1);
 				
-			System.out.print("\nAfter\nCurrent: ("+currentPlayer.getButton().getX()+","+currentPlayer.getButton().getY()+")\nField Element: ("+this.button.getX()+","+this.button.getY()+")");
+			//System.out.print("\nAfter\nCurrent: ("+currentPlayer.getButton().getX()+","+currentPlayer.getButton().getY()+")\nField Element: ("+this.button.getX()+","+this.button.getY()+")");
 			
 		}
 		tankTactics.draw();
