@@ -76,7 +76,8 @@ public abstract class Tank extends FieldElement {
 	private boolean  atMax;
 	private boolean onShooter;
 	private ImageIcon regularTankIcon;
-	private String assetPath;
+	private String iconPath;
+	private String soundPath;
 	
 
 	// Tank Constructor
@@ -101,24 +102,26 @@ public abstract class Tank extends FieldElement {
 		String type = this.getType();
 
 		if (System.getProperty("os.name").contains("Windows")) {
-			assetPath = "assets" +File.separator + "icons" + File.separator;
+			iconPath = "assets" +File.separator + "icons" + File.separator;
+			soundPath = "assets" +File.separator + "sounds" + File.separator;
 			System.out.println("user on windows");
 		} else {
-			assetPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator;
+			iconPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator;
+			soundPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "sounds" + File.separator;
 			System.out.println("user on macos/linux");
 		}
 		
 		
 		if (type.equals(AOE)) {
-			regularTankIcon = new ImageIcon(assetPath + "tank_aoe.png");
+			regularTankIcon = new ImageIcon(iconPath + "tank_aoe.png");
 		} else if (type.equals(DOT)) {
-			regularTankIcon = new ImageIcon(assetPath + "tank_dot.png");
+			regularTankIcon = new ImageIcon(iconPath + "tank_dot.png");
 		} else if (type.equals(LIGHT)) {
-			regularTankIcon = new ImageIcon(assetPath + "tank_light.png");
+			regularTankIcon = new ImageIcon(iconPath + "tank_light.png");
 		} else if (type.equals(HEAVY)) {
-			regularTankIcon = new ImageIcon(assetPath + "tank_heavy.png");
+			regularTankIcon = new ImageIcon(iconPath + "tank_heavy.png");
 		} else if (type.equals(BALANCED)) {
-			regularTankIcon = new ImageIcon(assetPath + "tank_balanced.png");
+			regularTankIcon = new ImageIcon(iconPath + "tank_balanced.png");
 		}
 
 		this.button.setIcon(regularTankIcon);
@@ -139,7 +142,7 @@ public abstract class Tank extends FieldElement {
 						this.upgradeEnergy(1);
 
 						try {
-							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/transfer-tank-energy.wav").getAbsoluteFile());
+							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + "transfer-tank-energy.wav").getAbsoluteFile());
 							Clip clip = AudioSystem.getClip();
 							clip.open(audioInputStream);
 							clip.start();
@@ -372,7 +375,7 @@ public abstract class Tank extends FieldElement {
 		else if (this.life <= 0) {
 
 			try {
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/tank-killed.wav").getAbsoluteFile());
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + "tank-killed.wav").getAbsoluteFile());
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
@@ -412,7 +415,7 @@ public abstract class Tank extends FieldElement {
 	public void hit(Tank target) {
 		
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("fnl_CapstoneProject/assets/sounds/tank-fire.wav").getAbsoluteFile());
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + "tank-fire.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
