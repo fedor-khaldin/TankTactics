@@ -235,11 +235,18 @@ public class TankTactics extends JFrame
 		    	
 		    	Booster nextBooster = null;
 		    	if (type.equalsIgnoreCase(Booster.ENERGY))
-		    		nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-energysupplier.png"));
+		    		nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-energygiver.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.HEAL))
 	    	  		nextBooster = new Healer (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-healer.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.HIDDEN))
-	    	  		nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-hidden.png"));
+	    	  	{
+	    	  		ImageIcon grass = null;
+	    			  if ((x+y) % 2 == 0)
+	    				  grass = new ImageIcon(iconPath + "grass1.png");
+	    			  else
+	    				  grass = new ImageIcon(iconPath + "grass2.png");
+	    	  		nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, grass);
+	    	  	}
 	    	  	else if (type.equalsIgnoreCase(Booster.JUMPER))
 	    	  		nextBooster = new Jumper (x, y, buttons[x][y], this, new ImageIcon(iconPath + "booster-jumper.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
@@ -253,7 +260,7 @@ public class TankTactics extends JFrame
 	    	  	else if (type.equalsIgnoreCase(Booster.SHOOT))
 	    	  		nextBooster = new Shooter (x, y, buttons[x][y], this, new ImageIcon(iconPath + "booster-shooter.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
-	    	  		nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-shootingrange.png"));
+	    	  		nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-shootrange.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.SPECIAL))
 	    	  		nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-special.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.UNKNOWN))
@@ -543,38 +550,61 @@ public class TankTactics extends JFrame
 				{
 					strength *= -1;
 				}
-				//TODO
+				
+		    	String iconPath = "";
+				if (System.getProperty("os.name").contains("Windows")) {
+					iconPath = "assets" + File.separator + "icons" + File.separator;
+				} else {
+					iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
+				}
+				
 				Booster newBooster = null;
 				switch (type)
 				{
 					case 0:
-						nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-energysupplier.png"));
+						newBooster = new EnergySupplier (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-energygiver.png"));
 						break;
 					case 1:
-						nextBooster = new Healer (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-healer.png"));
+						newBooster = new Healer (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-healer.png"));
 						break;
 					case 2:
-						nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-hidden.png"));
+						ImageIcon grass = null;
+		    			  if ((newX+newY) % 2 == 0)
+		    				  grass = new ImageIcon(iconPath + "grass1.png");
+		    			  else
+		    				  grass = new ImageIcon(iconPath + "grass2.png");
+						newBooster = new HiddenBooster (newX, newY, strength, buttons[newX][newY], this, grass);
 						break;
-	    	  	else if (type.equalsIgnoreCase(Booster.JUMPER))
-	    	  		nextBooster = new Jumper (x, y, buttons[x][y], this, new ImageIcon(iconPath + "booster-jumper.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
-	    	  		nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-maxenergy.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.MAX_LIFE))
-	    	  		nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-maxlife.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.MOVEMENT_RANGE))
-	    	  		nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-movementrange.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.POWER))
-	    	  		nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-power.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.SHOOT))
-	    	  		nextBooster = new Shooter (x, y, buttons[x][y], this, new ImageIcon(iconPath + "booster-shooter.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
-	    	  		nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-shootingrange.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.SPECIAL))
-	    	  		nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-special.png"));
-	    	  	else if (type.equalsIgnoreCase(Booster.UNKNOWN))
-	    	  		nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-unknown.png"));
-	    	  		nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-debuff.png"));
+					case 3:
+						newBooster = new Jumper (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-jumper.png"));
+						break;
+					case 4:
+						newBooster = new MaxEnergyBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-maxenergy.png"));
+						break;
+					case 5:
+						newBooster = new MaxLifeBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-maxlife.png"));
+						break;
+					case 6:
+						newBooster = new MovementRangeBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-movementrange.png"));
+						break;
+					case 7:
+						newBooster = new PowerBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-power.png"));
+						break;
+					case 8:
+						newBooster = new Shooter (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-shooter.png"));
+						break;
+					case 9:
+						newBooster = new ShootingRangeBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-shootrange.png"));
+						break;
+					case 10:
+						newBooster = new SpecialBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-special.png"));
+						break;
+					case 11:
+						newBooster = new UnknownBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-unknown.png"));
+						break;
+					case 12:
+						newBooster = new DebuffBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-debuff.png"));
+						break;
 				}
 			  	Booster [] addedBoosters = new Booster [boosters.length + 1];
 			  	for (int i = 0; i < boosters.length; i++)
