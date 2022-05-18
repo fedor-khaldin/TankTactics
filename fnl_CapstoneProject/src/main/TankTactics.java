@@ -491,10 +491,8 @@ public class TankTactics extends JFrame
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("cycle");
 		if (e.getSource().equals(clock) && !full) 	//Called whenever the timer reaches zero and there are remaining spaces, symbolizes a new cycle.
 		{
-			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			clock.stop();
 			playSound("new-cycle.wav", false, false, false);
 			
@@ -630,7 +628,6 @@ public class TankTactics extends JFrame
 		
 		else if(e.getSource().equals(clock)) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
 		{
-			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			clock.stop();
 			playSound("new-cycle.wav", false, false, false);
 			
@@ -658,13 +655,11 @@ public class TankTactics extends JFrame
 		
 		else if(e.getSource().equals(soundPlaying)) //Called whenever the timer reaches zero, symbollizes the song ending.
 		{
-			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			if(!sound.isBlank())
 			{
 				playSound(sound, override, false, loop);
 				sound = "";
 			}
-			System.out.println(sound);
 			soundPlaying.stop();
 		}
 		
@@ -796,8 +791,7 @@ public class TankTactics extends JFrame
 		        	System.gc();
 		        	new PrintWriter(file).close();
 		        	new Scanner(file).close();
-					boolean delete = file.delete();
-					System.out.println(delete);
+					file.delete();
 		        }
 		        catch (Exception ex)
 		        {
@@ -840,7 +834,6 @@ public class TankTactics extends JFrame
 		{
 			if (!soundPlaying.isRunning())
 			{
-				System.out.println(file);
 				try {
 					Clip originalClip = AudioSystem.getClip();
 					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
@@ -869,12 +862,10 @@ public class TankTactics extends JFrame
 				sound = file;
 				override = canBeOverided;
 				this.loop = loop;
-				System.out.println(file + override);
 			}
 		}
 		else
 		{
-			System.out.println(file);
 			try {
 				Clip originalClip = AudioSystem.getClip();
 				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
