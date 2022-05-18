@@ -134,16 +134,7 @@ public abstract class Tank extends FieldElement {
 					if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
 						this.upgradeEnergy(1);
 
-						try {
-							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
-									new File(soundPath + "transfer-tank-energy.wav").getAbsoluteFile());
-							Clip clip = AudioSystem.getClip();
-							clip.open(audioInputStream);
-							clip.start();
-						} catch (Exception ex) {
-							System.out.println("Error with playing sound.");
-							ex.printStackTrace();
-						}
+						game.playSound("transfer-tanl-energy.wav", true, false, false);
 
 						game.getCurrentPlayer().upgradeEnergy(-1);
 					}
@@ -363,16 +354,7 @@ public abstract class Tank extends FieldElement {
 
 		else if (this.life <= 0) {
 
-			try {
-				AudioInputStream audioInputStream = AudioSystem
-						.getAudioInputStream(new File(soundPath + "tank-killed.wav").getAbsoluteFile());
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-			} catch (Exception ex) {
-				System.out.println("Error with playing sound.");
-				ex.printStackTrace();
-			}
+			game.playSound("tank-killed.wav", true, false, false);
 
 			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
 			int offset = 0;
@@ -408,17 +390,7 @@ public abstract class Tank extends FieldElement {
 	// Makes a tank take damage
 	public void hit(Tank target) {
 
-		try {
-			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File(soundPath + "tank-fire.wav").getAbsoluteFile());
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start();
-		} catch (Exception ex) {
-			System.out.println("Error with playing sound.");
-			ex.printStackTrace();
-		}
-
+		game.playSound("tank-fire.wav", true, false, false);
 		target.life -= game.getCurrentPlayer().getPower();
 		this.heal(0);
 
