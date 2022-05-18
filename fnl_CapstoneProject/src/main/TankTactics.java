@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 5/16/2022
+ * Date: 5/18/2022
  * Rev: 10
  * Notes: this class manages a TankTactics game
  */
@@ -50,7 +50,7 @@ public class TankTactics extends JFrame
 	private Scanner reader = new Scanner(System.in);
 	private JTextField actions;
 	private JButton rules;
-	private boolean rulesShowed, full, override;
+	private boolean rulesShowed, full, override, loop;
 	private JPanel panel;
 	private String sound;
 	
@@ -434,12 +434,12 @@ public class TankTactics extends JFrame
 			}
 		});
 		
-		playSound("start-game.wav", false, false);
+		playSound("start-game.wav", false, false, false);
 		
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 		
-		playSound("background-game.wav", true, true);
+		playSound("background-game.wav", true, true, true);
 	}
 	
 	//Public methods
@@ -491,12 +491,10 @@ public class TankTactics extends JFrame
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("cycle");
 		if (e.getSource().equals(clock) && !full) 	//Called whenever the timer reaches zero and there are remaining spaces, symbolizes a new cycle.
 		{
-			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			clock.stop();
-			playSound("new-cycle.wav", false, false);
+			playSound("new-cycle.wav", false, false, false);
 			
 			int [][] possible = new int [0][2];
 			for (int i = 0; i < fieldElements.length; i++)
@@ -630,9 +628,8 @@ public class TankTactics extends JFrame
 		
 		else if(e.getSource().equals(clock)) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
 		{
-			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			clock.stop();
-			playSound("new-cycle.wav", false, false);
+			playSound("new-cycle.wav", false, false, false);
 			
 			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
 			{
@@ -658,13 +655,11 @@ public class TankTactics extends JFrame
 		
 		else if(e.getSource().equals(soundPlaying)) //Called whenever the timer reaches zero, symbollizes the song ending.
 		{
-			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
-			// if(!sound.isBlank())
-			// {
-			// 	playSound(sound, override, false);
-			// 	sound = "";
-			// }
-			System.out.println(sound);
+			if(!sound.isBlank())
+			{
+				playSound(sound, override, false, loop);
+				sound = "";
+			}
 			soundPlaying.stop();
 		}
 		
@@ -776,7 +771,7 @@ public class TankTactics extends JFrame
 		alive = newAlive;
 		if (alive.length <= 1)
 		{//Ends the game if there is only one player left alive.
-			playSound("win-game.wav", true, true);
+			playSound("win-game.wav", true, true, false);
 			File file = null;
 			if (System.getProperty("os.name").indexOf("Windows") != -1)
 			{
@@ -796,8 +791,7 @@ public class TankTactics extends JFrame
 		        	System.gc();
 		        	new PrintWriter(file).close();
 		        	new Scanner(file).close();
-					boolean delete = file.delete();
-					System.out.println(delete);
+					file.delete();
 		        }
 		        catch (Exception ex)
 		        {
@@ -825,7 +819,7 @@ public class TankTactics extends JFrame
 	}
 	
 	//Plays the sound file with the name file(which should include the type).
-	public void playSound(String file, boolean canBeOverided, boolean runLater)
+	public void playSound(String file, boolean canBeOverided, boolean runLater, boolean loop)
 	{
 		Clip clip = null;
 		String soundPath = "";
@@ -840,7 +834,6 @@ public class TankTactics extends JFrame
 		{
 			if (!soundPlaying.isRunning())
 			{
-				System.out.println(file);
 				try {
 					Clip originalClip = AudioSystem.getClip();
 					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
@@ -848,11 +841,15 @@ public class TankTactics extends JFrame
 					if(!originalClip.equals(clip))
 					{
 						clip.open(audioInputStream);
+						if(loop)
+						{
+							clip.loop(Clip.LOOP_CONTINUOUSLY);
+						}
 						clip.start();
 						
 						if (!canBeOverided)
 						{
-							soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
+							soundPlaying = new Timer((int)(clip.getMicrosecondLength() / 1000.0 + 0.5), this);
 							soundPlaying.start();
 						}
 					}
@@ -864,12 +861,11 @@ public class TankTactics extends JFrame
 			{
 				sound = file;
 				override = canBeOverided;
-				System.out.println(file + override);
+				this.loop = loop;
 			}
 		}
 		else
 		{
-			System.out.println(file);
 			try {
 				Clip originalClip = AudioSystem.getClip();
 				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
@@ -877,11 +873,15 @@ public class TankTactics extends JFrame
 				if(!originalClip.equals(clip))
 				{
 					clip.open(audioInputStream);
+					if(loop)
+					{
+						clip.loop(Clip.LOOP_CONTINUOUSLY);
+					}
 					clip.start();
 					
 					if (!canBeOverided)
 					{
-						soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
+						soundPlaying = new Timer((int)(clip.getMicrosecondLength() / 1000.0 + 0.5), this);
 						soundPlaying.start();
 					}
 				}
