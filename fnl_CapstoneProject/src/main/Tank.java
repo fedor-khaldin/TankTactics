@@ -41,16 +41,11 @@ package main;
 import java.awt.Color;
 import java.io.File;
 
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
-
-
-
 
 public abstract class Tank extends FieldElement {
 
@@ -73,16 +68,16 @@ public abstract class Tank extends FieldElement {
 	private String password;
 	private TankTactics game;
 	private boolean onJumper;
-	private boolean  atMax;
+	private boolean atMax;
 	private boolean onShooter;
 	private ImageIcon regularTankIcon;
 	private String iconPath;
 	private String soundPath;
-	
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
-			int energy, int maxEnergy, int votes, String password, JButton button, TankTactics game, boolean onJumper, boolean onShooter) {
+			int energy, int maxEnergy, int votes, String password, JButton button, TankTactics game, boolean onJumper,
+			boolean onShooter) {
 
 		super(x, y, button, game, new Color(69, 177, 72), name);
 		this.power = power;
@@ -102,15 +97,14 @@ public abstract class Tank extends FieldElement {
 		String type = this.getType();
 
 		if (System.getProperty("os.name").contains("Windows")) {
-			iconPath = "assets" +File.separator + "icons" + File.separator;
-			soundPath = "assets" +File.separator + "sounds" + File.separator;
-			
+			iconPath = "assets" + File.separator + "icons" + File.separator;
+			soundPath = "assets" + File.separator + "sounds" + File.separator;
+
 		} else {
-			iconPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "icons" + File.separator;
-			soundPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "sounds" + File.separator;
+			iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
+			soundPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "sounds" + File.separator;
 		}
-		
-		
+
 		if (type.equals(AOE)) {
 			regularTankIcon = new ImageIcon(iconPath + "tank_aoe.png");
 		} else if (type.equals(DOT)) {
@@ -131,9 +125,9 @@ public abstract class Tank extends FieldElement {
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent e) {
 		// This was moved to the constructor.
-		
+
 		int mods = e.getModifiers();
-		
+
 		if (!this.equals(game.getCurrentPlayer())) {
 			if (game.getCurrentPlayer().life > 0) {
 				if (mods == 17) {
@@ -141,29 +135,32 @@ public abstract class Tank extends FieldElement {
 						this.upgradeEnergy(1);
 
 						try {
-							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + "transfer-tank-energy.wav").getAbsoluteFile());
+							AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+									new File(soundPath + "transfer-tank-energy.wav").getAbsoluteFile());
 							Clip clip = AudioSystem.getClip();
 							clip.open(audioInputStream);
 							clip.start();
-						} catch(Exception ex) {
+						} catch (Exception ex) {
 							System.out.println("Error with playing sound.");
 							ex.printStackTrace();
 						}
 
 						game.getCurrentPlayer().upgradeEnergy(-1);
 					}
-		
+
 					else if (this.atMax) {
 						System.out.println("The tank " + this.name + " is at max energy.");
 					}
-		
+
 					else {
 						System.out.println("You don't have enough energy.");
 					}
 				}
 
 				else {
-					if (game.getCurrentPlayer().getEnergy() >= 1 && this.x<game.getCurrentPlayer().getX()+game.getCurrentPlayer().getShootingRange()&&this.y<game.getCurrentPlayer().getY()+game.getCurrentPlayer().getMovementRange()) {
+					if (game.getCurrentPlayer().getEnergy() >= 1
+							&& this.x < game.getCurrentPlayer().getX() + game.getCurrentPlayer().getShootingRange()
+							&& this.y < game.getCurrentPlayer().getY() + game.getCurrentPlayer().getMovementRange()) {
 						hit(this);
 					}
 
@@ -192,9 +189,9 @@ public abstract class Tank extends FieldElement {
 			}
 		}
 
-
 		else {
-			game.getCurrentPlayer().upgradeMenu();
+			if (game.getCurrentPlayer().getEnergy() >= 1)
+				game.getCurrentPlayer().upgradeMenu();
 		}
 
 		game.draw();
@@ -235,8 +232,6 @@ public abstract class Tank extends FieldElement {
 		if (this.power < 0)
 			this.power = 1;
 
-		
-
 	}
 
 	// Upgrades Tank Shooting Range
@@ -244,8 +239,7 @@ public abstract class Tank extends FieldElement {
 		this.shootingRange += upgradeAmt;
 		if (this.shootingRange < 0)
 			this.shootingRange = 1;
-		
-		
+
 	}
 
 	// Upgrades Tank Movement Range
@@ -253,8 +247,7 @@ public abstract class Tank extends FieldElement {
 		this.movementRange += upgradeAmt;
 		if (this.movementRange < 0)
 			this.movementRange = 1;
-	
-		
+
 	}
 
 	// Upgrades Tank Max Life
@@ -262,8 +255,7 @@ public abstract class Tank extends FieldElement {
 		this.maxLife += upgradeAmt;
 		if (this.maxLife < 0)
 			this.maxLife = 1;
-		
-		
+
 	}
 
 	// Upgrades Tank Max Energy
@@ -271,8 +263,7 @@ public abstract class Tank extends FieldElement {
 		this.maxEnergy += upgradeAmt;
 		if (this.maxEnergy < 0)
 			this.maxEnergy = 1;
-		
-		
+
 	}
 
 	// Adjust Tank Energy
@@ -289,8 +280,7 @@ public abstract class Tank extends FieldElement {
 
 		else
 			this.atMax = false;
-		
-		
+
 	}
 
 	// Abstract method that upgrades tank's special ability
@@ -374,11 +364,12 @@ public abstract class Tank extends FieldElement {
 		else if (this.life <= 0) {
 
 			try {
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + "tank-killed.wav").getAbsoluteFile());
+				AudioInputStream audioInputStream = AudioSystem
+						.getAudioInputStream(new File(soundPath + "tank-killed.wav").getAbsoluteFile());
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioInputStream);
 				clip.start();
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				System.out.println("Error with playing sound.");
 				ex.printStackTrace();
 			}
@@ -386,7 +377,7 @@ public abstract class Tank extends FieldElement {
 			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
 			int offset = 0;
 			for (int i = 0; i < game.getAlive().length; i++) {
-				if (game.getAlive()[i]!= this) {
+				if (game.getAlive()[i] != this) {
 					copyTankArray[i] = game.getAlive()[i + offset];
 				}
 
@@ -416,20 +407,21 @@ public abstract class Tank extends FieldElement {
 
 	// Makes a tank take damage
 	public void hit(Tank target) {
-		
+
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + "tank-fire.wav").getAbsoluteFile());
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File(soundPath + "tank-fire.wav").getAbsoluteFile());
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			System.out.println("Error with playing sound.");
 			ex.printStackTrace();
 		}
-		
+
 		target.life -= game.getCurrentPlayer().getPower();
 		this.heal(0);
-		
+
 	}
 
 	// Checks if inputted string matches password
@@ -464,7 +456,7 @@ public abstract class Tank extends FieldElement {
 				return;
 			} else {
 				this.energy -= upgradeAmt;
-				
+
 				switch (upgradeChoice) {
 					case 1:
 						this.upgradePower(upgradeAmt);
@@ -492,10 +484,9 @@ public abstract class Tank extends FieldElement {
 				}
 			}
 
-		game.draw();
+			game.draw();
 		}
 	}
-
 
 	// On Shooter handling
 
@@ -516,7 +507,7 @@ public abstract class Tank extends FieldElement {
 	// Adds a vote to the tank
 	public void gainVotes(int amountOfVotes) {
 		this.votes += amountOfVotes;
-	
+
 		if (votes >= 3) {
 			this.upgradeEnergy(1);
 		}
@@ -525,7 +516,6 @@ public abstract class Tank extends FieldElement {
 			this.upgradeEnergy(-1);
 		}
 	}
-
 
 	// SetButton
 	@Override
