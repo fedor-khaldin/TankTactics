@@ -12,7 +12,7 @@ import main.*;
 
 public class ShootingRangeBooster extends Booster {
 	public ShootingRangeBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "<html>Shooting<br>Range<br>Booster<br><html>"+strength, new Color(0, 188, 255));
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the booster type

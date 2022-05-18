@@ -12,7 +12,7 @@ import main.*;
 
 public class Shooter extends Booster {
 	public Shooter(int x, int y, JButton button, TankTactics tankTactics) {
-		super(x, y,0, button, tankTactics, "<html>Shooter<br><html>", new Color(0, 255, 255));
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the booster type
