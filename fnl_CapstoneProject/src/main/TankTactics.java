@@ -659,11 +659,11 @@ public class TankTactics extends JFrame
 		else if(e.getSource().equals(soundPlaying)) //Called whenever the timer reaches zero, symbollizes the song ending.
 		{
 			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
-			if(!sound.isBlank())
-			{
-				playSound(sound, override, false);
-				sound = "";
-			}
+			// if(!sound.isBlank())
+			// {
+			// 	playSound(sound, override, false);
+			// 	sound = "";
+			// }
 			System.out.println(sound);
 			soundPlaying.stop();
 		}

@@ -114,7 +114,7 @@ public class FieldElement implements ActionListener{
 	
 	//draws the field element
 	public void draw() {
-		button.setText(name);
+		button.setText("");
 		button.setBackground(color);
 		button.setOpaque(true);
 		button.setBorderPainted(false);
