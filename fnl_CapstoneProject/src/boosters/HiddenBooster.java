@@ -11,8 +11,8 @@ import java.awt.event.*;
 import main.*;
 
 public class HiddenBooster extends Booster {
-	public HiddenBooster(int x, int y, int strength, JButton button, TankTactics tankTactics, Color color) {
-		super(x, y,strength, button, tankTactics, "", color);
+	public HiddenBooster(int x, int y, int strength, JButton button, TankTactics tankTactics, ImageIcon icon) {
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the booster type

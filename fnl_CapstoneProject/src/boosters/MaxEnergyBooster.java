@@ -12,7 +12,7 @@ import main.*;
 
 public class MaxEnergyBooster extends Booster {
 	public MaxEnergyBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "<html>Max<br>Energy<br>Booster<br><html>"+strength, new Color(145, 255, 0));
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the type

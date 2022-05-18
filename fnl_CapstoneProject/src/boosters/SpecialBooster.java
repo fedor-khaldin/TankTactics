@@ -12,7 +12,7 @@ import main.*;
 
 public class SpecialBooster extends Booster {
 	public SpecialBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y, strength, button, tankTactics, "<html>Special<br>Booster<br><html>"+strength, new Color(0, 128, 255));
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the booster type

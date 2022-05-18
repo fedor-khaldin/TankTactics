@@ -12,7 +12,7 @@ import main.*;
 
 public class EnergySupplier extends Booster {
 	public EnergySupplier(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "<html>Energy<br>Supplier<br><html>"+strength, new Color(255, 255, 224));
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the booster type

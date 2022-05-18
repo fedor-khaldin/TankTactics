@@ -8,8 +8,11 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.Button;
 import java.awt.Color;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
@@ -17,14 +20,14 @@ public class FieldElement implements ActionListener{
 	protected int x, y;
 	protected JButton button;
 	protected TankTactics tankTactics;
-	private Color color;
-	protected String name;
-	public FieldElement(int x, int y, JButton button, TankTactics tankTactics, Color color, String name) {
+	private ImageIcon icon;
+	private String name;
+	public FieldElement(int x, int y, JButton button, TankTactics tankTactics, ImageIcon icon, String name) {
 		this.x = x;
 		this.y = y;
 		this.button = button;
 		this.tankTactics = tankTactics;
-		this.color = color;
+		this.icon = icon;
 		this.name = name;
 		button.addActionListener(this);
 	}
@@ -96,10 +99,17 @@ public class FieldElement implements ActionListener{
 			this.setButton(temp);
 				
 			//changes the fieldElement's color depending what it's x and y is
+			String iconPath = "";
+			if (System.getProperty("os.name").contains("Windows")) {
+				iconPath = "assets" + File.separator + "icons" + File.separator;
+			} else {
+				iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
+			}
+			
 			if((this.x+this.y)%2==0) {
-				color = new Color(69, 177, 72);
+				icon = new ImageIcon(iconPath + "grass1.png");
 			}else {
-				color = new Color(82, 188, 82);
+				icon = new ImageIcon(iconPath + "grass2.png");
 			}
 				
 			tankTactics.setButtons(buttons);
@@ -114,8 +124,7 @@ public class FieldElement implements ActionListener{
 	
 	//draws the field element
 	public void draw() {
-		button.setText("");
-		button.setBackground(color);
+		button.setIcon(icon);
 		button.setOpaque(true);
 		button.setBorderPainted(false);
 	}
