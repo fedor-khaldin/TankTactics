@@ -50,7 +50,7 @@ public class TankTactics extends JFrame
 	private Scanner reader = new Scanner(System.in);
 	private JTextField actions;
 	private JButton rules;
-	private boolean rulesShowed, full, overide;
+	private boolean rulesShowed, full, override;
 	private JPanel panel;
 	private String sound;
 	
@@ -656,12 +656,12 @@ public class TankTactics extends JFrame
 			clock.start();
 		}
 		
-		else if(e.getSource().equals(soundPlaying))
+		else if(e.getSource().equals(soundPlaying)) //Called whenever the timer reaches zero, symbollizes the song ending.
 		{
 			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			if(!sound.isBlank())
 			{
-				playSound(sound, overide, false);
+				playSound(sound, override, false);
 				sound = "";
 			}
 			System.out.println(sound);
@@ -822,6 +822,73 @@ public class TankTactics extends JFrame
 		actions.setText(action);
 		setVisible(false);
 		setVisible(true);
+	}
+	
+	//Plays the sound file with the name file(which should include the type).
+	public void playSound(String file, boolean canBeOverided, boolean runLater)
+	{
+		Clip clip = null;
+		String soundPath = "";
+		if (System.getProperty("os.name").contains("Windows")) {
+			soundPath = "assets" +File.separator + "sounds" + File.separator;
+			
+		} else {
+			soundPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "sounds" + File.separator;
+		}
+		
+		if (soundPlaying != null)
+		{
+			if (!soundPlaying.isRunning())
+			{
+				System.out.println(file);
+				try {
+					Clip originalClip = AudioSystem.getClip();
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
+					clip = AudioSystem.getClip();
+					if(!originalClip.equals(clip))
+					{
+						clip.open(audioInputStream);
+						clip.start();
+						
+						if (!canBeOverided)
+						{
+							soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
+							soundPlaying.start();
+						}
+					}
+				} catch(Exception e) {
+					System.out.println("Error with playing sound1.");
+				}
+			}
+			else if(runLater)
+			{
+				sound = file;
+				override = canBeOverided;
+				System.out.println(file + override);
+			}
+		}
+		else
+		{
+			System.out.println(file);
+			try {
+				Clip originalClip = AudioSystem.getClip();
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
+				clip = AudioSystem.getClip();
+				if(!originalClip.equals(clip))
+				{
+					clip.open(audioInputStream);
+					clip.start();
+					
+					if (!canBeOverided)
+					{
+						soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
+						soundPlaying.start();
+					}
+				}
+			} catch(Exception e) {
+				System.out.println("Error with playing sound4.");
+			}
+		}
 	}
 	
 	//Private methods
@@ -1014,71 +1081,5 @@ public class TankTactics extends JFrame
 	    
 	    newLogin();
 	    actions.setText("This game has started with " + currentPlayer.getName() + " as the current player.");
-	}
-	
-	public void playSound(String file, boolean canBeOverided, boolean runLater)
-	{
-		Clip clip = null;
-		String soundPath = "";
-		if (System.getProperty("os.name").contains("Windows")) {
-			soundPath = "assets" +File.separator + "sounds" + File.separator;
-			
-		} else {
-			soundPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "sounds" + File.separator;
-		}
-		
-		if (soundPlaying != null)
-		{
-			if (!soundPlaying.isRunning())
-			{
-				System.out.println(file);
-				try {
-					Clip originalClip = AudioSystem.getClip();
-					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
-					clip = AudioSystem.getClip();
-					if(!originalClip.equals(clip))
-					{
-						clip.open(audioInputStream);
-						clip.start();
-						
-						if (!canBeOverided)
-						{
-							soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
-							soundPlaying.start();
-						}
-					}
-				} catch(Exception e) {
-					System.out.println("Error with playing sound1.");
-				}
-			}
-			else if(runLater)
-			{
-				sound = file;
-				overide = canBeOverided;
-				System.out.println(file + overide);
-			}
-		}
-		else
-		{
-			System.out.println(file);
-			try {
-				Clip originalClip = AudioSystem.getClip();
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
-				clip = AudioSystem.getClip();
-				if(!originalClip.equals(clip))
-				{
-					clip.open(audioInputStream);
-					clip.start();
-					
-					if (!canBeOverided)
-					{
-						soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
-						soundPlaying.start();
-					}
-				}
-			} catch(Exception e) {
-				System.out.println("Error with playing sound4.");
-			}
-		}
 	}
 }
