@@ -454,8 +454,6 @@ public class TankTactics extends JFrame
 				fieldElements[j][i].draw();
 			}
 		}
-		setVisible(false);
-		setVisible(true);
 	}
 	
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
@@ -653,7 +651,7 @@ public class TankTactics extends JFrame
 			clock.start();
 		}
 		
-		else if(e.getSource().equals(soundPlaying)) //Called whenever the timer reaches zero, symbollizes the song ending.
+		else if(e.getSource().equals(soundPlaying)) //Called whenever the timer reaches zero, symbolizes the song ending.
 		{
 			if(!sound.isEmpty())
 			{
@@ -663,7 +661,7 @@ public class TankTactics extends JFrame
 			soundPlaying.stop();
 		}
 		
-		else if(rulesShowed)	//Called when the JButton is pressed and the rules are desplayed, redrawes the field.
+		else if(rulesShowed)	//Called when the JButton is pressed and the rules are displayed, redraws the field.
 		{
 			rules.setText("R");
 			Box bar = Box.createHorizontalBox();
@@ -694,8 +692,6 @@ public class TankTactics extends JFrame
 			c.add(rulesBox, BorderLayout.CENTER);
 			c.repaint();
 			rulesShowed = true;
-			setVisible(false);
-			setVisible(true);
 		}
 	}
 	
@@ -814,8 +810,6 @@ public class TankTactics extends JFrame
 	public void setActionsText (String action)
 	{
 		actions.setText(action);
-		setVisible(false);
-		setVisible(true);
 	}
 	
 	//Plays the sound file with the name file(which should include the type).
