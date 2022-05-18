@@ -24,6 +24,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -117,6 +118,13 @@ public class TankTactics extends JFrame
 		    		buttons [i] [j] = new JButton();
 		    	}
 		    }
+		    
+	    	String iconPath = "";
+			if (System.getProperty("os.name").contains("Windows")) {
+				iconPath = "assets" + File.separator + "icons" + File.separator;
+			} else {
+				iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
+			}
 	    	  
 		    while (fileIn.hasNextInt())
 		    {
@@ -143,16 +151,16 @@ public class TankTactics extends JFrame
 		    	if (type.equalsIgnoreCase(Tank.AOE))
 		    		nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
 		    								energy, maxEnergy, special, votes, password, buttons[x][y], this,
-	    				  					onJumper, onShooter);
+	    				  					onJumper, onShooter, new ImageIcon(iconPath + "tank_aoe.png"));
 	    	  	else if (type.equalsIgnoreCase(Tank.BALANCED))
 	    	  		nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life,
 		    				  				maxLife, energy, maxEnergy, special, votes, password, buttons[x][y],
-		    				  				this, onJumper, onShooter);
+		    				  				this, onJumper, onShooter, new ImageIcon(iconPath + "tank_balanced.png"));
 	    	  else if (type.equalsIgnoreCase(Tank.DOT))
 	    	  {
 	    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
 	    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
-	    				  					onJumper, onShooter);
+	    				  					onJumper, onShooter, new ImageIcon(iconPath + "tank_dot.png"));
 	    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
 	    		  for (int i = 0; i < DOT.length; i++)
 	    		  {
@@ -164,11 +172,11 @@ public class TankTactics extends JFrame
 	    	  else if (type.equalsIgnoreCase(Tank.HEAVY))
 	    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
 	    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
-	    				  					onJumper, onShooter);
+	    				  					onJumper, onShooter, new ImageIcon(iconPath + "tank_heavy.png"));
 	    	  else if (type.equalsIgnoreCase(Tank.LIGHT))
 	    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
 		  									energy, maxEnergy, special, votes, password, buttons[x][y], this,
-		  									onJumper, onShooter);
+		  									onJumper, onShooter, new ImageIcon(iconPath + "tank_light.png"));
 		    	  
 	    	  Tank [] addedPlayers = new Tank [players.length + 1];
 	    	  for (int i = 0; i < players.length; i++)
@@ -227,38 +235,31 @@ public class TankTactics extends JFrame
 		    	
 		    	Booster nextBooster = null;
 		    	if (type.equalsIgnoreCase(Booster.ENERGY))
-		    		nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this);
+		    		nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-energysupplier.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.HEAL))
-	    	  		nextBooster = new Healer (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new Healer (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-healer.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.HIDDEN))
-	    	  	{
-	    	  		Color tileColor;
-	    	  		if ((x+y) % 2 == 0)
-	    	  			tileColor = new Color(69, 177, 72);
-	    	  		else
-	    	  			tileColor = new Color(82, 188, 82);
-	    	  		nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, tileColor);
-	    	  	}
+	    	  		nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-hidden.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.JUMPER))
-	    	  		nextBooster = new Jumper (x, y, buttons[x][y], this);
+	    	  		nextBooster = new Jumper (x, y, buttons[x][y], this, new ImageIcon(iconPath + "booster-jumper.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
-	    	  		nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-maxenergy.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.MAX_LIFE))
-	    	  		nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-maxlife.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.MOVEMENT_RANGE))
-	    	  		nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-movementrange.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.POWER))
-	    	  		nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-power.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.SHOOT))
-	    	  		nextBooster = new Shooter (x, y, buttons[x][y], this);
+	    	  		nextBooster = new Shooter (x, y, buttons[x][y], this, new ImageIcon(iconPath + "booster-shooter.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
-	    	  		nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-shootingrange.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.SPECIAL))
-	    	  		nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-special.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.UNKNOWN))
-	    	  		nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-unknown.png"));
 	    	  	else if (type.equalsIgnoreCase(Booster.DEBUFF))
-	    	  		nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this);
+	    	  		nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-debuff.png"));
 		    	  
 		    	Booster [] addedBoosters = new Booster [boosters.length + 1];
 		    	for (int i = 0; i < boosters.length; i++)
@@ -281,23 +282,25 @@ public class TankTactics extends JFrame
 			newGame();
 		}
 
+    	String iconPath = "";
+		if (System.getProperty("os.name").contains("Windows")) {
+			iconPath = "assets" + File.separator + "icons" + File.separator;
+		} else {
+			iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
+		}
+		
 		for (int i = 0; i < fieldElements.length; i++)
 	    {
 	    	  for (int j = 0; j < fieldElements[i].length; j++)
 	    	  {
 	    		  if (fieldElements[i][j] == null)
 	    		  {
-	    			  Color tileColor;
-	    			  if ((i+j)%2 == 0)
-	    			  {
-	    				  tileColor = new Color(69, 177, 72);
-	    			  }
+	    			  ImageIcon grass = null;
+	    			  if ((i+j) % 2 == 0)
+	    				  grass = new ImageIcon(iconPath + "grass1.png");
 	    			  else
-	    			  {
-	    				  tileColor = new Color(82, 188, 82);
-	    			  }
-	    			  
-	    			  fieldElements[i][j] = new FieldElement(i, j, buttons[i][j], this, tileColor, "");
+	    				  grass = new ImageIcon(iconPath + "grass2.png");
+	    			  fieldElements[i][j] = new FieldElement(i, j, buttons[i][j], this, grass, "");
 	    		  }
 	    	  }
 	    }
@@ -1038,22 +1041,29 @@ public class TankTactics extends JFrame
 			int x = possible[position][0];
 			int y = possible[position][1];
 			
+	    	String iconPath = "";
+			if (System.getProperty("os.name").contains("Windows")) {
+				iconPath = "assets" + File.separator + "icons" + File.separator;
+			} else {
+				iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
+			}
+			
 			Tank nextPlayer = null;
 			if (type.equalsIgnoreCase(Tank.AOE))
 				nextPlayer = new AOE_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y],this,
-										false, false);
+										false, false, new ImageIcon(iconPath + "tank_aoe.png");
 			else if (type.equalsIgnoreCase(Tank.BALANCED))
 				nextPlayer = new BalancedTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-											false, false);
+											false, false, new ImageIcon(iconPath + "tank_balanced.png");
 			else if (type.equalsIgnoreCase(Tank.DOT))
 				nextPlayer = new DOT_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-										false, false);
+										false, false, new ImageIcon(iconPath + "tank_dot.png");
 			else if (type.equalsIgnoreCase(Tank.HEAVY))
 				nextPlayer = new HeavyTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-										false, false);
+										false, false, new ImageIcon(iconPath + "tank_heavy.png");
 			else if (type.equalsIgnoreCase(Tank.LIGHT))
 				nextPlayer = new LightTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-											false, false);
+											false, false, new ImageIcon(iconPath + "tank_light.png");
 			players[i] = nextPlayer;
 			
 			fieldElements[x][y] = nextPlayer;

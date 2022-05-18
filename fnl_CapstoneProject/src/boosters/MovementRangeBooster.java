@@ -12,7 +12,7 @@ import main.*;
 
 public class MovementRangeBooster extends Booster {
 	public MovementRangeBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y,strength, button, tankTactics, "<html>Movement<br>Range<br>Booster<br><html>"+strength, new Color(255, 154, 0));
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the booster type

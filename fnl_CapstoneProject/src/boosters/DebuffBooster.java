@@ -12,7 +12,7 @@ import main.*;
 
 public class DebuffBooster extends Booster {
 	public DebuffBooster(int x, int y,int strength, JButton button, TankTactics tankTactics) {
-		super(x, y, strength, button, tankTactics, "<html>Jumper<br><html>", new Color(43, 0, 255));
+		super(x, y, strength, button, tankTactics, new ImageIcon());
 	}
 	
 	//returns the booster type
