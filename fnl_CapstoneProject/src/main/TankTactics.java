@@ -17,12 +17,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import javax.swing.Timer;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,12 +46,13 @@ public class TankTactics extends JFrame
 	private Booster [] boosters;
 	private long startingTime;
 	private int cycleLength;
-	private Timer clock;
+	private Timer clock, soundPlaying;
 	private Scanner reader = new Scanner(System.in);
 	private JTextField actions;
 	private JButton rules;
-	private boolean rulesShowed, full;
+	private boolean rulesShowed, full, overide;
 	private JPanel panel;
+	private String sound;
 	
 	public static final String RULES = "rules";
 	
@@ -67,205 +68,216 @@ public class TankTactics extends JFrame
 		jury = new Tank [0];
 		boosters = new Booster [0];
 		DOT = new DOT_Tank [0];
+		
+		boolean continueAsking = true;
+        while (continueAsking)
+        {
+    		System.out.print("Do you want to read the rules of the game? (enter yes or no) ");
+        	String answer = reader.nextLine();
+        	if(answer.equalsIgnoreCase("yes"))
+        	{
+        		System.out.println(RULES + "\n");
+        		continueAsking = false;
+        	}
+        	else if(answer.equalsIgnoreCase("no"))
+        	{
+        		continueAsking = false;
+        	}
+        	else
+        	{
+        		System.out.println("There isn't an option for " + answer + ", please input a valid answer.");
+        	}
+        }
+        
 		try {//Reads the game save file and sets up the game.
-			try {
-				try {
-					File file = null;
-					if (System.getProperty("os.name").indexOf("Windows") != -1)
-					{
-						File helper = new File(".");
-						file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
-								+ File.separator + "game save.txt");
-					}
-					else
-					{
-						file = new File ("fnl_CapstoneProject" + File.separator + "game save.txt");
-					}
-					Scanner fileIn = new Scanner(file);
-				      
-				    startingTime = fileIn.nextLong();
-				    cycleLength = fileIn.nextInt();
-				    int xField = fileIn.nextInt();
-				    int yField = fileIn.nextInt();
-				    buttons = new JButton [xField] [yField];
-				    fieldElements = new FieldElement [xField] [yField];
-				    
-				    for (int i = 0; i < xField; i++)
-				    {
-				    	for (int j = 0; j < yField; j++)
-				    	{
-				    		buttons [i] [j] = new JButton();
-				    	}
-				    }
-			    	  
-				    while (fileIn.hasNextInt())
-				    {
-				    	int x = fileIn.nextInt();
-				    	int y = fileIn.nextInt();
-				    	fileIn.nextLine();
-				    	String name = fileIn.nextLine();
-				    	int power = fileIn.nextInt();
-				    	int shootingRange = fileIn.nextInt();
-				    	int movementRange = fileIn.nextInt();
-				    	int life = fileIn.nextInt();
-				    	int maxLife = fileIn.nextInt();
-				    	int energy = fileIn.nextInt();
-				    	int maxEnergy = fileIn.nextInt();
-				    	int special = fileIn.nextInt();
-				    	int votes = fileIn.nextInt();
-				    	boolean onJumper = fileIn.nextBoolean();
-				    	boolean onShooter = fileIn.nextBoolean();
-				    	fileIn.nextLine();
-				    	String password = fileIn.nextLine();
-				    	String type = fileIn.nextLine();
-				    	
-				    	Tank nextPlayer = null;
-				    	if (type.equalsIgnoreCase(Tank.AOE))
-				    		nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-				    								energy, maxEnergy, special, votes, password, buttons[x][y], this,
-			    				  					onJumper, onShooter);
-			    	  	else if (type.equalsIgnoreCase(Tank.BALANCED))
-			    	  		nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life,
-				    				  				maxLife, energy, maxEnergy, special, votes, password, buttons[x][y],
-				    				  				this, onJumper, onShooter);
-			    	  else if (type.equalsIgnoreCase(Tank.DOT))
-			    	  {
-			    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-			    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
-			    				  					onJumper, onShooter);
-			    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
-			    		  for (int i = 0; i < DOT.length; i++)
-			    		  {
-			    			  addedDOT[i] = DOT[i];
-			    		  }
-			    		  addedDOT[DOT.length] = (DOT_Tank) nextPlayer;
-			    		  DOT = addedDOT;
-			    	  }
-			    	  else if (type.equalsIgnoreCase(Tank.HEAVY))
-			    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-			    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
-			    				  					onJumper, onShooter);
-			    	  else if (type.equalsIgnoreCase(Tank.LIGHT))
-			    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
-				  									energy, maxEnergy, special, votes, password, buttons[x][y], this,
-				  									onJumper, onShooter);
-				    	  
-			    	  Tank [] addedPlayers = new Tank [players.length + 1];
-			    	  for (int i = 0; i < players.length; i++)
-			    	  {
-			    		  addedPlayers[i] = players[i];
-			    	  }
-			    	  addedPlayers[players.length] = nextPlayer;
-			    	  players = addedPlayers;
-			    	    
-			    	  if (nextPlayer.getLife() > 0)
-			    	  {
-			    		  Tank [] addedAlive = new Tank [alive.length + 1];
-			    		  for (int i = 0; i < alive.length; i++)
-			    		  {
-			    			  addedAlive[i] = alive[i];
-			    		  }
-			    		  addedAlive[alive.length] = nextPlayer;
-			    		  alive = addedAlive;
-			    		  fieldElements[x][y] = nextPlayer;
-			    	  }
-			    	  else
-			    	  {
-			    		  Tank [] addedJury = new Tank [jury.length + 1];
-			    		  for (int i = 0; i < jury.length; i++)
-			    		  {
-			    			  addedJury[i] = jury[i];
-			    		  }
-			    		  addedJury[jury.length] = nextPlayer;
-			    		  jury = addedJury;
-			    	  }
-			    	  
-			    	  nextPlayer.upgradeMaxEnergy(0);
-			    	  nextPlayer.gainEnergy(0);
-				    }
-				    fileIn.nextLine();
-				    setAlive(alive);
-				    
-				    for (int i = 0; i < alive.length; i++)
-				    {
-				    	alive[i].upgradeMaxLife(0);
-				    	alive[i].upgradeMovementRange(0);
-				    	alive[i].upgradePower(0);
-				    	alive[i].upgradeShootingRange(0);
-				    	alive[i].upgradeSpecial(0);
-				    	alive[i].heal(0);
-				    	alive[i].gainVotes(0);
-				    }	
-				      
-				    while (fileIn.hasNextLine())
-				    {
-				    	int x = fileIn.nextInt();
-				    	int y = fileIn.nextInt();
-				    	int strength = fileIn.nextInt();
-				    	fileIn.nextLine();
-				    	String type = fileIn.nextLine();
-				    	
-				    	Booster nextBooster = null;
-				    	if (type.equalsIgnoreCase(Booster.ENERGY))
-				    		nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.HEAL))
-			    	  		nextBooster = new Healer (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.HIDDEN))
-			    	  	{
-			    	  		Color tileColor;
-			    	  		if ((x+y) % 2 == 0)
-			    	  			tileColor = new Color(69, 177, 72);
-			    	  		else
-			    	  			tileColor = new Color(82, 188, 82);
-			    	  		nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, tileColor);
-			    	  	}
-			    	  	else if (type.equalsIgnoreCase(Booster.JUMPER))
-			    	  		nextBooster = new Jumper (x, y, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
-			    	  		nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.MAX_LIFE))
-			    	  		nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.MOVEMENT_RANGE))
-			    	  		nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.POWER))
-			    	  		nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.SHOOT))
-			    	  		nextBooster = new Shooter (x, y, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
-			    	  		nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.SPECIAL))
-			    	  		nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.UNKNOWN))
-			    	  		nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this);
-			    	  	else if (type.equalsIgnoreCase(Booster.DEBUFF))
-			    	  		nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this);
-				    	  
-				    	Booster [] addedBoosters = new Booster [boosters.length + 1];
-				    	for (int i = 0; i < boosters.length; i++)
-				    	{
-				    		addedBoosters[i] = boosters[i];
-				    	}
-				    	addedBoosters[boosters.length] = nextBooster;
-				    	boosters = addedBoosters;
-				    	fieldElements[x][y] = nextBooster;
-				    }	
-				      
-				    fileIn.close();
-				      
-				    actions = new JTextField ("");
-				    actions.setEditable(false);
-				    actions.setHorizontalAlignment(JTextField.CENTER);
-				    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
-				    newLogin();
-				}catch(NoSuchElementException e)
-				{
-					newGame();
-				}
-			} catch (InputMismatchException e)
+			File file = null;
+			if (System.getProperty("os.name").indexOf("Windows") != -1)
 			{
-				newGame();
+				File helper = new File(".");
+				file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
+						+ File.separator + "game save.txt");
 			}
-		} catch (IOException e) {
+			else
+			{
+				file = new File ("fnl_CapstoneProject" + File.separator + "game save.txt");
+			}
+			Scanner fileIn = new Scanner(file);
+		      
+		    startingTime = fileIn.nextLong();
+		    cycleLength = fileIn.nextInt();
+		    int xField = fileIn.nextInt();
+		    int yField = fileIn.nextInt();
+		    buttons = new JButton [xField] [yField];
+		    fieldElements = new FieldElement [xField] [yField];
+		    
+		    for (int i = 0; i < xField; i++)
+		    {
+		    	for (int j = 0; j < yField; j++)
+		    	{
+		    		buttons [i] [j] = new JButton();
+		    	}
+		    }
+	    	  
+		    while (fileIn.hasNextInt())
+		    {
+		    	int x = fileIn.nextInt();
+		    	int y = fileIn.nextInt();
+		    	fileIn.nextLine();
+		    	String name = fileIn.nextLine();
+		    	int power = fileIn.nextInt();
+		    	int shootingRange = fileIn.nextInt();
+		    	int movementRange = fileIn.nextInt();
+		    	int life = fileIn.nextInt();
+		    	int maxLife = fileIn.nextInt();
+		    	int energy = fileIn.nextInt();
+		    	int maxEnergy = fileIn.nextInt();
+		    	int special = fileIn.nextInt();
+		    	int votes = fileIn.nextInt();
+		    	boolean onJumper = fileIn.nextBoolean();
+		    	boolean onShooter = fileIn.nextBoolean();
+		    	fileIn.nextLine();
+		    	String password = fileIn.nextLine();
+		    	String type = fileIn.nextLine();
+		    	
+		    	Tank nextPlayer = null;
+		    	if (type.equalsIgnoreCase(Tank.AOE))
+		    		nextPlayer = new AOE_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+		    								energy, maxEnergy, special, votes, password, buttons[x][y], this,
+	    				  					onJumper, onShooter);
+	    	  	else if (type.equalsIgnoreCase(Tank.BALANCED))
+	    	  		nextPlayer = new BalancedTank (x, y, name, power, shootingRange, movementRange, life,
+		    				  				maxLife, energy, maxEnergy, special, votes, password, buttons[x][y],
+		    				  				this, onJumper, onShooter);
+	    	  else if (type.equalsIgnoreCase(Tank.DOT))
+	    	  {
+	    		  nextPlayer = new DOT_Tank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+	    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
+	    				  					onJumper, onShooter);
+	    		  DOT_Tank [] addedDOT = new DOT_Tank [DOT.length + 1];
+	    		  for (int i = 0; i < DOT.length; i++)
+	    		  {
+	    			  addedDOT[i] = DOT[i];
+	    		  }
+	    		  addedDOT[DOT.length] = (DOT_Tank) nextPlayer;
+	    		  DOT = addedDOT;
+	    	  }
+	    	  else if (type.equalsIgnoreCase(Tank.HEAVY))
+	    		  nextPlayer = new HeavyTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+	    				  					energy, maxEnergy, special, votes, password, buttons[x][y], this,
+	    				  					onJumper, onShooter);
+	    	  else if (type.equalsIgnoreCase(Tank.LIGHT))
+	    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
+		  									energy, maxEnergy, special, votes, password, buttons[x][y], this,
+		  									onJumper, onShooter);
+		    	  
+	    	  Tank [] addedPlayers = new Tank [players.length + 1];
+	    	  for (int i = 0; i < players.length; i++)
+	    	  {
+	    		  addedPlayers[i] = players[i];
+	    	  }
+	    	  addedPlayers[players.length] = nextPlayer;
+	    	  players = addedPlayers;
+	    	    
+	    	  if (nextPlayer.getLife() > 0)
+	    	  {
+	    		  Tank [] addedAlive = new Tank [alive.length + 1];
+	    		  for (int i = 0; i < alive.length; i++)
+	    		  {
+	    			  addedAlive[i] = alive[i];
+	    		  }
+	    		  addedAlive[alive.length] = nextPlayer;
+	    		  alive = addedAlive;
+	    		  fieldElements[x][y] = nextPlayer;
+	    	  }
+	    	  else
+	    	  {
+	    		  Tank [] addedJury = new Tank [jury.length + 1];
+	    		  for (int i = 0; i < jury.length; i++)
+	    		  {
+	    			  addedJury[i] = jury[i];
+	    		  }
+	    		  addedJury[jury.length] = nextPlayer;
+	    		  jury = addedJury;
+	    	  }
+	    	  
+	    	  nextPlayer.upgradeMaxEnergy(0);
+	    	  nextPlayer.gainEnergy(0);
+		    }
+		    fileIn.nextLine();
+		    setAlive(alive);
+		    
+		    for (int i = 0; i < alive.length; i++)
+		    {
+		    	alive[i].upgradeMaxLife(0);
+		    	alive[i].upgradeMovementRange(0);
+		    	alive[i].upgradePower(0);
+		    	alive[i].upgradeShootingRange(0);
+		    	alive[i].upgradeSpecial(0);
+		    	alive[i].heal(0);
+		    	alive[i].gainVotes(0);
+		    }	
+		      
+		    while (fileIn.hasNextLine())
+		    {
+		    	int x = fileIn.nextInt();
+		    	int y = fileIn.nextInt();
+		    	int strength = fileIn.nextInt();
+		    	fileIn.nextLine();
+		    	String type = fileIn.nextLine();
+		    	
+		    	Booster nextBooster = null;
+		    	if (type.equalsIgnoreCase(Booster.ENERGY))
+		    		nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.HEAL))
+	    	  		nextBooster = new Healer (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.HIDDEN))
+	    	  	{
+	    	  		Color tileColor;
+	    	  		if ((x+y) % 2 == 0)
+	    	  			tileColor = new Color(69, 177, 72);
+	    	  		else
+	    	  			tileColor = new Color(82, 188, 82);
+	    	  		nextBooster = new HiddenBooster (x, y, strength, buttons[x][y], this, tileColor);
+	    	  	}
+	    	  	else if (type.equalsIgnoreCase(Booster.JUMPER))
+	    	  		nextBooster = new Jumper (x, y, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.MAX_ENERGY))
+	    	  		nextBooster = new MaxEnergyBooster (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.MAX_LIFE))
+	    	  		nextBooster = new MaxLifeBooster (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.MOVEMENT_RANGE))
+	    	  		nextBooster = new MovementRangeBooster (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.POWER))
+	    	  		nextBooster = new PowerBooster (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.SHOOT))
+	    	  		nextBooster = new Shooter (x, y, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.SHOOTING_RANGE))
+	    	  		nextBooster = new ShootingRangeBooster (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.SPECIAL))
+	    	  		nextBooster = new SpecialBooster (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.UNKNOWN))
+	    	  		nextBooster = new UnknownBooster (x, y, strength, buttons[x][y], this);
+	    	  	else if (type.equalsIgnoreCase(Booster.DEBUFF))
+	    	  		nextBooster = new DebuffBooster (x, y, strength, buttons[x][y], this);
+		    	  
+		    	Booster [] addedBoosters = new Booster [boosters.length + 1];
+		    	for (int i = 0; i < boosters.length; i++)
+		    	{
+		    		addedBoosters[i] = boosters[i];
+		    	}
+		    	addedBoosters[boosters.length] = nextBooster;
+		    	boosters = addedBoosters;
+		    	fieldElements[x][y] = nextBooster;
+		    }	
+		      
+		    fileIn.close();
+		      
+		    actions = new JTextField ("");
+		    actions.setEditable(false);
+		    actions.setHorizontalAlignment(JTextField.CENTER);
+		    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
+		    newLogin();
+		} catch (Exception e) {
 			newGame();
 		}
 
@@ -323,7 +335,7 @@ public class TankTactics extends JFrame
 		        boolean continueAsking = true, saveToFile = false;
 		        while (continueAsking)
 		        {
-		        	System.out.print("\nDo you want to play again? (answer yes or no) ");
+		        	System.out.print("\nDo you want to let another player play now? (answer yes or no) ");
 		        	String answer = reader.nextLine();
 		        	if(answer.equalsIgnoreCase("yes"))
 		        	{
@@ -379,7 +391,7 @@ public class TankTactics extends JFrame
 							{
 								try {
 									file.createNewFile();
-								} catch (IOException e) {
+								} catch (Exception e) {
 									System.out.println("Cannot create game save file.");
 						        	System.exit(ERROR);
 								}
@@ -390,7 +402,7 @@ public class TankTactics extends JFrame
 					        {
 					          fileOut = new PrintWriter(file);
 					        }
-					        catch (IOException ex)
+					        catch (Exception ex)
 					        {
 					        	System.out.println("Cannot access game save file.");
 					        	System.exit(ERROR);
@@ -422,8 +434,12 @@ public class TankTactics extends JFrame
 			}
 		});
 		
+		playSound("start-game.wav", false, false);
+		
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
+		
+		playSound("background-game.wav", true, true);
 	}
 	
 	//Public methods
@@ -475,9 +491,13 @@ public class TankTactics extends JFrame
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("cycle");
 		if (e.getSource().equals(clock) && !full) 	//Called whenever the timer reaches zero and there are remaining spaces, symbolizes a new cycle.
 		{
+			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			clock.stop();
+			playSound("new-cycle.wav", false, false);
+			
 			int [][] possible = new int [0][2];
 			for (int i = 0; i < fieldElements.length; i++)
 			{
@@ -610,7 +630,10 @@ public class TankTactics extends JFrame
 		
 		else if(e.getSource().equals(clock)) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
 		{
+			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
 			clock.stop();
+			playSound("new-cycle.wav", false, false);
+			
 			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
 			{
 				for (int j = 0; j < players.length; j++)
@@ -631,6 +654,18 @@ public class TankTactics extends JFrame
 		  	draw();
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
+		}
+		
+		else if(e.getSource().equals(soundPlaying))
+		{
+			System.out.println(e.getSource() + "," + clock + "," + soundPlaying);
+			if(!sound.isBlank())
+			{
+				playSound(sound, overide, false);
+				sound = "";
+			}
+			System.out.println(sound);
+			soundPlaying.stop();
 		}
 		
 		else if(rulesShowed)	//Called when the JButton is pressed and the rules are desplayed, redrawes the field.
@@ -741,6 +776,7 @@ public class TankTactics extends JFrame
 		alive = newAlive;
 		if (alive.length <= 1)
 		{//Ends the game if there is only one player left alive.
+			playSound("win-game.wav", true, true);
 			File file = null;
 			if (System.getProperty("os.name").indexOf("Windows") != -1)
 			{
@@ -752,6 +788,7 @@ public class TankTactics extends JFrame
 			{
 				file = new File ("fnl_CapstoneProject" + File.separator + "game save.txt");
 			}
+			
 			if(file.exists())
 			{
 		        try
@@ -762,7 +799,7 @@ public class TankTactics extends JFrame
 					boolean delete = file.delete();
 					System.out.println(delete);
 		        }
-		        catch (IOException ex)
+		        catch (Exception ex)
 		        {
 		        	System.out.println("Cannot access game save file.");
 		        	System.exit(ERROR);
@@ -791,27 +828,7 @@ public class TankTactics extends JFrame
 	
 	//Prompts the user to input the information about the new game
 	private void newGame()
-	{
-		boolean continueAsking = true;
-        while (continueAsking)
-        {
-    		System.out.print("Do you want to read the rules of the game? (enter yes or no) ");
-        	String answer = reader.nextLine();
-        	if(answer.equalsIgnoreCase("yes"))
-        	{
-        		System.out.println(RULES + "\n");
-        		continueAsking = false;
-        	}
-        	else if(answer.equalsIgnoreCase("no"))
-        	{
-        		continueAsking = false;
-        	}
-        	else
-        	{
-        		System.out.println("There isn't an option for " + answer + ", please input a valid answer.");
-        	}
-        }
-		
+	{	
 		System.out.print("Enter the width of the field ");
 		int xField = reader.nextInt();
 		System.out.print("Enter the height of the field ");
@@ -908,7 +925,7 @@ public class TankTactics extends JFrame
 				if (possible.length == 0)
 				{
 					retry = true;
-					continueAsking = true;
+					boolean continueAsking = true;
 					while (continueAsking)
 					{
 						System.out.print("There isn't enough room for the current amount of players, would you like to add a row, a column, or both? ");
@@ -997,5 +1014,71 @@ public class TankTactics extends JFrame
 	    
 	    newLogin();
 	    actions.setText("This game has started with " + currentPlayer.getName() + " as the current player.");
+	}
+	
+	public void playSound(String file, boolean canBeOverided, boolean runLater)
+	{
+		Clip clip = null;
+		String soundPath = "";
+		if (System.getProperty("os.name").contains("Windows")) {
+			soundPath = "assets" +File.separator + "sounds" + File.separator;
+			
+		} else {
+			soundPath = "fnl_CapstoneProject" +File.separator+ "assets" +File.separator + "sounds" + File.separator;
+		}
+		
+		if (soundPlaying != null)
+		{
+			if (!soundPlaying.isRunning())
+			{
+				System.out.println(file);
+				try {
+					Clip originalClip = AudioSystem.getClip();
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
+					clip = AudioSystem.getClip();
+					if(!originalClip.equals(clip))
+					{
+						clip.open(audioInputStream);
+						clip.start();
+						
+						if (!canBeOverided)
+						{
+							soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
+							soundPlaying.start();
+						}
+					}
+				} catch(Exception e) {
+					System.out.println("Error with playing sound1.");
+				}
+			}
+			else if(runLater)
+			{
+				sound = file;
+				overide = canBeOverided;
+				System.out.println(file + overide);
+			}
+		}
+		else
+		{
+			System.out.println(file);
+			try {
+				Clip originalClip = AudioSystem.getClip();
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath + file).getAbsoluteFile());
+				clip = AudioSystem.getClip();
+				if(!originalClip.equals(clip))
+				{
+					clip.open(audioInputStream);
+					clip.start();
+					
+					if (!canBeOverided)
+					{
+						soundPlaying = new Timer((int)clip.getMicrosecondLength(), this);
+						soundPlaying.start();
+					}
+				}
+			} catch(Exception e) {
+				System.out.println("Error with playing sound4.");
+			}
+		}
 	}
 }
