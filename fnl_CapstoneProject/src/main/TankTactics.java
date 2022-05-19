@@ -284,7 +284,7 @@ public class TankTactics extends JFrame
 		    actions = new JTextField ("");
 		    actions.setEditable(false);
 		    actions.setHorizontalAlignment(JTextField.CENTER);
-		    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
+		    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 30));
 		    newLogin();
 		} catch (Exception e) {
 			newGame();
@@ -324,12 +324,12 @@ public class TankTactics extends JFrame
 		
 		rules = new JButton("R");
 		rules.addActionListener(this);
-		rules.setPreferredSize(new Dimension(fieldElements.length * 10, 40));
+		rules.setPreferredSize(new Dimension(fieldElements.length * 10, 30));
 		Box bar = Box.createHorizontalBox();
 		bar.add(actions);
 		bar.add(rules);
 		
-		setSize(fieldElements.length * 100, fieldElements[0].length * 100 + 40);
+		setSize(fieldElements.length * 100, fieldElements[0].length * 100 + 30);
 		
 		Container c = getContentPane();
 		c.add(bar, BorderLayout.NORTH);
@@ -508,7 +508,7 @@ public class TankTactics extends JFrame
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(clock) && !full) 	//Called whenever the timer reaches zero and there are remaining spaces, symbolizes a new cycle.
+		if (e.getSource() == clock && !full) 	//Called whenever the timer reaches zero and there are remaining spaces, symbolizes a new cycle.
 		{
 			clock.stop();
 			playSound("new-cycle.wav", false, false, false);
@@ -650,41 +650,38 @@ public class TankTactics extends JFrame
 			clock.start();
 		}
 		
-		else if(e.getSource().equals(clock)) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
+		else if(e.getSource() == clock) //Called whenever the timer reaches zero and there are no remaining spaces, symbolizes a new cycle
 		{
 			clock.stop();
 			playSound("new-cycle.wav", false, false, false);
 			
-			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
-			{
-				for (int j = 0; j < players.length; j++)
-			  	{
-			  		players[j].gainEnergy(1);
-			  	}
-			  	for(int j = 0; j < DOT.length; j++)
-			  	{
-			  		DOT[j].newCycle();
-			  	}
-			}
-			
+			for (int i = 0; i < players.length; i++)
+		  	{
+		  		players[i].gainEnergy(1);
+		  	}
+		  	for(int i = 0; i < DOT.length; i++)
+		  	{
+		  		DOT[i].newCycle();
+		  	}
 			for (int i = 0; i < alive.length; i++)
 		  	{
 		  		alive[i].resetVotes();
 		  	}
 		  	
 		  	draw();
+		  	startingTime += cycleLength*1000;
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			clock.start();
 		}
 		
-		else if(e.getSource().equals(soundPlaying)) //Called whenever the timer reaches zero, symbolizes the song ending.
+		else if(e.getSource() == soundPlaying) //Called whenever the timer reaches zero, symbolizes the song ending.
 		{
-			if(!sound.isEmpty())
+			soundPlaying.stop();
+			if(sound.length() > 0)
 			{
 				playSound(sound, override, false, loop);
 				sound = "";
 			}
-			soundPlaying.stop();
 		}
 		
 		else if(rulesShowed)	//Called when the JButton is pressed and the rules are displayed, redraws the field.
@@ -1104,7 +1101,7 @@ public class TankTactics extends JFrame
 	    actions = new JTextField("");
 	    actions.setEditable(false);
 	    actions.setHorizontalAlignment(JTextField.CENTER);
-	    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 40));
+	    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 30));
 	    
 	    newLogin();
 	    actions.setText("This game has started with " + currentPlayer.getName() + " as the current player.");
