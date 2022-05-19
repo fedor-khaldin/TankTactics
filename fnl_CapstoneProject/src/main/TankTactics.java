@@ -1,14 +1,13 @@
 /*
  * Author: Itay Volk
- * Date: 5/18/2022
- * Rev: 10
+ * Date: 5/19/2022
+ * Rev: 11
  * Notes: this class manages a TankTactics game
  */
 
 package main;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -576,7 +575,7 @@ public class TankTactics extends JFrame
 						newBooster = new HiddenBooster (newX, newY, strength, buttons[newX][newY], this, grass);
 						break;
 					case 3:
-						newBooster = new Jumper (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-jumper.png"));
+						newBooster = new Jumper (newX, newY, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-jumper.png"));
 						break;
 					case 4:
 						newBooster = new MaxEnergyBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-maxenergy.png"));
@@ -591,7 +590,7 @@ public class TankTactics extends JFrame
 						newBooster = new PowerBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-power.png"));
 						break;
 					case 8:
-						newBooster = new Shooter (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-shooter.png"));
+						newBooster = new Shooter (newX, newY, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-shooter.png"));
 						break;
 					case 9:
 						newBooster = new ShootingRangeBooster (newX, newY, strength, buttons[newX][newY], this, new ImageIcon(iconPath + "booster-shootrange.png"));
@@ -1065,19 +1064,19 @@ public class TankTactics extends JFrame
 			Tank nextPlayer = null;
 			if (type.equalsIgnoreCase(Tank.AOE))
 				nextPlayer = new AOE_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y],this,
-										false, false, new ImageIcon(iconPath + "tank_aoe.png");
+										false, false, new ImageIcon(iconPath + "tank_aoe.png"));
 			else if (type.equalsIgnoreCase(Tank.BALANCED))
 				nextPlayer = new BalancedTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-											false, false, new ImageIcon(iconPath + "tank_balanced.png");
+											false, false, new ImageIcon(iconPath + "tank_balanced.png"));
 			else if (type.equalsIgnoreCase(Tank.DOT))
 				nextPlayer = new DOT_Tank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-										false, false, new ImageIcon(iconPath + "tank_dot.png");
+										false, false, new ImageIcon(iconPath + "tank_dot.png"));
 			else if (type.equalsIgnoreCase(Tank.HEAVY))
 				nextPlayer = new HeavyTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-										false, false, new ImageIcon(iconPath + "tank_heavy.png");
+										false, false, new ImageIcon(iconPath + "tank_heavy.png"));
 			else if (type.equalsIgnoreCase(Tank.LIGHT))
 				nextPlayer = new LightTank (x, y, name, 1, 1, 1, 3, 3, 1, 5, 1, 0, password, buttons[x][y], this,
-											false, false, new ImageIcon(iconPath + "tank_light.png");
+											false, false, new ImageIcon(iconPath + "tank_light.png"));
 			players[i] = nextPlayer;
 			
 			fieldElements[x][y] = nextPlayer;
