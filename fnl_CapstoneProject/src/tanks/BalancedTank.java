@@ -7,6 +7,7 @@
 
 package tanks;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import main.*;
 
@@ -18,10 +19,10 @@ public class BalancedTank extends Tank {
 	//Constructor
 	public BalancedTank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
 			int energy, int maxEnergy, int lifeGain, int votes, String password,
-			JButton button, TankTactics tankTactics, boolean onJumper, boolean onShooter) {
+			JButton button, TankTactics tankTactics, boolean onJumper, boolean onShooter, ImageIcon icon) {
 		
 				super(x, y, name, power, shootingRange, movementRange, life, maxLife,
-						energy, maxEnergy, votes, password, button, tankTactics, onJumper, onShooter);
+						energy, maxEnergy, votes, password, button, tankTactics, onJumper, onShooter, icon);
 				this.lifeGain = lifeGain;
 	}
 	
