@@ -8,11 +8,13 @@ package boosters;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+
 import main.*;
 
 public class PowerBooster extends Booster {
-	public PowerBooster(int x, int y, int strength, JButton button, TankTactics tankTactics) {
-		super(x, y, strength, button, tankTactics, new ImageIcon());
+	public PowerBooster(int x, int y, int strength, JButton button, TankTactics tankTactics, ImageIcon icon) {
+		super(x, y, strength, button, tankTactics, icon);
 	}
 	
 	//returns the booster type
@@ -35,13 +37,20 @@ public class PowerBooster extends Booster {
 			 * Once the tank touches the booster, fieldElement[x][y] becomes empty
 			 * THEN after the tank leaves the spot, updates into a new fieldElement
 			 */
+			String iconPath = "";
+			if (System.getProperty("os.name").contains("Windows")) {
+				iconPath = "assets" + File.separator + "icons" + File.separator;
+			} else {
+				iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
+			}
+			
 			if(current.getX() == this.x && current.getY() == this.y) {
 				fieldElements[this.x][this.y] = current;
 			}else {
 				if((this.x+this.y)%2==0) {
-					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(69, 177, 72), name);
+					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new ImageIcon(iconPath + "grass1.png"), "");
 				}else {
-					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new Color(82, 188, 82), name);
+					fieldElements[this.x][this.y] = new FieldElement(x, y, new JButton(), tankTactics, new ImageIcon(iconPath + "grass1.png"), "");
 				}
 			}
 			
