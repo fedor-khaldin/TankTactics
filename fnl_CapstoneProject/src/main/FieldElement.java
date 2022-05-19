@@ -21,7 +21,7 @@ public class FieldElement implements ActionListener{
 	protected JButton button;
 	protected TankTactics tankTactics;
 	private ImageIcon icon;
-	private String name;
+	protected String name;
 	public FieldElement(int x, int y, JButton button, TankTactics tankTactics, ImageIcon icon, String name) {
 		this.x = x;
 		this.y = y;
