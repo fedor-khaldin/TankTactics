@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -440,6 +442,14 @@ public class TankTactics extends JFrame
 			        };
 			        saver.run();
 		        }
+			}
+		});
+		
+		//Redraws the window when it is resized
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized (ComponentEvent e)
+			{
+				draw();
 			}
 		});
 		
