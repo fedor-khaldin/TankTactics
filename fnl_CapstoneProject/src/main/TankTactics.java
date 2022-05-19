@@ -343,7 +343,7 @@ public class TankTactics extends JFrame
 		addWindowListener(new WindowAdapter() {
 			@Override
 		    public void windowClosing(WindowEvent windowEvent) {
-		        boolean continueAsking = true, saveToFile = false;
+		        boolean continueAsking = true, saveToFile = false, delete = false;
 		        while (continueAsking)
 		        {
 		        	System.out.print("\nDo you want to let another player play now? (answer yes or no) ");
@@ -366,7 +366,24 @@ public class TankTactics extends JFrame
 				        	}
 				        	else if(answer.equalsIgnoreCase("no"))
 				        	{
-						        System.exit(0);
+				        		while (continueAsking)
+						        {
+						        	System.out.print("Do you want to delete the game? (answer yes or no) ");
+						        	answer = reader.nextLine();
+						        	if(answer.equalsIgnoreCase("yes"))
+						        	{
+						        		continueAsking = false;
+						        		delete = true;
+						        	}
+						        	else if(answer.equalsIgnoreCase("no"))
+						        	{
+								        System.exit(0);
+						        	}
+						        	else 
+						        	{
+						        		System.out.println("There isn't an option for " + answer + ", please input a valid answer.");
+						        	}
+						        }
 				        	}
 				        	else 
 				        	{
@@ -441,6 +458,37 @@ public class TankTactics extends JFrame
 		        		}
 			        };
 			        saver.run();
+		        }
+		        else if(delete)
+		        {
+					File file = null;
+					if (System.getProperty("os.name").indexOf("Windows") != -1)
+					{
+						File helper = new File(".");
+						file = new File (helper.getAbsolutePath().substring(0, helper.getAbsolutePath().length() - 1)
+								+ File.separator + "game save.txt");
+					}
+					else
+					{
+						file = new File ("fnl_CapstoneProject" + File.separator + "game save.txt");
+					}
+					
+					if(file.exists())
+					{
+				        try
+				        {
+				        	System.gc();
+				        	new PrintWriter(file).close();
+				        	new Scanner(file).close();
+							file.delete();
+				        }
+				        catch (Exception ex)
+				        {
+				        	System.out.println("Cannot access game save file.");
+				        	System.exit(ERROR);
+				        }
+					}
+			        System.exit(0);
 		        }
 			}
 		});
