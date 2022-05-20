@@ -120,6 +120,11 @@ public class TankTactics extends JFrame
 		    	}
 		    }
 		    
+			actions = new JTextField ("");
+		    actions.setEditable(false);
+		    actions.setHorizontalAlignment(JTextField.CENTER);
+		    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 30));
+		    
 	    	String iconPath = "";
 			if (System.getProperty("os.name").contains("Windows")) {
 				iconPath = "assets" + File.separator + "icons" + File.separator;
@@ -178,7 +183,7 @@ public class TankTactics extends JFrame
 	    		  nextPlayer = new LightTank (x, y, name, power, shootingRange, movementRange, life, maxLife,
 		  									energy, maxEnergy, special, votes, password, buttons[x][y], this,
 		  									onJumper, onShooter, new ImageIcon(iconPath + "tank_light.png"));
-		    	  
+		    	
 	    	  Tank [] addedPlayers = new Tank [players.length + 1];
 	    	  for (int i = 0; i < players.length; i++)
 	    	  {
@@ -186,7 +191,7 @@ public class TankTactics extends JFrame
 	    	  }
 	    	  addedPlayers[players.length] = nextPlayer;
 	    	  players = addedPlayers;
-	    	    
+		    	
 	    	  if (nextPlayer.getLife() > 0)
 	    	  {
 	    		  Tank [] addedAlive = new Tank [alive.length + 1];
@@ -282,11 +287,7 @@ public class TankTactics extends JFrame
 		    }	
 		      
 		    fileIn.close();
-		      
-		    actions = new JTextField ("");
-		    actions.setEditable(false);
-		    actions.setHorizontalAlignment(JTextField.CENTER);
-		    actions.setPreferredSize(new Dimension(fieldElements.length * 90, 30));
+		    
 		    newLogin();
 		} catch (Exception e) {
 			newGame();
@@ -539,7 +540,6 @@ public class TankTactics extends JFrame
 	{
 		new Runnable() {
 			public void run() {
-				panel.setVisible(true);
 				for (int i = 0; i < fieldElements[0].length; i++)
 				{
 					for (int j = 0; j < fieldElements.length; j++)
