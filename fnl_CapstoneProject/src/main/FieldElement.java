@@ -125,17 +125,8 @@ public class FieldElement implements ActionListener{
 	
 	//draws the field element
 	public void draw() {
-		String iconPath = "";
-		if (System.getProperty("os.name").contains("Windows")) {
-			iconPath = "assets" + File.separator + "icons" + File.separator;
-		} else {
-			iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
-		}
-		
-		ImageIcon icon = new ImageIcon(iconPath);
 		Image img = icon.getImage();
-		Image imgScale = img.getScaledInstance(button.getWidth(),          
-		button.getHeight(),Image.SCALE_SMOOTH);
+		Image imgScale = img.getScaledInstance(button.getWidth(),button.getHeight(),Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(imgScale);
 		button.setIcon(scaledIcon);
 		button.setIcon(icon);

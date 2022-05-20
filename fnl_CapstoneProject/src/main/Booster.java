@@ -28,7 +28,7 @@ public abstract class Booster extends FieldElement {
 	public static final String DEBUFF = "debuff";
 	
 	public Booster (int x, int y, int strength, JButton button, TankTactics tankTactics, ImageIcon icon) {
-		super(x, y, button, tankTactics, icon,"");
+		super(x, y, button, tankTactics, icon, ""+strength);
 		this.strength = strength;
 	}
 
