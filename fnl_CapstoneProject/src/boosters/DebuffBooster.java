@@ -27,8 +27,6 @@ public class DebuffBooster extends Booster {
 	public void actionPerformed(ActionEvent e) {
 		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
-		FieldElement[][] fieldElements = tankTactics.getFieldElements();
-		JButton[][] buttons = tankTactics.getButtons();
 		Tank[] players = tankTactics.getPlayers();
 	
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()&&current.getEnergy()>0) {
@@ -41,24 +39,31 @@ public class DebuffBooster extends Booster {
 					switch(debuff) {
 						case 1:
 							players[i].gainEnergy(strength);
+							tankTactics.setActionsText(current.getName()+" lost "+strength+" energy");
 							break;
 						case 2:
 							players[i].heal(strength);
+							tankTactics.setActionsText(current.getName()+" lost "+strength+" strength");
 							break;
 						case 3:
 							players[i].upgradeMaxEnergy(strength);
+							tankTactics.setActionsText(current.getName()+" lost "+strength+" max energy");
 							break;
 						case 4:
 							players[i].upgradeMaxLife(strength);
+							tankTactics.setActionsText(current.getName()+" lost "+strength+" max life");
 							break;
 						case 5:
 							players[i].upgradeMovementRange(strength);
+							tankTactics.setActionsText(current.getName()+" lost "+strength+" movement range");
 							break;
 						case 6:
 							players[i].upgradePower(strength);
+							tankTactics.setActionsText(current.getName()+" lost "+strength+" power");
 							break;
 						case 7:
 							players[i].upgradeShootingRange(strength);
+							tankTactics.setActionsText(current.getName()+" lost "+strength+" shooting range");
 							break;
 					}
 				}

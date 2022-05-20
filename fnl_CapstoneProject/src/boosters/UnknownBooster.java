@@ -27,8 +27,6 @@ public class UnknownBooster extends Booster {
 	public void actionPerformed(ActionEvent e) {
 		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
-		FieldElement[][] fieldElements = tankTactics.getFieldElements();
-		JButton[][] buttons = tankTactics.getButtons();
 		
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 				int boost = (int)Math.random()*10+1;
@@ -67,24 +65,31 @@ public class UnknownBooster extends Booster {
 								switch(debuff) {
 									case 1:
 										players[i].gainEnergy(strength);
+										tankTactics.setActionsText("");
 										break;
 									case 2:
 										players[i].heal(strength);
+										tankTactics.setActionsText("");
 										break;
 									case 3:
 										players[i].upgradeMaxEnergy(strength);
+										tankTactics.setActionsText("");
 									break;
 									case 4:
 										players[i].upgradeMaxLife(strength);
+										tankTactics.setActionsText("");
 										break;
 									case 5:
 										players[i].upgradeMovementRange(strength);
+										tankTactics.setActionsText("");
 										break;
 									case 6:
 										players[i].upgradePower(strength);
+										tankTactics.setActionsText("");
 										break;
 									case 7:
 										players[i].upgradeShootingRange(strength);
+										tankTactics.setActionsText("");
 										break;
 								}
 							}

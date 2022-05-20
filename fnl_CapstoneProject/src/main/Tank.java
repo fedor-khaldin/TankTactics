@@ -45,7 +45,7 @@ import javax.swing.JButton;
 
 public abstract class Tank extends FieldElement {
 
-	// Tank Type Constants
+	// Tank Type Consxtants
 	public static final String AOE = "AOE";
 	public static final String DOT = "DOT";
 	public static final String LIGHT = "light";
@@ -66,7 +66,7 @@ public abstract class Tank extends FieldElement {
 	private boolean onJumper;
 	private boolean atMax;
 	private boolean onShooter;
-	private ImageIcon regularTankIcon;
+	private ImageIcon currentIcon;
 	
 
 	// Tank Constructor
@@ -89,7 +89,7 @@ public abstract class Tank extends FieldElement {
 		this.atMax = false;
 		this.onShooter = onShooter;
 		this.button.setIcon(icon);
-
+		this.currentIcon = icon;
 	}
 
 	// Custom ActionPerformed method that is called whenever a tank is clicked.
@@ -171,7 +171,6 @@ public abstract class Tank extends FieldElement {
 	public void draw() {
 		super.draw();
 		game.getButtons()[x][y].setToolTipText(toToolTipText());
-
 	}
 
 	// Custom toToolTipText method that returns a string of the tank's stats
@@ -474,7 +473,7 @@ public abstract class Tank extends FieldElement {
 		this.button.setIcon(null);
 		this.button.setToolTipText(null);
 		super.setButton(button);
-		this.button.setIcon(regularTankIcon);
+		this.button.setIcon(this.currentIcon);
 	}
 }
 
