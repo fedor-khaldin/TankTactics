@@ -47,7 +47,7 @@ public class TankTactics extends JFrame
 	private DOT_Tank [] DOT;
 	private Booster [] boosters;
 	private long startingTime;
-	private int cycleLength;
+	private int cycleLength, cyclesPlayed, maxCycles;
 	private Timer clock, soundPlaying;
 	private Scanner reader = new Scanner(System.in);
 	private JTextField actions;
@@ -65,6 +65,7 @@ public class TankTactics extends JFrame
 		
 		startingTime = 0;
 		cycleLength = 0;
+		cyclesPlayed = 0;
 		players = new Tank [0];
 		alive = new Tank [0];
 		jury = new Tank [0];
@@ -107,6 +108,7 @@ public class TankTactics extends JFrame
 		      
 		    startingTime = fileIn.nextLong();
 		    cycleLength = fileIn.nextInt();
+		    maxCycles = fileIn.nextInt();
 		    int xField = fileIn.nextInt();
 		    int yField = fileIn.nextInt();
 		    buttons = new JButton [xField] [yField];
@@ -444,7 +446,7 @@ public class TankTactics extends JFrame
 					        	System.exit(ERROR);
 					        }
 					        
-					        String save = startingTime + "\n" + cycleLength + "\n" + fieldElements.length + "\n" + fieldElements[0].length;
+					        String save = startingTime + "\n" + cycleLength + "\n" + maxCycles + "\n" + fieldElements.length + "\n" + fieldElements[0].length;
 					        for(int i = 0; i < players.length; i++)
 					        {
 					        	save += "\n" + players[i].getX() + "\n" + players[i].getY() + "\n" + players[i].getName() + "\n" + players[i].getPower() + "\n" + players[i].getShootingRange()
@@ -555,6 +557,7 @@ public class TankTactics extends JFrame
 	public void newLogin()
 	{
 		boolean continueAsking = true;
+		Tank previusPlayer = currentPlayer;
 		do
 		{
 			System.out.print("Enter the current player's name ");
@@ -574,9 +577,13 @@ public class TankTactics extends JFrame
 			{
 	    		  System.out.println("No player named " + name + " with the inputted password exists in this game.");
 			}
-			else
+			else if (currentPlayer != previusPlayer || name.equalsIgnoreCase("quit"))
 			{
 				continueAsking = false;
+			}
+			else
+			{
+				System.out.println("You have already played, please let another person played or enter \"quit\" to stop playing.");
 			}
 		} while (continueAsking);
 		actions.setText("This game has started again with " + currentPlayer.getName() + " as the current player.");
@@ -723,6 +730,12 @@ public class TankTactics extends JFrame
 		  	draw();
 			startingTime += cycleLength*1000;
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
+			cyclesPlayed++;
+			if (cyclesPlayed == maxCycles)
+			{
+				System.out.println("You have reached the maximum amount of cycles you can play in a row.");
+				newLogin();
+			}
 			clock.start();
 		}
 		
@@ -747,6 +760,12 @@ public class TankTactics extends JFrame
 		  	draw();
 		  	startingTime += cycleLength*1000;
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
+			cyclesPlayed++;
+			if (cyclesPlayed == maxCycles)
+			{
+				System.out.println("You have reached the maximum amount of cycles you can play in a row.");
+				newLogin();
+			}
 			clock.start();
 		}
 		
@@ -1169,6 +1188,8 @@ public class TankTactics extends JFrame
 		
 		System.out.print("Enter the length of a cycle in seconds ");
 		cycleLength = reader.nextInt();
+		System.out.print("Enter the amount of cycles one player can play in a row (enter 0 for infinite) ");
+		maxCycles = reader.nextInt();
 		startingTime = System.currentTimeMillis();
 		reader.nextLine();
 		alive = players;
