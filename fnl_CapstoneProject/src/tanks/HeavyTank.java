@@ -1,5 +1,6 @@
 /*
  * Author: Itay Volk
+ * Maintained by: Fedor Khaldin
  * Date: 5/6/2022
  * Rev: 02
  * Notes: this class repreasents a heavy tank
