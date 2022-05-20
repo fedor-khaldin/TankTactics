@@ -352,7 +352,7 @@ public abstract class Tank extends FieldElement {
 	// Recharges tanks energy
 	public void gainEnergy(int rechargeAmt) {
 		this.energy += rechargeAmt;
-		game.setActionsText(this.name + " has gained " + rechargeAmt + " energy.");
+
 		if (this.energy < 0)
 			this.energy = 0;
 
@@ -382,59 +382,60 @@ public abstract class Tank extends FieldElement {
 	// Outputs an upgrade menu giving the user the ability to adjust tank stats
 	// using energy
 	public void upgradeMenu() {
+		if (this.energy > 0) {
+			System.out.println("\nUpgrade Menu");
+			System.out.println("1. Power: " + this.power);
+			System.out.println("2. Shooting Range: " + this.shootingRange);
+			System.out.println("3. Movement Range: " + this.movementRange);
+			System.out.println("4. Max Life: " + this.maxLife);
+			System.out.println("5. Max Energy: " + this.maxEnergy);
+			System.out.println("6. Special: " + this.getSpecial());
+			System.out.println("7. Back");
 
-		System.out.println("\nUpgrade Menu");
-		System.out.println("1. Power: " + this.power);
-		System.out.println("2. Shooting Range: " + this.shootingRange);
-		System.out.println("3. Movement Range: " + this.movementRange);
-		System.out.println("4. Max Life: " + this.maxLife);
-		System.out.println("5. Max Energy: " + this.maxEnergy);
-		System.out.println("6. Special: " + this.getSpecial());
-		System.out.println("7. Back");
+			java.util.Scanner input = new java.util.Scanner(System.in);
+			System.out.println("You have " + this.energy + " energy points");
+			System.out.print("Input the number of the upgrade you would like to purchase: ");
+			int upgradeChoice = input.nextInt();
 
-		java.util.Scanner input = new java.util.Scanner(System.in);
-		System.out.println("You have " + this.energy + " energy points");
-		System.out.print("Input the number of the upgrade you would like to purchase: ");
-		int upgradeChoice = input.nextInt();
+			if (upgradeChoice != 7) {
+				System.out.print("Input the amount of the upgrade you would like to purchase: ");
+				int upgradeAmt = input.nextInt();
 
-		if (upgradeChoice != 7) {
-			System.out.print("Input the amount of the upgrade you would like to purchase: ");
-			int upgradeAmt = input.nextInt();
+				if (upgradeAmt > this.energy) {
+					System.out.println("You do not have enough energy to purchase this upgrade.");
+					return;
+				} else {
+					this.energy -= upgradeAmt;
 
-			if (upgradeAmt > this.energy) {
-				System.out.println("You do not have enough energy to purchase this upgrade.");
-				return;
-			} else {
-				this.energy -= upgradeAmt;
-
-				switch (upgradeChoice) {
-					case 1:
-						this.upgradePower(upgradeAmt);
-						break;
-					case 2:
-						this.upgradeShootingRange(upgradeAmt);
-						break;
-					case 3:
-						this.upgradeMovementRange(upgradeAmt);
-						break;
-					case 4:
-						this.upgradeMaxLife(upgradeAmt);
-						break;
-					case 5:
-						this.upgradeMaxEnergy(upgradeAmt);
-						break;
-					case 6:
-						this.upgradeSpecial(upgradeAmt);
-						break;
-					case 7:
-						break;
-					default:
-						System.out.println("Invalid input.");
-						break;
+					switch (upgradeChoice) {
+						case 1:
+							this.upgradePower(upgradeAmt);
+							break;
+						case 2:
+							this.upgradeShootingRange(upgradeAmt);
+							break;
+						case 3:
+							this.upgradeMovementRange(upgradeAmt);
+							break;
+						case 4:
+							this.upgradeMaxLife(upgradeAmt);
+							break;
+						case 5:
+							this.upgradeMaxEnergy(upgradeAmt);
+							break;
+						case 6:
+							this.upgradeSpecial(upgradeAmt);
+							break;
+						case 7:
+							break;
+						default:
+							System.out.println("Invalid input.");
+							break;
+					}
 				}
-			}
 
-			game.draw();
+				game.draw();
+			}
 		}
 	}
 
