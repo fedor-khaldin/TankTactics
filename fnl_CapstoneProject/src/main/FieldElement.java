@@ -129,7 +129,6 @@ public class FieldElement implements ActionListener{
 		Image imgScale = img.getScaledInstance(button.getWidth(),button.getHeight(),Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(imgScale);
 		button.setIcon(scaledIcon);
-		button.setIcon(icon);
 		button.setOpaque(true);
 		button.setBorderPainted(false);
 	}
