@@ -38,12 +38,8 @@ Notes: The tank class is responsible for handling all of the tank specific logic
 
 package main;
 
-import java.awt.Color;
-import java.io.File;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -71,8 +67,7 @@ public abstract class Tank extends FieldElement {
 	private boolean atMax;
 	private boolean onShooter;
 	private ImageIcon regularTankIcon;
-	private String iconPath;
-	private String soundPath;
+	
 
 	// Tank Constructor
 	public Tank(int x, int y, String name, int power, int shootingRange, int movementRange, int life, int maxLife,
@@ -93,31 +88,7 @@ public abstract class Tank extends FieldElement {
 		this.onJumper = onJumper;
 		this.atMax = false;
 		this.onShooter = onShooter;
-
-		String type = this.getType();
-
-		if (System.getProperty("os.name").contains("Windows")) {
-			iconPath = "assets" + File.separator + "icons" + File.separator;
-			soundPath = "assets" + File.separator + "sounds" + File.separator;
-
-		} else {
-			iconPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "icons" + File.separator;
-			soundPath = "fnl_CapstoneProject" + File.separator + "assets" + File.separator + "sounds" + File.separator;
-		}
-
-		if (type.equals(AOE)) {
-			regularTankIcon = new ImageIcon(iconPath + "tank_aoe.png");
-		} else if (type.equals(DOT)) {
-			regularTankIcon = new ImageIcon(iconPath + "tank_dot.png");
-		} else if (type.equals(LIGHT)) {
-			regularTankIcon = new ImageIcon(iconPath + "tank_light.png");
-		} else if (type.equals(HEAVY)) {
-			regularTankIcon = new ImageIcon(iconPath + "tank_heavy.png");
-		} else if (type.equals(BALANCED)) {
-			regularTankIcon = new ImageIcon(iconPath + "tank_balanced.png");
-		}
-
-		this.button.setIcon(regularTankIcon);
+		this.button.setIcon(icon);
 
 	}
 
@@ -132,19 +103,21 @@ public abstract class Tank extends FieldElement {
 			if (game.getCurrentPlayer().life > 0) {
 				if (mods == 17) {
 					if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
-						this.upgradeEnergy(1);
+						this.gainEnergy(1);
 
-						game.playSound("transfer-tanl-energy.wav", true, false, false);
+						game.playSound("transfer-tank-energy.wav", true, false, false);
 
-						game.getCurrentPlayer().upgradeEnergy(-1);
+						game.getCurrentPlayer().gainEnergy(-1);
+						game.setActionsText("You have transferred 1 energy to " + this.getName() + ".");
 					}
 
 					else if (this.atMax) {
-						System.out.println("The tank " + this.name + " is at max energy.");
+						game.setActionsText("The tank " + this.name + " is at max energy.");
+						
 					}
 
 					else {
-						System.out.println("You don't have enough energy.");
+						game.setActionsText("You don't have enough energy.");
 					}
 				}
 
@@ -153,14 +126,15 @@ public abstract class Tank extends FieldElement {
 							&& this.x < game.getCurrentPlayer().getX() + game.getCurrentPlayer().getShootingRange()
 							&& this.y < game.getCurrentPlayer().getY() + game.getCurrentPlayer().getMovementRange()) {
 						hit(this);
+						game.setActionsText("You have hit " + this.getName() + ".");
 					}
 
 					else if (game.getCurrentPlayer().getEnergy() < 1) {
-						System.out.println("You don't have enough energy.");
+						game.setActionsText("You don't have enough energy.");
 					}
 
 					else {
-						System.out.println("You are out of range.");
+						game.setActionsText("You are out of range.");
 					}
 				}
 
@@ -170,19 +144,23 @@ public abstract class Tank extends FieldElement {
 			else {
 				if (mods == 17) {
 					this.gainVotes(-1);
-					game.getCurrentPlayer().upgradeEnergy(-1);
+					game.getCurrentPlayer().gainEnergy(-1);
+					game.setActionsText("You have voted 1 against " + this.getName() + ".");
 				}
 
 				else {
 					this.gainVotes(1);
-					game.getCurrentPlayer().upgradeEnergy(-1);
+					game.getCurrentPlayer().gainEnergy(-1);
+					game.setActionsText("You have voted 1 for " + this.getName() + ".");
 				}
 			}
 		}
 
 		else {
 			if (game.getCurrentPlayer().getEnergy() >= 1)
+				game.setActionsText("You have opened upgrade menu");
 				game.getCurrentPlayer().upgradeMenu();
+				
 		}
 
 		game.draw();
@@ -219,7 +197,7 @@ public abstract class Tank extends FieldElement {
 	// Upgrades Tank Power
 	public void upgradePower(int upgradeAmt) {
 		this.power += upgradeAmt;
-
+		game.setActionsText("You have upgraded " + this.getName() + "'s power by " + upgradeAmt + ".");
 		if (this.power < 0)
 			this.power = 1;
 
@@ -228,6 +206,7 @@ public abstract class Tank extends FieldElement {
 	// Upgrades Tank Shooting Range
 	public void upgradeShootingRange(int upgradeAmt) {
 		this.shootingRange += upgradeAmt;
+		game.setActionsText("You have upgraded " + this.getName() + "'s shooting range by " + upgradeAmt + ".");
 		if (this.shootingRange < 0)
 			this.shootingRange = 1;
 
@@ -236,6 +215,7 @@ public abstract class Tank extends FieldElement {
 	// Upgrades Tank Movement Range
 	public void upgradeMovementRange(int upgradeAmt) {
 		this.movementRange += upgradeAmt;
+		game.setActionsText("You have upgraded " + this.getName() + "'s movement range by " + upgradeAmt + ".");
 		if (this.movementRange < 0)
 			this.movementRange = 1;
 
@@ -244,6 +224,7 @@ public abstract class Tank extends FieldElement {
 	// Upgrades Tank Max Life
 	public void upgradeMaxLife(int upgradeAmt) {
 		this.maxLife += upgradeAmt;
+		game.setActionsText("You have upgraded " + this.getName() + "'s max life by " + upgradeAmt + ".");
 		if (this.maxLife < 0)
 			this.maxLife = 1;
 
@@ -252,27 +233,12 @@ public abstract class Tank extends FieldElement {
 	// Upgrades Tank Max Energy
 	public void upgradeMaxEnergy(int upgradeAmt) {
 		this.maxEnergy += upgradeAmt;
+		game.setActionsText("You have upgraded " + this.getName() + "'s max energy by " + upgradeAmt + ".");
 		if (this.maxEnergy < 0)
 			this.maxEnergy = 1;
 
 	}
 
-	// Adjust Tank Energy
-	public void upgradeEnergy(int upgradeAmt) {
-		this.energy += upgradeAmt;
-
-		if (this.energy < 0)
-			this.energy = 1;
-
-		if (this.energy >= this.maxEnergy) {
-			this.atMax = true;
-			this.energy = maxEnergy;
-		}
-
-		else
-			this.atMax = false;
-
-	}
 
 	// Abstract method that upgrades tank's special ability
 	public abstract void upgradeSpecial(int upgradeAmt);
@@ -352,10 +318,14 @@ public abstract class Tank extends FieldElement {
 			this.life = this.maxLife;
 		}
 
+		if (healAmt > 0) {
+			game.setActionsText(this.name + " has healed by " + healAmt + ".");
+		}
+
 		else if (this.life <= 0) {
 
 			game.playSound("tank-killed.wav", true, false, false);
-
+			game.setActionsText("You have killed " + this.getName() + ".");
 			Tank[] copyTankArray = new Tank[game.getAlive().length - 1];
 			int offset = 0;
 			for (int i = 0; i < game.getAlive().length; i++) {
@@ -382,9 +352,17 @@ public abstract class Tank extends FieldElement {
 	// Recharges tanks energy
 	public void gainEnergy(int rechargeAmt) {
 		this.energy += rechargeAmt;
-		if (this.energy > this.maxEnergy) {
-			this.energy = this.maxEnergy;
+
+		if (this.energy < 0)
+			this.energy = 0;
+
+		if (this.energy >= this.maxEnergy) {
+			this.atMax = true;
+			this.energy = maxEnergy;
 		}
+
+		else
+			this.atMax = false;
 	}
 
 	// Makes a tank take damage
@@ -404,59 +382,60 @@ public abstract class Tank extends FieldElement {
 	// Outputs an upgrade menu giving the user the ability to adjust tank stats
 	// using energy
 	public void upgradeMenu() {
+		if (this.energy > 0) {
+			System.out.println("\nUpgrade Menu");
+			System.out.println("1. Power: " + this.power);
+			System.out.println("2. Shooting Range: " + this.shootingRange);
+			System.out.println("3. Movement Range: " + this.movementRange);
+			System.out.println("4. Max Life: " + this.maxLife);
+			System.out.println("5. Max Energy: " + this.maxEnergy);
+			System.out.println("6. Special: " + this.getSpecial());
+			System.out.println("7. Back");
 
-		System.out.println("\nUpgrade Menu");
-		System.out.println("1. Power: " + this.power);
-		System.out.println("2. Shooting Range: " + this.shootingRange);
-		System.out.println("3. Movement Range: " + this.movementRange);
-		System.out.println("4. Max Life: " + this.maxLife);
-		System.out.println("5. Max Energy: " + this.maxEnergy);
-		System.out.println("6. Special: " + this.getSpecial());
-		System.out.println("7. Back");
+			java.util.Scanner input = new java.util.Scanner(System.in);
+			System.out.println("You have " + this.energy + " energy points");
+			System.out.print("Input the number of the upgrade you would like to purchase: ");
+			int upgradeChoice = input.nextInt();
 
-		java.util.Scanner input = new java.util.Scanner(System.in);
-		System.out.println("You have " + this.energy + " energy points");
-		System.out.print("Input the number of the upgrade you would like to purchase: ");
-		int upgradeChoice = input.nextInt();
+			if (upgradeChoice != 7) {
+				System.out.print("Input the amount of the upgrade you would like to purchase: ");
+				int upgradeAmt = input.nextInt();
 
-		if (upgradeChoice != 7) {
-			System.out.print("Input the amount of the upgrade you would like to purchase: ");
-			int upgradeAmt = input.nextInt();
+				if (upgradeAmt > this.energy) {
+					System.out.println("You do not have enough energy to purchase this upgrade.");
+					return;
+				} else {
+					this.energy -= upgradeAmt;
 
-			if (upgradeAmt > this.energy) {
-				System.out.println("You do not have enough energy to purchase this upgrade.");
-				return;
-			} else {
-				this.energy -= upgradeAmt;
-
-				switch (upgradeChoice) {
-					case 1:
-						this.upgradePower(upgradeAmt);
-						break;
-					case 2:
-						this.upgradeShootingRange(upgradeAmt);
-						break;
-					case 3:
-						this.upgradeMovementRange(upgradeAmt);
-						break;
-					case 4:
-						this.upgradeMaxLife(upgradeAmt);
-						break;
-					case 5:
-						this.upgradeMaxEnergy(upgradeAmt);
-						break;
-					case 6:
-						this.upgradeSpecial(upgradeAmt);
-						break;
-					case 7:
-						break;
-					default:
-						System.out.println("Invalid input.");
-						break;
+					switch (upgradeChoice) {
+						case 1:
+							this.upgradePower(upgradeAmt);
+							break;
+						case 2:
+							this.upgradeShootingRange(upgradeAmt);
+							break;
+						case 3:
+							this.upgradeMovementRange(upgradeAmt);
+							break;
+						case 4:
+							this.upgradeMaxLife(upgradeAmt);
+							break;
+						case 5:
+							this.upgradeMaxEnergy(upgradeAmt);
+							break;
+						case 6:
+							this.upgradeSpecial(upgradeAmt);
+							break;
+						case 7:
+							break;
+						default:
+							System.out.println("Invalid input.");
+							break;
+					}
 				}
-			}
 
-			game.draw();
+				game.draw();
+			}
 		}
 	}
 
@@ -481,11 +460,11 @@ public abstract class Tank extends FieldElement {
 		this.votes += amountOfVotes;
 
 		if (votes >= 3) {
-			this.upgradeEnergy(1);
+			this.gainEnergy(1);
 		}
 
 		if (votes <= -3) {
-			this.upgradeEnergy(-1);
+			this.gainEnergy(-1);
 		}
 	}
 
@@ -493,7 +472,7 @@ public abstract class Tank extends FieldElement {
 	@Override
 	public void setButton(JButton button) {
 		this.button.setIcon(null);
-		this.button.setToolTipText("");
+		this.button.setToolTipText(null);
 		super.setButton(button);
 		this.button.setIcon(regularTankIcon);
 	}
