@@ -132,11 +132,11 @@ public abstract class Tank extends FieldElement {
 			if (game.getCurrentPlayer().life > 0) {
 				if (mods == 17) {
 					if (game.getCurrentPlayer().getEnergy() >= 1 && !this.atMax) {
-						this.upgradeEnergy(1);
+						this.gainEnergy(1);
 
 						game.playSound("transfer-tanl-energy.wav", true, false, false);
 
-						game.getCurrentPlayer().upgradeEnergy(-1);
+						game.getCurrentPlayer().gainEnergy(-1);
 					}
 
 					else if (this.atMax) {
@@ -170,12 +170,12 @@ public abstract class Tank extends FieldElement {
 			else {
 				if (mods == 17) {
 					this.gainVotes(-1);
-					game.getCurrentPlayer().upgradeEnergy(-1);
+					game.getCurrentPlayer().gainEnergy(-1);
 				}
 
 				else {
 					this.gainVotes(1);
-					game.getCurrentPlayer().upgradeEnergy(-1);
+					game.getCurrentPlayer().gainEnergy(-1);
 				}
 			}
 		}
@@ -257,22 +257,6 @@ public abstract class Tank extends FieldElement {
 
 	}
 
-	// Adjust Tank Energy
-	public void upgradeEnergy(int upgradeAmt) {
-		this.energy += upgradeAmt;
-
-		if (this.energy < 0)
-			this.energy = 1;
-
-		if (this.energy >= this.maxEnergy) {
-			this.atMax = true;
-			this.energy = maxEnergy;
-		}
-
-		else
-			this.atMax = false;
-
-	}
 
 	// Abstract method that upgrades tank's special ability
 	public abstract void upgradeSpecial(int upgradeAmt);
@@ -382,9 +366,17 @@ public abstract class Tank extends FieldElement {
 	// Recharges tanks energy
 	public void gainEnergy(int rechargeAmt) {
 		this.energy += rechargeAmt;
-		if (this.energy > this.maxEnergy) {
-			this.energy = this.maxEnergy;
+
+		if (this.energy < 0)
+			this.energy = 0;
+
+		if (this.energy >= this.maxEnergy) {
+			this.atMax = true;
+			this.energy = maxEnergy;
 		}
+
+		else
+			this.atMax = false;
 	}
 
 	// Makes a tank take damage
@@ -481,11 +473,11 @@ public abstract class Tank extends FieldElement {
 		this.votes += amountOfVotes;
 
 		if (votes >= 3) {
-			this.upgradeEnergy(1);
+			this.gainEnergy(1);
 		}
 
 		if (votes <= -3) {
-			this.upgradeEnergy(-1);
+			this.gainEnergy(-1);
 		}
 	}
 
