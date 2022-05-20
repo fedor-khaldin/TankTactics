@@ -289,6 +289,7 @@ public class TankTactics extends JFrame
 		} catch (Exception e) {
 			newGame();
 		}
+		setSize(fieldElements.length * 100, fieldElements[0].length * 100 + 30);
 
     	String iconPath = "";
 		if (System.getProperty("os.name").contains("Windows")) {
@@ -329,13 +330,12 @@ public class TankTactics extends JFrame
 		bar.add(actions);
 		bar.add(rules);
 		
-		setSize(fieldElements.length * 100, fieldElements[0].length * 100 + 30);
-		
 		Container c = getContentPane();
 		c.add(bar, BorderLayout.NORTH);
 		c.add(panel, BorderLayout.CENTER);
-		draw();
 		c.repaint();
+		setVisible(true);
+		draw();
 		
 		full = false;
 		
@@ -514,13 +514,17 @@ public class TankTactics extends JFrame
 	//Draws all the field elements
 	public void draw()
 	{
-		for (int i = 0; i < fieldElements[0].length; i++)
-		{
-			for (int j = 0; j < fieldElements.length; j++)
-			{
-				fieldElements[j][i].draw();
+		new Runnable() {
+			public void run() {
+				for (int i = 0; i < fieldElements[0].length; i++)
+				{
+					for (int j = 0; j < fieldElements.length; j++)
+					{
+						fieldElements[j][i].draw();
+					}
+				}
 			}
-		}
+		}.run();
 	}
 	
 	//Prompts the user to input the password and tank name, checks which Tank fits those, and sets that Tank as currentPlayer
