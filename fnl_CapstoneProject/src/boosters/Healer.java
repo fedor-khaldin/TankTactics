@@ -27,8 +27,6 @@ public class Healer extends Booster {
 	public void actionPerformed(ActionEvent e) {
 		//super.actionPerformed(e);	
 		Tank current = tankTactics.getCurrentPlayer();
-		FieldElement[][] fieldElements = tankTactics.getFieldElements();
-		JButton[][] buttons = tankTactics.getButtons();
 		
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.heal(strength);

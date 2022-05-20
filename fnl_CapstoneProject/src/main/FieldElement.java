@@ -117,9 +117,7 @@ public class FieldElement implements ActionListener{
 			tankTactics.setButtons(buttons);
 				
 			currentPlayer.gainEnergy(-1);
-				
-			//System.out.print("\nAfter\nCurrent: ("+currentPlayer.getButton().getX()+","+currentPlayer.getButton().getY()+")\nField Element: ("+this.button.getX()+","+this.button.getY()+")");
-			
+			tankTactics.setActionsText(currentPlayer.getName()+" moved to ("+currentPlayer.getX()+", "+currentPlayer.getY()+")");
 		}
 		tankTactics.draw();
 	}	
