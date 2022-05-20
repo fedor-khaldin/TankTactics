@@ -1,6 +1,6 @@
 /*
  * Author: Itay Volk
- * Date: 5/19/2022
+ * Date: 5/20/2022
  * Rev: 11
  * Notes: this class manages a TankTactics game
  */
@@ -234,6 +234,8 @@ public class TankTactics extends JFrame
 		    	fileIn.nextLine();
 		    	String type = fileIn.nextLine();
 		    	
+		    	buttons[x][y].setPreferredSize(new Dimension(100, 100));
+		    	
 		    	Booster nextBooster = null;
 		    	if (type.equalsIgnoreCase(Booster.ENERGY))
 		    		nextBooster = new EnergySupplier (x, y, strength, buttons[x][y], this, new ImageIcon(iconPath + "booster-energygiver.png"));
@@ -319,9 +321,14 @@ public class TankTactics extends JFrame
 		{
 			for (int j = 0; j < fieldElements.length; j++)
 			{
+				buttons[j][i].setVisible(true);
+				buttons[j][i].setPreferredSize(new Dimension(100, 100));
+				buttons[i][j].setSize(100, 100);
 				panel.add(buttons[j][i]);
 			}
 		}
+		panel.setPreferredSize(new Dimension(fieldElements.length * 100, fieldElements[0].length * 100));
+		panel.setVisible(true);
 		
 		rules = new JButton("R");
 		rules.addActionListener(this);
@@ -503,6 +510,22 @@ public class TankTactics extends JFrame
 		
 		playSound("start-game.wav", false, false, false);
 		
+		for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
+		{
+			for (int i = 0; i < players.length; i++)
+		  	{
+		  		players[i].gainEnergy(1);
+		  	}
+		  	for(int i = 0; i < DOT.length; i++)
+		  	{
+		  		DOT[i].newCycle();
+		  	}
+			for (int i = 0; i < alive.length; i++)
+		  	{
+		  		alive[i].resetVotes();
+		  	}
+		}
+		
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 		
@@ -516,6 +539,7 @@ public class TankTactics extends JFrame
 	{
 		new Runnable() {
 			public void run() {
+				panel.setVisible(true);
 				for (int i = 0; i < fieldElements[0].length; i++)
 				{
 					for (int j = 0; j < fieldElements.length; j++)
