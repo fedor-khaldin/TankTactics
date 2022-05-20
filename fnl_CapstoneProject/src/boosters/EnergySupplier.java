@@ -30,7 +30,7 @@ public class EnergySupplier extends Booster {
 		
 		if(this.x<current.getX()+current.getMovementRange()&&this.y<current.getY()+current.getMovementRange()) {
 			current.gainEnergy(strength);
-			tankTactics.setActionsText("");
+			tankTactics.setActionsText(current.getName()+" gain "+strength+" energy");
 			/*
 			 * Once the tank touches the booster, fieldElement[x][y] becomes empty
 			 * THEN after the tank leaves the spot, updates into a new fieldElement
