@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -125,6 +126,8 @@ public class FieldElement implements ActionListener{
 	
 	//draws the field element
 	public void draw() {
+		button.setPreferredSize(new Dimension(100,100));
+		button.setVisible(true);
 		Image img = icon.getImage();
 		Image imgScale = img.getScaledInstance(button.getWidth(),button.getHeight(),Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(imgScale);
