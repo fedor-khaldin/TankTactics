@@ -368,9 +368,7 @@ public abstract class Tank extends FieldElement {
 	public void hit(Tank target) {
 
 		game.playSound("tank-fire.wav", true, false, false);
-		target.life -= game.getCurrentPlayer().getPower();
-		this.heal(0);
-
+		this.heal(-game.getCurrentPlayer().getPower());
 	}
 
 	// Checks if inputted string matches password
