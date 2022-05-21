@@ -764,7 +764,7 @@ public class TankTactics extends JFrame
 			  		DOT[i].newCycle();
 			  	}
 			}
-			
+			 
 			for (int i = 0; i < alive.length; i++)
 		  	{
 		  		alive[i].resetVotes();
