@@ -535,24 +535,6 @@ public class TankTactics extends JFrame
 			}
 		});
 		
-		playSound("start-game.wav", false, false, false);
-		
-		for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
-		{
-			for (int i = 0; i < players.length; i++)
-		  	{
-		  		players[i].gainEnergy(1);
-		  	}
-		  	for(int i = 0; i < DOT.length; i++)
-		  	{
-		  		DOT[i].newCycle();
-		  	}
-			for (int i = 0; i < alive.length; i++)
-		  	{
-		  		alive[i].resetVotes();
-		  	}
-		}
-		
 		clock = new Timer((int)((long)cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 		clock.start();
 		
@@ -611,6 +593,8 @@ public class TankTactics extends JFrame
 			}
 		} while (continueAsking);
 		actions.setText("This game has started again with " + currentPlayer.getName() + " as the current player.");
+		
+		playSound("start-game.wav", false, false, false);
 	}
 	
 	@Override
@@ -768,21 +752,25 @@ public class TankTactics extends JFrame
 			clock.stop();
 			playSound("new-cycle.wav", false, false, false);
 			
-			for (int i = 0; i < players.length; i++)
-		  	{
-		  		players[i].gainEnergy(1);
-		  	}
-		  	for(int i = 0; i < DOT.length; i++)
-		  	{
-		  		DOT[i].newCycle();
-		  	}
+			startingTime += cycleLength*1000;
+			for (; startingTime < System.currentTimeMillis(); startingTime += cycleLength*1000)
+			{
+				for (int i = 0; i < players.length; i++)
+			  	{
+			  		players[i].gainEnergy(1);
+			  	}
+			  	for(int i = 0; i < DOT.length; i++)
+			  	{
+			  		DOT[i].newCycle();
+			  	}
+			}
+			
 			for (int i = 0; i < alive.length; i++)
 		  	{
 		  		alive[i].resetVotes();
 		  	}
 		  	
 		  	draw();
-		  	startingTime += cycleLength*1000;
 			clock = new Timer((int)(cycleLength*1000 + startingTime - System.currentTimeMillis()), this);
 			cyclesPlayed++;
 			if (cyclesPlayed == maxCycles)
@@ -792,7 +780,7 @@ public class TankTactics extends JFrame
 			}
 			clock.start();
 		}
-		
+	
 		else if(e.getSource() == soundPlaying) //Called whenever the timer reaches zero, symbolizes the song ending.
 		{
 			soundPlaying.stop();
