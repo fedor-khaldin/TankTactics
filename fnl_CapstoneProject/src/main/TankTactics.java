@@ -56,15 +56,16 @@ public class TankTactics extends JFrame
 	private JPanel panel;
 	private String sound;
 	
-	public static final String RULES = "Welcome to Tank Tactics, a fairly simple turn based multiplayer strategy game. "
-			+ "In this game, each user will take control of their own unique tank with a unique special ability and customizable stats.\r\n"
+	public static final String RULES = "Welcome to Tank Tactics, a fairly simple turn based multiplayer strategy game.\r\n"
+			+ "In this game, each user will take control of their own unique tank with a unique special stat.\r\n"
 			+ "\r\n"
 			+ "Each round, you can use the command line to sign into your tank using your unique password and name, "
-			+ "from which you can then use your energy points to move around, collect boosts, and shoot at other players, however, be aware that you have a limited amount of energy.\r\n"
+			+ "from which you can then use your energy points to move around, collect boosts, and shoot at other players.\r\n"
+			+ "However, be aware that you have a limited amount of energy and you can only play a set amount of cycles in a row.\r\n"
 			+ "\r\n"
 			+ "You win when all of the other players are eliminated, good luck!\r\n"
 			+ "\r\n"
-			+ "Booster Types: \r\n"
+			+ "Booster Types:\r\n"
 			+ "Debuff Booster - Lower a random stat of all players (except player who triggered it) by X amount.\r\n"
 			+ "Energy Giver Booster- Gives player who triggered it random amount of energy.\r\n"
 			+ "Healer Booster - Heals player who triggered it by random amount.\r\n"
@@ -74,9 +75,17 @@ public class TankTactics extends JFrame
 			+ "Power Booster - Increases the power of the player who triggered it by a random amount.\r\n"
 			+ "Shooting Range Booster - Increases the range of the player who triggered it by a random amount.\r\n"
 			+ "Special Booster - Increases the special of the player who triggered it by a random amount.\r\n"
-			+ "Movment Range Booster - Increases the range of the player who triggered it by a random amount.\r\n"
+			+ "Movement Range Booster - Increases the range of the player who triggered it by a random amount.\r\n"
 			+ "Shooter Booster - Gives player who triggered it a bonus energy point that can only be used to shoot.\r\n"
-			+ "Booster Unknown - Upgrades a random stat of the current player by a random amount. ";
+			+ "Unknown Booster - Upgrades a random stat of the current player by a random amount.\r\n"
+			+ "Hidden Booster - Similar to unknown booster only it looks exactly like a regular tile and thus can not be found.\r\n"
+			+ "\r\n"
+			+ "Tank Types:\r\n"
+			+ "AOE Tank - Shoots all the tanks in the area of the target (in a square where each side is two times the AOE stat plus one).\r\n"
+			+ "Balanced Tank - Gains more life whenever it is healed (the amount of life gained is multiplied by the life gain stat).\r\n"
+			+ "DOT Tank - Hits the target multiple cycles in a row (shoots for an amount of cycles that is equal to the DOT stat).\r\n"
+			+ "Heavy Tank - Takes less damage whenever it is hit (the damage it takes is divided by the armor stat).\r\n"
+			+ "Light Tank - Gains more energy whenever it is supposed to gain energy (the amount of energy gained is multiplied by the energy gain stat).";
 	
 	//Constructor
 	public TankTactics ()
@@ -344,14 +353,9 @@ public class TankTactics extends JFrame
 		{
 			for (int j = 0; j < fieldElements.length; j++)
 			{
-				buttons[j][i].setVisible(true);
-				buttons[j][i].setPreferredSize(new Dimension(100, 100));
-				buttons[i][j].setSize(100, 100);
 				panel.add(buttons[j][i]);
 			}
 		}
-		panel.setPreferredSize(new Dimension(fieldElements.length * 100, fieldElements[0].length * 100));
-		panel.setVisible(true);
 		
 		rules = new JButton("R");
 		rules.addActionListener(this);
@@ -801,6 +805,8 @@ public class TankTactics extends JFrame
 		
 		else if(rulesShowed)	//Called when the JButton is pressed and the rules are displayed, redraws the field.
 		{
+			setSize(fieldElements.length * 100, fieldElements[0].length * 100 + 30);
+			
 			rules.setText("R");
 			Box bar = Box.createHorizontalBox();
 			bar.add(actions);
@@ -823,11 +829,12 @@ public class TankTactics extends JFrame
 			c.removeAll();
 			clock.stop();
 			JLabel rulesBox = new JLabel(RULES);
-			rulesBox.setSize(WIDTH, HEIGHT - 30);
+			rulesBox.setSize(600, 750);
 			rulesBox.setHorizontalAlignment(SwingConstants.CENTER);
-			rulesBox.setText("<html>" + RULES.replaceAll("\n\r", "<br>") + "</html>");
-			rules.setSize(new Dimension(WIDTH, 30));
+			rulesBox.setText("<html>" + RULES.replace("\r\n", "<br>") + "</html>");
+			rules.setSize(new Dimension(600, 30));
 			rules.setText("Stop showing rules.");
+			setSize(600, 780);
 			c.add(rules, BorderLayout.NORTH);
 			c.add(rulesBox, BorderLayout.CENTER);
 			c.repaint();
